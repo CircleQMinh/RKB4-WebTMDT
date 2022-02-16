@@ -1,0 +1,125 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebTMDT</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebTMDT.styles.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/0bf48518ad.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color:rgb(139 203 255)">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="https://res.cloudinary.com/dkmk9tdwx/image/upload/v1628192627/logo_v5ukvv.png"
+                         style="height: 40px; width: 40px"
+                         alt="Nav Icon" />
+                    <p style=" display: inline">
+                        Circle's Shop
+                    </p>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                @*    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <div className="d-flex justify-content-center">
+                    <form class="d-flex top-nav-searchbar">
+                    <input class="form-control me-2"
+                    type="search"
+                    placeholder="Tìm sản phẩm mà bạn quan tâm ..."
+                    aria-label="Search"
+                    name="search" />
+                    <button class="btn btn-success" type="submit">
+                    <i class="fas fa-search"></i>
+                    </button>
+                    </form>
+                    </div>
+                    <ul class="navbar-nav align-items-center ">
+                    <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </li>
+                    </ul>
+                    </div>*@
+                <div class="navbar-collapse collapse" id="basic-navbar-nav">
+                    <div class="d-flex justify-content-center">
+                        <form class="d-flex top-nav-searchbar">
+                            <input class="form-control me-2"
+                                   type="search"
+                                   placeholder="Tìm sản phẩm mà bạn quan tâm ..."
+                                   aria-label="Search"
+                                   name="search" /><button type="submit" class="btn btn-success">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <ul class="align-items-center navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search">
+                                <i class="fas fa-receipt me-2" aria-hidden="true"></i>
+                                <p class="hide_for_1399 show_for_991">Sản phẩm</p>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                Dropdown link
+                            </a>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/news">
+                                <i class="far fa-newspaper me-2" aria-hidden="true"></i>
+                                <p class="hide_for_1399 show_for_991">Tin tức</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contact">
+                                <i class="far fa-question-circle me-2" aria-hidden="true"></i>
+                                <p class="hide_for_1399 show_for_991">Liên hệ</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a role="button" class="nav-link" tabindex="0">
+                                <i class="fas fa-sign-in-alt me-2" aria-hidden="true"></i>
+                                <p class="hide_for_1399 show_for_991">Đăng nhập</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - WebTMDT - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/0bf48518ad.js" crossorigin="anonymous"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

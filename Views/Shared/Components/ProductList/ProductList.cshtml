@@ -1,0 +1,216 @@
+﻿@using WebTMDT.Data
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<Book>
+@{
+    
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <p class="lead text-monospace text-center mt-5">
+                <i class="fas fa-search"></i> Nhập tên sản phẩm bạn cần tìm
+                kiếm !
+            </p>
+
+            <div class="d-flex justify-content-center"
+                 style="margin-bottom:15px"
+                 id="searchBarProduct">
+                <div class="wrap">
+                    <div class="search">
+                        <input type="text"
+                               class="searchTerm"
+                               placeholder="Bạn đang tìm sản phẩm nào?"
+                             
+                               />
+                        <button class="searchButton">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <hr />
+            </div>
+            <div class="container-fluid ">
+                <div class="row">
+                    <div class="col-3 border-end border-secondary"
+                         id="filter_search">
+                        <h4>Theo danh mục</h4>
+                        <div class="genre_filter">
+                            <form>
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           value="all"
+                                           name="allCate"
+                                       
+                                           />
+                                    <label class="form-check-label">Toàn bộ</label>
+                                </div>
+
+                
+                            </form>
+                        </div>
+                        <hr></hr>
+
+                        <h4>Giá</h4>
+                        <form>
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       id="flexRadioDefault1"
+                                       value="0,99999999"
+                                       name="pr1"
+                                     
+                                       />
+                                <label class="form-check-label">Toàn bộ</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       id="flexRadioDefault2"
+                                       value="0,20000"
+                                       name="pr2"
+                                      
+                                       />
+                                <label class="form-check-label">Dưới 20.000</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       id="flexRadioDefault3"
+                                       value="20000,40000"
+                                       name="pr3"
+                                     
+                                       />
+                                <label class="form-check-label">
+                                    Từ 20.000 đến 40.000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       id="flexRadioDefault4"
+                                       value="40000,120000"
+                                       name="pr4"
+                                      
+                                        />
+                                <label class="form-check-label">
+                                    Từ 40.000 đến 120.000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       id="flexRadioDefault5"
+                                       value="120000,99999999"
+                                       name="pr5"
+                                       
+                                       />
+                                <label class="form-check-label">Trên 120.000</label>
+                            </div>
+                        </form>
+                        <hr />
+
+                        <h4>Khoảng giá</h4>
+                        <form>
+                            <div class="form-check ">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        Từ
+                                    </span>
+                                    <input type="number"
+                                           class="form-control"
+                                           placeholder="từ"
+                                           name="minPrice"
+                                           onChange={onMinPriceChange}
+                                           value={minPrice} />
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        Đến
+                                    </span>
+                                    <input type="number"
+                                           class="form-control"
+                                           placeholder="đến"
+                                           name="maxPrice"
+                                           onChange={onMaxPriceChange}
+                                           value={maxPrice} />
+                                </div>
+                                <div class="input-group mb-3">
+                                    <button onClick={applyPriceRange}
+                                            class="btn btn-success">
+                                        Áp dụng
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <hr />
+                    </div>
+                    <div class="col col-md-9">
+                        <div class="container-fluid">
+                            <div class="d-flex justify-content-center ">
+                     @*           {keyword != "" && (
+                                <h4 class="tag-search-h4">
+                                    <span class="badge rounded-pill bg-info mx-2 hover_badge">
+                                        Từ khóa : {keyword}
+                                        <i class="ms-2 far fa-times-circle"></i>
+                                    </span>
+                                </h4>
+                                )}*@
+                            </div>
+                            <div class="row flex-row flex-wrap justify-content-center">
+
+                         @*       <div>
+                                    <div class="loading_spinner mb-5">
+                                        <div class="spinner-border text-info"
+                                             role="status">
+                                            <span class="visually-hidden">
+                                                Loading...
+                                            </span>
+                                        </div>
+                                        <p class="text-center text-monospace mt-2">
+                                            Đang tải sản phẩm...
+                                        </p>
+                                    </div>
+                                </div>*@
+                            @foreach(var item in Model)
+                                {
+                                    <p>@item.Title</p>
+                                }
+
+                   @*             <Fragment>
+                                    <div class="loading_spinner mb-5">
+                                        <img class="img_no_product"
+                                             alt="no-product"
+                                             src="https://kharidbikribazar.com/photos/nproduct.png"></img>
+                                    </div>
+                                </Fragment>*@
+ 
+                            </div>
+@*                            <div class="d-flex justify-content-center">
+                                <div class="paginationsa:container">
+                                    <div class="paginationsa:number arrow">
+                                        <span class="arrow:text">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </span>
+                                    </div>
+
+                                    <Pagination totalPage={totalPage}
+                                                onPageNumberChange={onPageNumberChange}
+                                                pageNumber={pageNumber}></Pagination>
+
+                                    <div class="paginationsa:number arrow">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </div>
+                                </div>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
