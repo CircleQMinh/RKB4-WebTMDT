@@ -74,7 +74,7 @@ namespace WebTMDT.Controllers
                     new List<string> { "Authors", "Genres", "Publisher", "PromotionInfo" }, new PaginationFilter(pageNumber, pageSize));
                 var count = await unitOfWork.Books.GetCount(expression);
                 var result = mapper.Map<IList<BookDTO>>(books);
-                return Ok(new { result = result, totalProduct = count });
+                return Ok(new { result = result, totalPage = (int)Math.Ceiling((double)count / pageSize) });
             }
             catch (Exception ex)
             {

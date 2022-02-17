@@ -28,6 +28,47 @@ body {
 .hide_for_1399 {
     display: inline;
 }
+.product_price_div {
+    height: 72px;
+    min-height: 72px;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+    margin-top: -0.75rem;
+}
+.product_name {
+    height: 60px;
+    text-align: center;
+    overflow: auto;
+    font-size: 16px;
+}
+.product_img {
+    width: 90% !important;
+    align-self: center;
+}
+
+.loading_spinner {
+    height: 365px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+.genre_filter {
+    color: #000;
+    max-height: 312px;
+    overflow: auto;
+}
+.img_no_product {
+    width: 75%;
+    height: auto;
+}
 @media print {
     *,
     ::after,

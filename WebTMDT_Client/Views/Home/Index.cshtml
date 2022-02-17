@@ -1,4 +1,5 @@
-﻿@{
+﻿@using WebTMDT_Client.ViewModel
+@{
     ViewData["Title"] = "Home Page";
     Layout = "_LayoutHome";
 }
@@ -49,7 +50,7 @@
         </h3>
     </div>
 </div>
-@await Component.InvokeAsync("ProductList")
+@await Component.InvokeAsync("ProductView", new ProductListFilterModel(){pageNumber=1,pageSize=8})
 <div class="mt-5">
     <hr></hr>
     <p class="text-monospace text-center">
