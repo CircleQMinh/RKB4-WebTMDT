@@ -41,10 +41,6 @@ namespace WebTMDT.Data
             }
 
             //builder.ApplyConfiguration(new RoleConfig());
-            //builder.ApplyConfiguration(new AuthorSeed());
-            //builder.ApplyConfiguration(new PublisherSeed());
-            //builder.ApplyConfiguration(new BookSeed());
-            //builder.ApplyConfiguration(new GenreSeed());
 
         }
 

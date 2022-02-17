@@ -3,6 +3,11 @@ using WebTMDT_Client.DTO;
 
 namespace WebTMDT_Client.DTO
 {
+    public class BooksDeserialize
+    {
+        public List<BookDTO> result { get; set; }
+        public int totalPage { get; set; }
+    }
     public class BookDTO
     {
         public int Id { get; set; }

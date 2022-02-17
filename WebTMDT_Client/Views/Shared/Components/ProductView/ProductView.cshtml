@@ -1,0 +1,231 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using WebTMDT_Client.ViewModel
+@using WebTMDT_Client.DTO
+@model ProductViewViewModel
+@{
+
+}
+
+<div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <p class="lead text-monospace text-center mt-5">
+                    <i class="fas fa-search"></i> Nhập tên sản phẩm bạn cần tìm
+                    kiếm !
+                </p>
+
+                <div class="d-flex justify-content-center"
+                     style="margin-bottom:15px"
+                     id="searchBarProduct">
+                    <div class="wrap">
+                        <div class="search">
+                            <input type="text"
+                                   class="searchTerm"
+                                   placeholder="Bạn đang tìm sản phẩm nào?"
+                                   id="searchInput" 
+                                   onkeypress="onSearchFilterChange_Input(event)"/>
+                            <button class="searchButton" id="searchButton" onclick=onSearchFilterChange_Btn()>
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn btn-success ms-2" onclick="resetFilter()"><i class="fa-solid fa-rotate-left"></i></button>
+                </div>
+                <div class="container">
+                    <hr />
+                </div>
+                <div class="container-fluid ">
+                    <div class="row">
+                        <div class="col-3 border-end border-secondary"
+                             id="filter_search">
+                            <h4>Theo danh mục</h4>
+                            <div class="genre_filter">
+                                <form>
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               value="all"
+                                               checked
+                                               id="genre_all"
+                                               name="allCate" onchange="onGenreFilterChange('all','0')"/>
+                                        <label class="form-check-label">Toàn bộ</label>
+                                    </div>
+                                    @foreach (var item in Model.Genres.result)
+                                    {
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                               type="checkbox"
+                                               value="@item.Name"
+                                               id=genre_@item.Id onchange="onGenreFilterChange('@item.Name','@item.Id')"/>
+                                            <label class="form-check-label">@item.Name</label>
+                                        </div>
+                                    }
+
+                                </form>
+                            </div>
+                            <hr></hr>
+
+                            <h4>Giá</h4>
+                            <form>
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           id="priceRangeAll"
+                                           value="0,99999999"
+                                           name="priceRange"
+                                           checked
+                                           onchange="onPriceRangeChange(null)"/>
+                                    <label class="form-check-label">Toàn bộ</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           id="flexRadioDefault2"
+                                           value="0,20000"
+                                           name="priceRange"
+                                           onchange="onPriceRangeChange('0,20000')"/>
+                                    <label class="form-check-label">Dưới 20.000</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           id="flexRadioDefault3"
+                                           value="20000,40000"
+                                           name="priceRange" 
+                                            onchange="onPriceRangeChange('20000,40000')"/>
+                                    <label class="form-check-label">
+                                        Từ 20.000 đến 40.000
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           id="flexRadioDefault4"
+                                           value="40000,120000"
+                                           name="priceRange"
+                                           onchange="onPriceRangeChange('40000,120000')"/>
+                                    <label class="form-check-label">
+                                        Từ 40.000 đến 120.000
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           id="flexRadioDefault5"
+                                           value="120000,99999999"
+                                           name="priceRange" 
+                                           onchange="onPriceRangeChange('120000,9999999')"/>
+                                    <label class="form-check-label">Trên 120.000</label>
+                                </div>
+                            </form>
+                            <hr />
+
+                            <h4>Khoảng giá</h4>
+                            <form>
+                                <div class="form-check ">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            Từ
+                                        </span>
+                                        <input type="number"
+                                               class="form-control"
+                                               placeholder="từ"
+                                               id="minPrice" />
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            Đến
+                                        </span>
+                                        <input type="number"
+                                               class="form-control"
+                                               placeholder="đến"
+                                               id="maxPrice" />
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <button type="button" class="btn btn-success" onclick="applyPriceRange()">
+                                            Áp dụng
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr />
+                        </div>
+                        <div class="col col-md-9">
+                            <div class="container-fluid">
+                                <div class="d-flex justify-content-center ">
+                                </div>
+                                <div id="productList">
+                                    <div class="row flex-row flex-wrap justify-content-center">
+                                        @if (Model.Books.result.Count > 0)
+                                        {
+                                            @foreach (var item in Model.Books.result)
+                                            {
+                                                <div class="col col-xs-8 col-md-6 col-lg-4 col-xl-3 ">
+                                                    <div class="card border border-4 rounded-3 mb-2">
+                                                        <img src=@item.imgUrl
+                                                     class="card-img-top product_img"
+                                                     alt="Ảnh sp" />
+                                                        <div class="card-body">
+                                                            <h5 class="card-title product_name">@item.Title</h5>
+
+                                                            <div class="product_price_div">
+                                                                <p class="text-center">
+                                                                    @item.Price
+                                                                </p>
+                                                            </div>
+                                                            <hr></hr>
+                                                            <div class="d-grid gap-2 mt-2">
+                                                                <button class="btn btn-success" type="button">
+                                                                    <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                                                </button>
+                                                                <button class="btn btn-danger" type="button">
+                                                                    <i class="far fa-heart me-2"></i> Add to Favorite
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <nav aria-label="Page navigation example">
+                                                <ul class="pagination justify-content-center">
+                                                  
+                                                    @for (int i = 1; i <= Model.Books.totalPage; i++)
+                                                    {
+                                                        if (i == Model.pageNumber)
+                                                        {
+                                                            <li class="page-item active" onclick="LoadNewProductList(@i,8)"><a class="page-link" >@i </a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li class="page-item"><a class="page-link" onclick="LoadNewProductList(@i,8)">@i </a></li>
+                                                        }
+
+                                                    }
+                                             
+                                                </ul>
+                                            </nav>
+                                        }
+                                        @if (Model.Books.result.Count == 0)
+                                        {
+
+                                            <div class="loading_spinner mb-5">
+                                                <img class="img_no_product"
+                                                 alt="no-product"
+                                                 src="https://kharidbikribazar.com/photos/nproduct.png"></img>
+                                            </div>
+
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
