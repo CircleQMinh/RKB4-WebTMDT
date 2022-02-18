@@ -1,0 +1,12 @@
+D:\My Project\WebTMDT\WebTMDTLibrary\bin\Debug\net6.0\WebTMDTLibrary.deps.json
+D:\My Project\WebTMDT\WebTMDTLibrary\bin\Debug\net6.0\WebTMDTLibrary.dll
+D:\My Project\WebTMDT\WebTMDTLibrary\bin\Debug\net6.0\ref\WebTMDTLibrary.dll
+D:\My Project\WebTMDT\WebTMDTLibrary\bin\Debug\net6.0\WebTMDTLibrary.pdb
+D:\My Project\WebTMDT\WebTMDTLibrary\obj\Debug\net6.0\WebTMDTLibrary.csproj.AssemblyReference.cache
+D:\My Project\WebTMDT\WebTMDTLibrary\obj\Debug\net6.0\WebTMDTLibrary.GeneratedMSBuildEditorConfig.editorconfig
+D:\My Project\WebTMDT\WebTMDTLibrary\obj\Debug\net6.0\WebTMDTLibrary.AssemblyInfoInputs.cache
+D:\My Project\WebTMDT\WebTMDTLibrary\obj\Debug\net6.0\WebTMDTLibrary.AssemblyInfo.cs
+D:\My Project\WebTMDT\WebTMDTLibrary\obj\Debug\net6.0\WebTMDTLibrary.csproj.CoreCompileInputs.cache
+D:\My Project\WebTMDT\WebTMDTLibrary\obj\Debug\net6.0\WebTMDTLibrary.dll
+D:\My Project\WebTMDT\WebTMDTLibrary\obj\Debug\net6.0\ref\WebTMDTLibrary.dll
+D:\My Project\WebTMDT\WebTMDTLibrary\obj\Debug\net6.0\WebTMDTLibrary.pdb

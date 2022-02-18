@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using WebTMDT_Client.DTO;
+using WebTMDTLibrary.DTO;
 using WebTMDT_Client.Service;
 using WebTMDT_Client.ViewModel;
 
