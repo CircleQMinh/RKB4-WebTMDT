@@ -110,6 +110,10 @@ function getFilterGenreString(genres) {
 	return string_genre.slice(0, string_genre.length - 1);
 }
 function resetFilter() {
+	genresFilterList.forEach((genre) => {
+		document.getElementById(`genre_${genre.id}`).checked = false
+	})
+	document.getElementById("genre_all").checked=true
 	genresFilterList = []
 	priceRange = "0,9999999"
 	document.getElementById("searchInput").value = null

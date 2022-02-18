@@ -1,4 +1,4 @@
-﻿using WebTMDT_Client.DTO;
+﻿using WebTMDTLibrary.DTO;
 
 namespace WebTMDT_Client.ViewModel
 {
