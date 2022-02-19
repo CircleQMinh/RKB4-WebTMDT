@@ -1,4 +1,4 @@
-﻿using WebTMDT_Client.ViewModel;
+﻿using WebTMDT_Client.ResponseModel;
 
 namespace WebTMDT_Client.Service
 {

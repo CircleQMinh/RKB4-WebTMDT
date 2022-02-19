@@ -15,7 +15,12 @@
       "ProjectGuid": "3204e206-e4c5-45b4-88ea-05e6e242681c",
       "DisplayName": "WebTMDT_API",
       "ColorIndex": 1
+    },
+    "da4c91c8-94f9-41c8-b462-e06b8cebf4f1": {
+      "ProjectGuid": "da4c91c8-94f9-41c8-b462-e06b8cebf4f1",
+      "DisplayName": "WebTMDT_Client",
+      "ColorIndex": 2
     }
   },
-  "NextColorIndex": 2
+  "NextColorIndex": 3
 }

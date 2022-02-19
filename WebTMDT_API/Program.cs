@@ -4,6 +4,9 @@ using WebTMDT.Data;
 using WebTMDTLibrary.Data;
 using WebTMDTLibrary.Helper;
 using WebTMDT.Repository;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,6 +57,29 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<DatabaseContext>()
 .AddDefaultTokenProviders();
 
+//JWT
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+var key = Convert.ToString(builder.Configuration.GetSection("Jwt").GetSection("Key").Value);
+builder.Services.AddAuthentication(o =>
+{
+    o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(o =>
+{
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings.GetSection("Issuer").Value,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+    };
+});
+//AuthManager #7
+builder.Services.AddScoped<IAuthManager, AuthManager>();
+
 //configure automapper 
 builder.Services.AddAutoMapper(typeof(AutoMapperSetting));
 
@@ -81,7 +107,6 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
 app.UseAuthentication();
-
 app.UseAuthorization();
 
 app.UseStaticFiles();
