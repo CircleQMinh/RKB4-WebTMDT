@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using WebTMDTLibrary.DTO;
-using WebTMDT_Client.ViewModel;
+using WebTMDT_Client.ResponseModel;
 
 namespace WebTMDT_Client.Service
 {

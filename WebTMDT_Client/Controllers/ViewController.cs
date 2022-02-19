@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebTMDT_Client.ViewModel;
+using WebTMDT_Client.ResponseModel;
 
 namespace WebTMDT_Client.Controllers
 {

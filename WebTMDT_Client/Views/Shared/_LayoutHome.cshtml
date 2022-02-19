@@ -8,6 +8,7 @@
     <title>@ViewData["Title"] - WebTMDT</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebTMDT_Client.styles.css" asp-append-version="true" />
     <script src="https://kit.fontawesome.com/0bf48518ad.js" crossorigin="anonymous"></script>
 </head>
@@ -43,12 +44,13 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/search">
                                 <i class="fas fa-receipt me-2" aria-hidden="true"></i>
-                                <p class="hide_for_1399 show_for_991">Sản phẩm</p>
+                                <p class="hide_for_1399 show_for_991 black">Sản phẩm</p>
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown link
+                            <a class="dropdown-toggle text-decoration-none hide_for_1399 show_for_991 black" 
+                            role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-bars"></i> Thể Loại
                             </a>
 
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -61,21 +63,16 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/news">
                                 <i class="far fa-newspaper me-2" aria-hidden="true"></i>
-                                <p class="hide_for_1399 show_for_991">Tin tức</p>
+                                <p class="hide_for_1399 show_for_991 black">Tin tức</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/contact">
                                 <i class="far fa-question-circle me-2" aria-hidden="true"></i>
-                                <p class="hide_for_1399 show_for_991">Liên hệ</p>
+                                <p class="hide_for_1399 show_for_991 black">Liên hệ</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a role="button" class="nav-link" tabindex="0">
-                                <i class="fas fa-sign-in-alt me-2" aria-hidden="true"></i>
-                                <p class="hide_for_1399 show_for_991">Đăng nhập</p>
-                            </a>
-                        </li>
+                        @await Component.InvokeAsync("LoginInfo")
                     </ul>
                 </div>
             </div>
@@ -83,13 +80,84 @@
     </header>
     <div class="container-fluid">
 
-            @RenderBody()
- 
+        @RenderBody()
+
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="site-footer footer">
         <div class="container">
-            &copy; 2022 - WebTMDT - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <h6>Về chúng tôi</h6>
+                    <p class="text-justify">
+                        Cửa hàng mua thực phẩm online TP.HCM. Chuyên bán các loại rau
+                        sạch, củ quả, trái cây, thực phẩm tươi sống
+                    </p>
+                </div>
+
+                <div class="col-xs-6 col-md-3">
+                    <h6>Dịch vụ</h6>
+                    <ul class="footer-links">
+                        <li>
+                            <a to={"/search"}>Tìm sản phẩm</a>
+                        </li>
+                        <li>
+                            <a to={"/home"}>Mua sắm trực tuyến</a>
+                        </li>
+                        <li>
+                            <a to={"/home"}>Giao hàng miễn phí</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-xs-6 col-md-3">
+                    <h6>Quick Links</h6>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="https://github.com/CircleQMinh">
+                                My Github Page
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr />
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-6 col-xs-12">
+                    <p class="copyright-text">
+                        Copyright &copy; 2021 All Rights Reserved by
+                        <a href="https://github.com/CircleQMinh">Quốc Minh</a>.
+                        (10/12/2021)
+                    </p>
+                </div>
+
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <ul class="social-icons">
+                        <li>
+                            <a class="facebook" to={"/home"}>
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="twitter" to={"/home"}>
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dribbble" to={"/home"}>
+                                <i class="fa fa-dribbble"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="linkedin" to={"/home"}>
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </footer>
 

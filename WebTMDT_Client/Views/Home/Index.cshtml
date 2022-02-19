@@ -1,4 +1,4 @@
-﻿@using WebTMDT_Client.ViewModel
+﻿@using WebTMDT_Client.ResponseModel
 @{
     ViewData["Title"] = "Home Page";
     Layout = "_LayoutHome";
@@ -66,7 +66,7 @@
             <i class="far fa-star"></i> Mới nhất
         </h3>
     </div>
-       <p>a</p>
+     <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="2">Test</a>
 </div>
 <div class="mt-5">
     <hr></hr>

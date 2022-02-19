@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "P+YScHRRGGlNMqtfEpdngttP0v1M7TF0qni4DjKR2Gk=",
+  "Hash": "NGvok7BGy3nHpj9MyDR/BtUENChz62BR10ij07E8paw=",
   "Source": "WebTMDT_Client",
   "BasePath": "_content/WebTMDT_Client",
   "Mode": "Default",
@@ -49,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\My Project\\WebTMDT\\WebTMDT_Client\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\WebTMDT_Client.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\My Project\\WebTMDT\\WebTMDT_Client\\wwwroot\\css\\login.css",
+      "SourceId": "WebTMDT_Client",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\My Project\\WebTMDT\\WebTMDT_Client\\wwwroot\\",
+      "BasePath": "_content/WebTMDT_Client",
+      "RelativePath": "css/login.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\login.css"
     },
     {
       "Identity": "D:\\My Project\\WebTMDT\\WebTMDT_Client\\wwwroot\\css\\site.css",

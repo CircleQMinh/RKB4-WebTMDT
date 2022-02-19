@@ -92,6 +92,36 @@ namespace WebTMDT.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "c907e276-4a36-4c04-a255-9e8ffa6f449a",
+                            ConcurrencyStamp = "4f5a7c21-c883-4d08-8506-ee45f4899c67",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "0e94c83e-be78-46ec-ab13-c907a5c7f72c",
+                            ConcurrencyStamp = "846c6707-59d7-4998-8058-d6d7002e773c",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "5afb8d94-7964-4019-ba3e-2e9edf90f6a2",
+                            ConcurrencyStamp = "ace329e7-e9df-43f9-a010-9ff1c38d75e7",
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYEE"
+                        },
+                        new
+                        {
+                            Id = "e0963012-613e-43ee-9f01-8e63ef1c5568",
+                            ConcurrencyStamp = "180499a0-dc28-4f94-9ed8-c9583aa1723a",
+                            Name = "Shipper",
+                            NormalizedName = "SHIPPER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -200,7 +230,7 @@ namespace WebTMDT.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.AppUser", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -271,7 +301,7 @@ namespace WebTMDT.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Author", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Author", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -287,13 +317,16 @@ namespace WebTMDT.Migrations
                     b.ToTable("Author");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Book", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Book", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -318,6 +351,9 @@ namespace WebTMDT.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("imgUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -333,7 +369,7 @@ namespace WebTMDT.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.DiscountCode", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.DiscountCode", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -365,7 +401,7 @@ namespace WebTMDT.Migrations
                     b.ToTable("DiscountCodes");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Employee", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Employee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -419,7 +455,7 @@ namespace WebTMDT.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Genre", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Genre", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -436,7 +472,7 @@ namespace WebTMDT.Migrations
                     b.ToTable("Genres");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Order", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -506,7 +542,7 @@ namespace WebTMDT.Migrations
                     b.ToTable("Order");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.OrderDetail", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.OrderDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -538,7 +574,7 @@ namespace WebTMDT.Migrations
                     b.ToTable("OrderDetails");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Promotion", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Promotion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -575,7 +611,7 @@ namespace WebTMDT.Migrations
                     b.ToTable("Promotion");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.PromotionInfo", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.PromotionInfo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -599,7 +635,7 @@ namespace WebTMDT.Migrations
                     b.ToTable("PromotionInfo");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Publisher", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Publisher", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -615,7 +651,7 @@ namespace WebTMDT.Migrations
                     b.ToTable("Publisher");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Review", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Review", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -654,13 +690,13 @@ namespace WebTMDT.Migrations
 
             modelBuilder.Entity("AppUserBook", b =>
                 {
-                    b.HasOne("WebTMDT.Data.Book", null)
+                    b.HasOne("WebTMDTLibrary.Data.Book", null)
                         .WithMany()
                         .HasForeignKey("WishlistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebTMDT.Data.AppUser", null)
+                    b.HasOne("WebTMDTLibrary.Data.AppUser", null)
                         .WithMany()
                         .HasForeignKey("WishlistUsersId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -669,13 +705,13 @@ namespace WebTMDT.Migrations
 
             modelBuilder.Entity("AuthorBook", b =>
                 {
-                    b.HasOne("WebTMDT.Data.Author", null)
+                    b.HasOne("WebTMDTLibrary.Data.Author", null)
                         .WithMany()
                         .HasForeignKey("AuthorsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebTMDT.Data.Book", null)
+                    b.HasOne("WebTMDTLibrary.Data.Book", null)
                         .WithMany()
                         .HasForeignKey("BooksId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -684,13 +720,13 @@ namespace WebTMDT.Migrations
 
             modelBuilder.Entity("BookGenre", b =>
                 {
-                    b.HasOne("WebTMDT.Data.Book", null)
+                    b.HasOne("WebTMDTLibrary.Data.Book", null)
                         .WithMany()
                         .HasForeignKey("BooksId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebTMDT.Data.Genre", null)
+                    b.HasOne("WebTMDTLibrary.Data.Genre", null)
                         .WithMany()
                         .HasForeignKey("GenresId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -708,7 +744,7 @@ namespace WebTMDT.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("WebTMDT.Data.AppUser", null)
+                    b.HasOne("WebTMDTLibrary.Data.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -717,7 +753,7 @@ namespace WebTMDT.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("WebTMDT.Data.AppUser", null)
+                    b.HasOne("WebTMDTLibrary.Data.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -732,7 +768,7 @@ namespace WebTMDT.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebTMDT.Data.AppUser", null)
+                    b.HasOne("WebTMDTLibrary.Data.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -741,20 +777,20 @@ namespace WebTMDT.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("WebTMDT.Data.AppUser", null)
+                    b.HasOne("WebTMDTLibrary.Data.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Book", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Book", b =>
                 {
-                    b.HasOne("WebTMDT.Data.PromotionInfo", "PromotionInfo")
+                    b.HasOne("WebTMDTLibrary.Data.PromotionInfo", "PromotionInfo")
                         .WithOne("Book")
-                        .HasForeignKey("WebTMDT.Data.Book", "PromotionInfoID");
+                        .HasForeignKey("WebTMDTLibrary.Data.Book", "PromotionInfoID");
 
-                    b.HasOne("WebTMDT.Data.Publisher", "Publisher")
+                    b.HasOne("WebTMDTLibrary.Data.Publisher", "Publisher")
                         .WithMany("Books")
                         .HasForeignKey("PublisherId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -765,26 +801,26 @@ namespace WebTMDT.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Employee", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Employee", b =>
                 {
-                    b.HasOne("WebTMDT.Data.AppUser", "Shipper")
+                    b.HasOne("WebTMDTLibrary.Data.AppUser", "Shipper")
                         .WithMany()
                         .HasForeignKey("ShipperId");
 
                     b.Navigation("Shipper");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Order", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Order", b =>
                 {
-                    b.HasOne("WebTMDT.Data.DiscountCode", "DiscountCode")
+                    b.HasOne("WebTMDTLibrary.Data.DiscountCode", "DiscountCode")
                         .WithOne("Order")
-                        .HasForeignKey("WebTMDT.Data.Order", "DiscountCodeID");
+                        .HasForeignKey("WebTMDTLibrary.Data.Order", "DiscountCodeID");
 
-                    b.HasOne("WebTMDT.Data.AppUser", "Shipper")
+                    b.HasOne("WebTMDTLibrary.Data.AppUser", "Shipper")
                         .WithMany()
                         .HasForeignKey("ShipperID");
 
-                    b.HasOne("WebTMDT.Data.AppUser", "User")
+                    b.HasOne("WebTMDTLibrary.Data.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -797,15 +833,15 @@ namespace WebTMDT.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.OrderDetail", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.OrderDetail", b =>
                 {
-                    b.HasOne("WebTMDT.Data.Book", "Book")
+                    b.HasOne("WebTMDTLibrary.Data.Book", "Book")
                         .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebTMDT.Data.Order", "Order")
+                    b.HasOne("WebTMDTLibrary.Data.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -816,9 +852,9 @@ namespace WebTMDT.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.PromotionInfo", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.PromotionInfo", b =>
                 {
-                    b.HasOne("WebTMDT.Data.Promotion", "Promotion")
+                    b.HasOne("WebTMDTLibrary.Data.Promotion", "Promotion")
                         .WithMany("PromotionInfos")
                         .HasForeignKey("PromotionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -827,15 +863,15 @@ namespace WebTMDT.Migrations
                     b.Navigation("Promotion");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Review", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Review", b =>
                 {
-                    b.HasOne("WebTMDT.Data.Book", "Book")
+                    b.HasOne("WebTMDTLibrary.Data.Book", "Book")
                         .WithMany("Reviews")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebTMDT.Data.AppUser", "User")
+                    b.HasOne("WebTMDTLibrary.Data.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -846,34 +882,34 @@ namespace WebTMDT.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Book", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Book", b =>
                 {
                     b.Navigation("Reviews");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.DiscountCode", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.DiscountCode", b =>
                 {
                     b.Navigation("Order")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Order", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Order", b =>
                 {
                     b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Promotion", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Promotion", b =>
                 {
                     b.Navigation("PromotionInfos");
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.PromotionInfo", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.PromotionInfo", b =>
                 {
                     b.Navigation("Book")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebTMDT.Data.Publisher", b =>
+            modelBuilder.Entity("WebTMDTLibrary.Data.Publisher", b =>
                 {
                     b.Navigation("Books");
                 });

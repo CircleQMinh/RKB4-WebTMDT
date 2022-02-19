@@ -1,4 +1,5 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
 using WebTMDTLibrary.DTO;
 
 namespace WebTMDTLibrary.DTO
@@ -9,6 +10,7 @@ namespace WebTMDTLibrary.DTO
         public string Title { get; set; }
         public string Description { get; set; }
         public string imgUrl { get; set; }
+        [DataType(DataType.Currency)]
         public double Price { get; set; }
         public int PublishYear { get; set; }
         public int? NumberOfPage { get; set; }

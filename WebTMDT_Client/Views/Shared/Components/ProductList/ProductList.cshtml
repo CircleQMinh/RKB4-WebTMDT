@@ -1,7 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@using WebTMDT_Client.ViewModel
+@using WebTMDT_Client.ResponseModel
 @model ProductListViewModel
 @{
 
@@ -19,11 +19,41 @@
                     <div class="card-body">
                         <h5 class="card-title product_name">@item.Title</h5>
 
-                        <div class="product_price_div">
-                            <p class="text-center">
-                                @item.Price
-                            </p>
-                        </div>
+                        @if (item.PromotionInfo == null)
+                        {
+                            <div class="product_price_div">
+                                <p class="text-center">
+                                    <span class="text-center text-danger text-decoration-underline">@string.Format("{0:0,0}",item.Price) đ </span>
+                                </p>
+                            </div>
+                        }
+                        @if (item.PromotionInfo != null)
+                        {
+                            @if (item.PromotionInfo.PromotionAmount != null)
+                            {
+                                <div class="product_price_div">
+                                    <p class="text-center">
+                                        <span class="text-center text-danger text-decoration-underline"> @string.Format("{0:0,0}",item.Price-Int32.Parse(item.PromotionInfo.PromotionAmount)) đ </span>
+                                        <span class="badge rounded-pill bg-danger ms-3"> -@string.Format("{0:0,0}",item.PromotionInfo.PromotionAmount) đ </span>
+                                    </p>
+                                    <p class="text-center m-0">
+                                        <span class="text-center text-danger text-decoration-line-through">@string.Format("{0:0,0}",item.Price) đ</span>
+                                    </p>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="product_price_div">
+                                    <p class="text-center">
+                                        <span class="text-center text-danger text-decoration-underline">@string.Format("{0:0,0}",item.Price-(Int32.Parse(item.PromotionInfo.PromotionPercent)*item.Price)/100) đ </span>
+                                        <span class="badge rounded-pill bg-success ms-3"> -@item.PromotionInfo.PromotionPercent% </span>
+                                    </p>
+                                    <p class="text-center m-0">
+                                        <span class="text-center text-danger text-decoration-line-through"> @string.Format("{0:0,0}",item.Price) đ</span>
+                                    </p>
+                                </div>
+                            }
+                        }
                         <hr></hr>
                         <div class="d-grid gap-2 mt-2">
                             <button class="btn btn-success" type="button">
@@ -39,7 +69,7 @@
         }
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-           
+
                 @for (int i = 1; i <= Model.totalPage; i++)
                 {
                     if (i == ViewBag.pageNumber)
@@ -52,7 +82,7 @@
                     }
 
                 }
-            
+
             </ul>
         </nav>
     }

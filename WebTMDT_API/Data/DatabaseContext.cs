@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebTMDTLibrary.Data;
 using WebTMDT.Data;
+using WebTMDTLibrary.Hepler;
 
 namespace WebTMDT.Data
 {
@@ -42,7 +43,7 @@ namespace WebTMDT.Data
                 }
             }
 
-            //builder.ApplyConfiguration(new RoleConfig());
+            builder.ApplyConfiguration(new RoleConfig());
 
         }
 

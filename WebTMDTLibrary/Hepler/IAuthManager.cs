@@ -1,9 +1,11 @@
 ﻿
-namespace DotNet6WebApi.Helper
+using WebTMDTLibrary.DTO;
+
+namespace WebTMDTLibrary.Helper
 {
     public interface IAuthManager
     {
-        //Task<bool> ValidateUser(LoginUserDTO userDTO);
-        //Task<string> CreateToken();
+        Task<bool> ValidateUser(LoginUserDTO userDTO);
+        Task<string> CreateToken();
     }
 }

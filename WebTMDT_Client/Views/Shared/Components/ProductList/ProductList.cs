@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebTMDTLibrary.DTO;
 using WebTMDT_Client.Service;
-using WebTMDT_Client.ViewModel;
+using WebTMDT_Client.ResponseModel;
 
 namespace WebTMDT.Views.Shared.Components.ProductList
 {

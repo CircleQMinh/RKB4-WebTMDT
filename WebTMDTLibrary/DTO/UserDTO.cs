@@ -1,4 +1,6 @@
-﻿namespace WebTMDTLibrary.DTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebTMDTLibrary.DTO
 {
     public class LoginUserDTO
     {
@@ -12,6 +14,17 @@
         public string UserName { get; set; }
         public string PhoneNumber { get; set; }
         public IList<string> Roles { get; set; }
+    }
+    public class RegisterDTO
+    {
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string UserName { get; set; }
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Invalid Phone Number")]
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Phone Number.")]
+        public string PhoneNumber { get; set; }
     }
     public class UpdateUserDTO
     {
