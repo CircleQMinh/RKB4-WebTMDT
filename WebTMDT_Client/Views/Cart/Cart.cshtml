@@ -1,0 +1,57 @@
+﻿@using WebTMDTLibrary.DTO
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Giỏ hàng của bạn";
+    Layout = "_LayoutHome";
+}
+@model Cart
+<h2>GIỎ HÀNG</h2>
+
+<div style="min-height:100vh">
+    @if (Model.TotalItem > 0) {
+  double total = 0;
+  int stt = 1;
+  
+  <table class="table">
+    <tr>
+      <th>#</th>
+      <th>Sản phẩm</th>
+      <th>Giá</th>
+      <th>Thành tiền</th>
+      <th></th>
+    </tr>
+    @foreach (var cartitem in Model.Items)
+    {
+        var thanhtien = cartitem.Quantity * cartitem.Price;
+        total += thanhtien;
+
+        <tr>
+           <td>@(stt++)</td>
+           <td>@cartitem.Title</td>
+           <td>@(cartitem.Price.ToString("n0"))</td>
+
+           <td>@(thanhtien.ToString("n0"))</td>
+           <td>
+              <button class="btn btn-success updatecartitem"  >Cập nhật</button>
+              <a asp-route="removecart" 
+                class="btn btn-danger">Xóa</a>
+           </td>
+        </tr>
+    }
+      <tr>
+          <td colspan="4" class="text-right">Tổng tiền</td>
+          <td>@(total.ToString("n0"))</td>
+          <td></td>
+      </tr>
+  </table>
+
+  <a asp-controller="Product" asp-action="Checkout" class="btn btn-success">Gửi đơn hàng</a>
+
+}
+else {
+  <p class="alert alert-danger">Giỏ hàng trống</p>
+}
+</div>
+

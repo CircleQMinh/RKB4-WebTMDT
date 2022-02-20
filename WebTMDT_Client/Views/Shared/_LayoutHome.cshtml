@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebTMDT_Client.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
     <script src="https://kit.fontawesome.com/0bf48518ad.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -48,8 +50,8 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="dropdown-toggle text-decoration-none hide_for_1399 show_for_991 black" 
-                            role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="dropdown-toggle text-decoration-none hide_for_1399 show_for_991 black"
+                               role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-bars"></i> Thể Loại
                             </a>
 
@@ -160,7 +162,7 @@
             </div>
         </div>
     </footer>
-
+    @await Component.InvokeAsync("CartIcon")
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

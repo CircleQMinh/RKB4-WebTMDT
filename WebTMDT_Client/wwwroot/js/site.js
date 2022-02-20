@@ -11,112 +11,162 @@ var priceRange = "0,9999999"
 
 function LoadNewProductList(pageNumber, pageSize) {
 
-	if (pageNumber <= 0) {
-		pageNumber=1
+    if (pageNumber <= 0) {
+        pageNumber = 1
     }
 
-	var keyword = document.getElementById("searchInput").value
-	var genresString = getFilterGenreString(genresFilterList)
+    var keyword = document.getElementById("searchInput").value
+    var genresString = getFilterGenreString(genresFilterList)
 
-	fetch(`${clientUrl}View/GetProductList?pageNumber=${pageNumber}&pageSize=${pageSize}&keyword=${keyword}
+    fetch(`${clientUrl}View/GetProductList?pageNumber=${pageNumber}&pageSize=${pageSize}&keyword=${keyword}
 	${genresString != null ? `&genreFilter=${genresString}` : ""}
 	${priceRange != null ? `&priceRange=${priceRange}` : ""}
 	`).then(function (response) {
-		// The API call was successful!
-		return response.text();
-	}).then(function (html) {
-		// This is the HTML from our response as a text string
-		/*console.log(html);*/
-		var productList = document.getElementById("productList")
-		productList.innerHTML = html
-		document.getElementById("searchInput").value = keyword
-	}).catch(function (err) {
-		// There was an error
-		console.warn('Something went wrong.', err);
-	});
+        // The API call was successful!
+        return response.text();
+    }).then(function (html) {
+        // This is the HTML from our response as a text string
+        /*console.log(html);*/
+        var productList = document.getElementById("productList")
+        productList.innerHTML = html
+        document.getElementById("searchInput").value = keyword
+    }).catch(function (err) {
+        // There was an error
+        console.warn('Something went wrong.', err);
+    });
 
-	var scrollDiv = document.getElementById("searchBarProduct").offsetTop;
-	window.scrollTo({ top: scrollDiv, behavior: 'smooth' });
+    var scrollDiv = document.getElementById("searchBarProduct").offsetTop;
+    window.scrollTo({ top: scrollDiv, behavior: 'smooth' });
 }
 
 function onSearchFilterChange_Btn() {
-	LoadNewProductList(1,8)
+    LoadNewProductList(1, 8)
 }
 function onSearchFilterChange_Input(e) {
-	if (e.keyCode === 13) {
-		e.preventDefault(); // Ensure it is only this code that runs
+    if (e.keyCode === 13) {
+        e.preventDefault(); // Ensure it is only this code that runs
 
-		LoadNewProductList(1, 8)
-	}
+        LoadNewProductList(1, 8)
+    }
 
 }
-function onGenreFilterChange(genre,id) {
+function onGenreFilterChange(genre, id) {
 
-	var selected_genre = { name: genre, id: id }
-	//console.log(selected_genre)
-	if (genre != "all") {
-		if (!genresFilterList.some(g => g.name == genre)) {
-			genresFilterList.push(selected_genre)
-		}
-		else {
-			genresFilterList = genresFilterList.filter(q => q.id != id)
+    var selected_genre = { name: genre, id: id }
+    //console.log(selected_genre)
+    if (genre != "all") {
+        if (!genresFilterList.some(g => g.name == genre)) {
+            genresFilterList.push(selected_genre)
         }
-	}
-	else {
-		genresFilterList.forEach(item => {
-			document.getElementById(`genre_${item.id}`).checked = false;
-		})
-		genresFilterList=[]
-	}
-	if (genresFilterList.length>0) {
-		document.getElementById(`genre_all`).checked = false;
-	}
-	if (genresFilterList.length==0) {
-		document.getElementById(`genre_all`).checked = true;
+        else {
+            genresFilterList = genresFilterList.filter(q => q.id != id)
+        }
     }
-	//console.log(getFilterGenreString(genresFilterList))
-	LoadNewProductList(1,8)
+    else {
+        genresFilterList.forEach(item => {
+            document.getElementById(`genre_${item.id}`).checked = false;
+        })
+        genresFilterList = []
+    }
+    if (genresFilterList.length > 0) {
+        document.getElementById(`genre_all`).checked = false;
+    }
+    if (genresFilterList.length == 0) {
+        document.getElementById(`genre_all`).checked = true;
+    }
+    //console.log(getFilterGenreString(genresFilterList))
+    LoadNewProductList(1, 8)
 }
 function onPriceRangeChange(value) {
-	priceRange = value
-	LoadNewProductList(1,8)
+    priceRange = value
+    LoadNewProductList(1, 8)
 }
 function applyPriceRange() {
-	var maxPrice = document.getElementById("maxPrice").value
-	var minPrice = document.getElementById("minPrice").value
-	if (minPrice == "" || maxPrice == "") {
-		alert("Khoảng giá chưa hợp lệ");
-	}
-	else if (Number.parseInt(minPrice) > Number.parseInt(maxPrice)) {
-		alert("Khoảng giá chưa hợp lệ");
+    var maxPrice = document.getElementById("maxPrice").value
+    var minPrice = document.getElementById("minPrice").value
+    if (minPrice == "" || maxPrice == "") {
+        alert("Khoảng giá chưa hợp lệ");
     }
-	else {
-		document.getElementById("priceRangeAll").checked = true
-		priceRange = (minPrice + "," + maxPrice);
-		LoadNewProductList(1, 8)
-	}
+    else if (Number.parseInt(minPrice) > Number.parseInt(maxPrice)) {
+        alert("Khoảng giá chưa hợp lệ");
+    }
+    else {
+        document.getElementById("priceRangeAll").checked = true
+        priceRange = (minPrice + "," + maxPrice);
+        LoadNewProductList(1, 8)
+    }
 
 }
 
 function getFilterGenreString(genres) {
-	if (genres.length == 0) {
-		return null;
-	}
-	var string_genre = "";
-	genres.forEach((element) => {
-		string_genre += element.name;
-		string_genre += ",";
-	});
-	return string_genre.slice(0, string_genre.length - 1);
+    if (genres.length == 0) {
+        return null;
+    }
+    var string_genre = "";
+    genres.forEach((element) => {
+        string_genre += element.name;
+        string_genre += ",";
+    });
+    return string_genre.slice(0, string_genre.length - 1);
 }
 function resetFilter() {
-	genresFilterList.forEach((genre) => {
-		document.getElementById(`genre_${genre.id}`).checked = false
-	})
-	document.getElementById("genre_all").checked=true
-	genresFilterList = []
-	priceRange = "0,9999999"
-	document.getElementById("searchInput").value = null
-	document.getElementById("priceRangeAll").checked = true
-	LoadNewProductList(1,8)
+    genresFilterList.forEach((genre) => {
+        document.getElementById(`genre_${genre.id}`).checked = false
+    })
+    document.getElementById("genre_all").checked = true
+    genresFilterList = []
+    priceRange = "0,9999999"
+    document.getElementById("searchInput").value = null
+    document.getElementById("priceRangeAll").checked = true
+    LoadNewProductList(1, 8)
+}
+
+function addToCart(item) {
+    //console.log(item)
+    var cartItem = {
+        ImgUrl: item.imgUrl,
+        Title: item.title,
+        Price: item.price,
+        Quantity: 1,
+        PromotionPercent: item.promotionInfo == null ? null : item.promotionInfo.promotionPercent,
+        PromotionAmount: item.promotionInfo == null ? null : item.promotionInfo.promotionAmount
+    }
+    //console.log(cartItem)
+
+    fetch(`${clientUrl}Cart/AddToCart`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cartItem)
+    }).then(
+        (res) => {
+            LoadCartIcon()
+        }
+    ).catch((e) => { console.log(e) })
+}
+
+function MyAlert(msg, duration) {
+    var el = document.createElement("div");
+    el.setAttribute("style", "position: fixed;top:1%;left:40%;background-color:#41b232;color: white;height: 50px;width: 20%;text-align: center;line-height: 50px;");
+    el.innerHTML = msg
+    setTimeout(function () {
+        el.parentNode.removeChild(el);
+    }, duration);
+    document.body.appendChild(el);
+}
+
+function LoadCartIcon() {
+
+    fetch(`${clientUrl}View/ReloadCartIcon`).then(function (response) {
+        // The API call was successful!
+        return response.text();
+    }).then(function (html) {
+        // This is the HTML from our response as a text string
+        /*console.log(html);*/
+        var cartIcon = document.getElementById("cartIcon")
+        cartIcon.innerHTML = html
+        MyAlert("Thêm vào giỏ hàng thành công !", 1000);
+    }).catch(function (err) {
+        // There was an error
+        console.warn('Something went wrong.', err);
+    });
 }

@@ -14,5 +14,9 @@ namespace WebTMDT_Client.Controllers
             Console.WriteLine(priceRange);
             return ViewComponent("ProductList",new ProductListFilterModel() {pageNumber=pageNumber,pageSize=pageSize,keyword=keyword,priceFilter=priceRange,genreFilter=genreFilter });
         }
+        public IActionResult ReloadCartIcon()
+        {
+            return ViewComponent("CartIcon");
+        }
     }
 }

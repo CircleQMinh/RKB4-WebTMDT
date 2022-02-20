@@ -12,6 +12,7 @@ namespace WebTMDTLibrary.DTO
         public string? PromotionPercent { get; set; }
         public string? PromotionAmount { get; set; }
     }
+
     public class CreateOrderDetailDTO
     {
         public int BookId { get; set; }
