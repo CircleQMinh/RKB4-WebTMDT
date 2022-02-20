@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Microsoft.AspNetCore.Http
+@using WebTMDTLibrary.DTO
+@using Newtonsoft.Json
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var session = HttpContextAccessor.HttpContext.Session;
+    string jsoncart = session.GetString("cart");
+    Cart cart = new Cart();
+    if (jsoncart != null)
+    {
+        cart = JsonConvert.DeserializeObject<Cart>(jsoncart);
+    }
+}
+<div id="cartIcon">
+    <a class="float-btn-cart" id="cart" asp-controller="Cart" asp-action="Index">
+        <i class="fas fa-shopping-cart float-btn-icon"></i>
+    </a>
+    <a class="float-btn-cart-number animate__animated animate__slideInRight animate__faster text-decoration-none">
+        <p class="text-monospace">@cart.TotalItem</p>
+    </a>
+
+</div>
