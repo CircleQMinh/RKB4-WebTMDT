@@ -14,28 +14,28 @@ namespace WebTMDT_Client.Controllers
             if (cart_str != null)
             {
                 Cart cart = JsonConvert.DeserializeObject<Cart>(cart_str);
-                return View("Cart",cart);
+                return View("Cart", cart);
             }
             else
             {
                 Cart cart = new Cart();
-                return View("Cart",cart);
+                return View("Cart", cart);
             }
-    
+
         }
 
         [HttpPost]
-        public IActionResult AddToCart([FromBody]CartItem cartItem)
+        public IActionResult AddToCart([FromBody] CartItem cartItem)
         {
             if (ModelState.IsValid)
             {
                 var session = HttpContext.Session;
                 var cart_str = session.GetString("cart");
-       
-                if (cart_str!=null)
+
+                if (cart_str != null)
                 {
                     Cart cart = JsonConvert.DeserializeObject<Cart>(cart_str);
-                    cart = CartHelper.AddCart(cartItem, cart);
+                    cart = CartHelper.AddCartItem(cartItem, cart);
                     cart = CartHelper.CalculateCartTotal(cart.Items);
                     session.SetString("cart", JsonConvert.SerializeObject(cart));
                     Console.WriteLine("tìm thấy cart cũ");
@@ -43,7 +43,7 @@ namespace WebTMDT_Client.Controllers
                 else
                 {
                     Cart cart = new Cart();
-                    cart = CartHelper.AddCart(cartItem, cart);
+                    cart = CartHelper.AddCartItem(cartItem, cart);
                     cart = CartHelper.CalculateCartTotal(cart.Items);
                     session.SetString("cart", JsonConvert.SerializeObject(cart));
                     Console.WriteLine("ko thấy cart cũ");
@@ -51,7 +51,46 @@ namespace WebTMDT_Client.Controllers
 
                 return Accepted(new { success = true });
             }
-            return Accepted(new {success=false});
+            return Accepted(new { success = false });
+        }
+        [HttpPost]
+        public IActionResult RemoveFromCart([FromBody] CartItem cartItem)
+        {
+            if (ModelState.IsValid)
+            {
+                var session = HttpContext.Session;
+                var cart_str = session.GetString("cart");
+                if (cart_str == null)
+                {
+                    return Accepted(new { success = false,message = "Không tìm thấy cart!" });
+                }
+                Cart cart = JsonConvert.DeserializeObject<Cart>(cart_str);
+                cart = CartHelper.RemoveCartItem(cartItem, cart);
+                cart = CartHelper.CalculateCartTotal(cart.Items);
+                session.SetString("cart", JsonConvert.SerializeObject(cart));
+                return Accepted(new { success = true });
+            }
+            return Accepted(new { success = false });
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteFromCart([FromBody] CartItem cartItem)
+        {
+            if (ModelState.IsValid)
+            {
+                var session = HttpContext.Session;
+                var cart_str = session.GetString("cart");
+                if (cart_str == null)
+                {
+                    return Accepted(new { success = false, message = "Không tìm thấy cart!" });
+                }
+                Cart cart = JsonConvert.DeserializeObject<Cart>(cart_str);
+                cart = CartHelper.DeleteCartItem(cartItem, cart);
+                cart = CartHelper.CalculateCartTotal(cart.Items);
+                session.SetString("cart", JsonConvert.SerializeObject(cart));
+                return Accepted(new { success = true });
+            }
+            return Accepted(new { success = false });
         }
     }
 }

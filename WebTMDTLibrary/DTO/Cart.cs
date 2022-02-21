@@ -38,25 +38,25 @@ namespace WebTMDTLibrary.DTO
             Cart cart = new Cart();
             foreach (var item in items)
             {
-              
+
                 if (item.PromotionPercent == null && item.PromotionAmount == null)
                 {
                     cart.TotalPrice += item.Price * item.Quantity;
                 }
                 else if (item.PromotionPercent != null)
                 {
-                    cart.TotalPrice +=(item.Price - (item.Price * Double.Parse(item.PromotionPercent)) / 100) * item.Quantity;
+                    cart.TotalPrice += (item.Price - (item.Price * Double.Parse(item.PromotionPercent)) / 100) * item.Quantity;
                 }
                 else
                 {
-                    cart.TotalPrice += (item.Price-Double.Parse(item.PromotionAmount)) * item.Quantity;
+                    cart.TotalPrice += (item.Price - Double.Parse(item.PromotionAmount)) * item.Quantity;
                 }
                 cart.TotalItem += item.Quantity;
             }
             cart.Items = items;
             return cart;
         }
-        public static Cart AddCart(CartItem cartItem,Cart cart)
+        public static Cart AddCartItem(CartItem cartItem, Cart cart)
         {
             if (cart.Items.Any(q => q.Title == cartItem.Title))
             {
@@ -72,6 +72,36 @@ namespace WebTMDTLibrary.DTO
             else
             {
                 cart.Items.Add(cartItem);
+            }
+            return cart;
+        }
+
+        public static Cart RemoveCartItem(CartItem cartItem, Cart cart)
+        {
+
+            foreach (var item in cart.Items)
+            {
+                if (item.Title == cartItem.Title)
+                {
+                    item.Quantity -= 1;
+                    if (item.Quantity == 0)
+                    {
+                        cart.Items.Remove(item);
+                    }
+                    break;
+                }
+            }
+            return cart;
+        }
+        public static Cart DeleteCartItem(CartItem cartItem, Cart cart)
+        {
+            foreach (var item in cart.Items)
+            {
+                if (item.Title == cartItem.Title)
+                {
+                    cart.Items.Remove(item);
+                    break;
+                }
             }
             return cart;
         }

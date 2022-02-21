@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using WebTMDT_Client.ResponseModel;
+using WebTMDTLibrary.DTO;
 
 namespace WebTMDT_Client.Controllers
 {
@@ -17,6 +19,10 @@ namespace WebTMDT_Client.Controllers
         public IActionResult ReloadCartIcon()
         {
             return ViewComponent("CartIcon");
+        }
+        public IActionResult ReloadCart()
+        {
+            return ViewComponent("Cart");
         }
     }
 }

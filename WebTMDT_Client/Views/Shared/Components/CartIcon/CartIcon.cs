@@ -19,7 +19,7 @@ namespace WebTMDT_Client.Views.Shared.Components.CartIcon
             }
             else
             {
-                Cart cart = JsonConvert.DeserializeObject<Cart>(cart_str);
+                WebTMDTLibrary.DTO.Cart cart = JsonConvert.DeserializeObject<WebTMDTLibrary.DTO.Cart>(cart_str);
                 ViewBag.TotalItem = cart.TotalItem;
             }
             return View("CartIcon");

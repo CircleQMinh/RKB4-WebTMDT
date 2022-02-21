@@ -3,28 +3,26 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    ViewData["Title"] = "Giỏ hàng của bạn";
-    Layout = "_LayoutHome";
 }
+@*CÁi này là viewcomponent*@
 @model Cart
+<h2>GIỎ HÀNG</h2>
 
-<div id="cartPage">
-    <h2>GIỎ HÀNG</h2>
+<div style="min-height:100vh">
+    @if (Model.TotalItem > 0)
+    {
+        double total = 0;
+        int stt = 1;
 
-    <div style="min-height:100vh">
-        @if (Model!.TotalItem > 0)
-        {
-            int stt = 1;
-
-            <table class="table">
-                <tr>
-                    <th>#</th>
-                    <th>Sản phẩm</th>
-                    <th>Giá</th>
-                    <th>Số lượng</th>
-                    <th>Thành tiền</th>
-                    <th></th>
-                </tr>
+        <table class="table">
+            <tr>
+                <th>#</th>
+                <th>Sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+                <th></th>
+            </tr>
                 @foreach (var cartitem in Model.Items)
                 {
                     double thanhtien = 0;
@@ -70,23 +68,19 @@
                         </td>
                     </tr>
                 }
-                <tr>
-                    <td colspan="3" class="text-right">Tổng giỏ hàng</td>
-                    <td>@(Model.TotalItem.ToString("n0"))</td>
-                    <td>@(Model.TotalPrice.ToString("n0"))</td>
-                    <td></td>
-                </tr>
-            </table>
+            <tr>
+                <td colspan="3" class="text-right">Tổng giỏ hàng</td>
+                <td>@(Model.TotalItem.ToString("n0"))</td>
+                <td>@(Model.TotalPrice.ToString("n0"))</td>
+                <td></td>
+            </tr>
+        </table>
 
-            <a asp-controller="Product" asp-action="Checkout" class="btn btn-success">Gửi đơn hàng</a>
+        <a asp-controller="Product" asp-action="Checkout" class="btn btn-success">Gửi đơn hàng</a>
 
-        }
-        else
-        {
-            <p class="alert alert-danger">Giỏ hàng trống</p>
-        }
-    </div>
-
+    }
+    else
+    {
+        <p class="alert alert-danger">Giỏ hàng trống</p>
+    }
 </div>
-
-
