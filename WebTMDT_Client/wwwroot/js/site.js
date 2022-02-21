@@ -123,13 +123,19 @@ function resetFilter() {
 
 function addToCart(item) {
     //console.log(item)
+    var reloadCart = false
     var cartItem = {
-        ImgUrl: item.imgUrl,
-        Title: item.title,
-        Price: item.price,
+        ImgUrl: item.imgUrl != null ? item.imgUrl : item.ImgUrl,
+        Title: item.title != null ? item.title : item.Title,
+        Price: item.price != null ? item.price : item.Price,
         Quantity: 1,
         PromotionPercent: item.promotionInfo == null ? null : item.promotionInfo.promotionPercent,
         PromotionAmount: item.promotionInfo == null ? null : item.promotionInfo.promotionAmount
+    }
+    if (item.PromotionAmount != null || item.PromotionPercent != null) {
+        cartItem.PromotionAmount = item.PromotionAmount
+        cartItem.promotionPercent = item.PromotionPercent
+        reloadCart=true
     }
     //console.log(cartItem)
 
@@ -139,7 +145,51 @@ function addToCart(item) {
         body: JSON.stringify(cartItem)
     }).then(
         (res) => {
-            LoadCartIcon()
+            LoadCartIcon();
+    
+                LoadCart();
+            
+        }
+    ).catch((e) => { console.log(e) })
+}
+function RemoveFromCart(item) {
+
+    var cartItem = {
+        ImgUrl: item.imgUrl != null ? item.imgUrl : item.ImgUrl,
+        Title: item.title != null ? item.title : item.Title,
+        Price: item.price != null ? item.price : item.Price,
+        Quantity: 1,
+        PromotionPercent: item.promotionInfo == null ? null : item.promotionInfo.promotionPercent,
+        PromotionAmount: item.promotionInfo == null ? null : item.promotionInfo.promotionAmount
+    }
+    fetch(`${clientUrl}Cart/RemoveFromCart`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cartItem)
+    }).then(
+        (res) => {
+            LoadCartIcon();
+            LoadCart();
+        }
+    ).catch((e) => { console.log(e) })
+}
+function DeleteFromCart(item) {
+    var cartItem = {
+        ImgUrl: item.imgUrl != null ? item.imgUrl : item.ImgUrl,
+        Title: item.title != null ? item.title : item.Title,
+        Price: item.price != null ? item.price : item.Price,
+        Quantity: 1,
+        PromotionPercent: item.promotionInfo == null ? null : item.promotionInfo.promotionPercent,
+        PromotionAmount: item.promotionInfo == null ? null : item.promotionInfo.promotionAmount
+    }
+    fetch(`${clientUrl}Cart/DeleteFromCart`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cartItem)
+    }).then(
+        (res) => {
+            LoadCartIcon();
+            LoadCart();
         }
     ).catch((e) => { console.log(e) })
 }
@@ -165,6 +215,22 @@ function LoadCartIcon() {
         var cartIcon = document.getElementById("cartIcon")
         cartIcon.innerHTML = html
         MyAlert("Thêm vào giỏ hàng thành công !", 1000);
+    }).catch(function (err) {
+        // There was an error
+        console.warn('Something went wrong.', err);
+    });
+}
+function LoadCart() {
+
+    fetch(`${clientUrl}View/ReloadCart`).then(function (response) {
+        // The API call was successful!
+        return response.text();
+    }).then(function (html) {
+        // This is the HTML from our response as a text string
+        /*console.log(html);*/
+        var cart = document.getElementById("cartPage")
+        cart.innerHTML = html
+       // MyAlert("Thêm vào giỏ hàng thành công !", 1000);
     }).catch(function (err) {
         // There was an error
         console.warn('Something went wrong.', err);
