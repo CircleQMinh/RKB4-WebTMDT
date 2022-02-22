@@ -1,4 +1,5 @@
 ﻿using WebTMDT_Client.ResponseModel;
+using WebTMDT_Client.ViewModel;
 
 namespace WebTMDT_Client.Service
 {
@@ -6,5 +7,6 @@ namespace WebTMDT_Client.Service
     {
         public ProductViewViewModel GetProductViewViewModel(ProductListFilterModel model);
         public ProductListViewModel GetProductListViewModel(ProductListFilterModel model);
+        public ProductDetailViewModel GetProductDetailViewModel(int id);
     }
 }

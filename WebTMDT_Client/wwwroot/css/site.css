@@ -115,7 +115,17 @@ html {
     max-height: 140px;
     overflow: auto;
 }
-
+.pro_comment {
+    min-height: 200px;
+    max-height: 200px;
+    overflow: auto;
+    padding: 10px;
+}.pro_comment{
+    min-height: 200px;
+    max-height: 200px;
+    overflow: auto;
+    padding: 10px;
+}
 .pro_des {
     font-weight: bold;
     font-size: larger;

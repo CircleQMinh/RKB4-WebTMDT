@@ -1,0 +1,72 @@
+﻿@using WebTMDTLibrary.DTO
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<ReviewDTO>
+@{
+    var reviews = Model;
+    if (reviews == null)
+    {
+        reviews = new List<ReviewDTO>();
+    }
+    var rating_text = new List<string> { "Rất không hài lòng", "Không hài lòng", "Bình thường", "Hài lòng", "Rất hài lòng" };
+}
+
+@if (reviews.Count == 0)
+{
+    <div class="alert alert-primary" role="alert">
+        Chưa có nhận xét nào cho sản phẩm.
+    </div>
+}
+else
+{
+    @foreach (var review in reviews)
+    {
+        <div class="row mt-3 border border-4 p-1">
+            <div class="col-4 col-sm-2 border_right p-1 d-flex flex-column justify-content-center">
+                <div class="container">
+                    <img src=@review.User.imgUrl
+                 class="img-fluid img-thumbnail " alt="...">
+                </div>
+
+                <div class="d-flex justify-content-center text-center flex-column">
+                    <p><i class="fas fa-user" aria-hidden="true"></i> : @review.User.UserName</p>
+                    <p><i class="far fa-calendar-alt" aria-hidden="true"></i> :@review.Date.ToLongDateString()</p>
+                    <p><i class="far fa-clock" aria-hidden="true"></i> : @review.Date.ToLongTimeString()</p>
+                </div>
+            </div>
+            <div class="col-8 col-sm-10 p-1">
+                <div class="d-flex flex-column ps-3">
+                    <div style="display: flex;">
+                        <p class="mt-2">
+                            
+                            @for (int i = 0; i < review.Star; i++)
+                            {
+                                <i class="fa-solid fa-star" style="color:yellow"></i>
+                            }
+                            - @rating_text[review.Star-1]
+                        </p>
+                    </div>
+                    <div class="p-3">
+                        <p class="pro_comment border border-3">
+                            @review.Content
+                        </p>
+                    </div>
+                    <p class="ps-3">Khuyến khích mua :
+                        @if(review.Recomended){
+                             <span class="badge bg-success ms-2"><i class="far fa-thumbs-up me-2 " aria-hidden="true"></i>Nên mua</span>
+                        }
+                        else
+                        {
+                             <span class="badge bg-danger ms-2"><i class="far fa-thumbs-down me-2 " aria-hidden="true"></i>Không nên mua</span>
+                        }
+                       
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
+

@@ -29,6 +29,7 @@ namespace WebTMDT_Client.Service
                         var readTask = result.Content.ReadAsStringAsync();
                         readTask.Wait();
                         var data = readTask.Result;
+                        Console.Write(data);
                         login_response = JsonConvert.DeserializeObject<LoginResponseModel>(data);
                     }
                     else //web api sent error response 

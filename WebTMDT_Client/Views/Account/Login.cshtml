@@ -5,6 +5,11 @@
 @{
     ViewData["Title"] = "Đăng nhập";
     Layout = "_LayoutHome";
+
+    var parms = new Dictionary<string, string>
+            {
+                { "redirectUrl", ViewBag.RedirectUrl}
+            };
 }
 
 <div class="form-all-con h-100 ">
@@ -21,11 +26,11 @@
             <div class="form_container d-flex justify-content-center flex-column align-items-center">
                 <p style="display:block;font-size:25px;margin-top:50px"
                    class="text-monospace">
-                    Đăng nhập
+                    Đăng nhập 
                 </p>
             </div>
             <div class="form_container d-flex justify-content-center flex-column align-items-center">
-                <form asp-controller="account" asp-action="login" method="post" class="w-75">
+                <form asp-controller="account" asp-action="login" asp-all-route-data="parms" method="post" class="w-75">
                     <div class="mb-3">
                         <label class="form-label text-center"><i class="fa-solid fa-envelope-open-text"></i> Email :</label>
                         <input name="Email" type="email" class="form-control" placeholder="Email của bạn">
