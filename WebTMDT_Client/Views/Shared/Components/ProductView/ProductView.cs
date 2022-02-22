@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using WebTMDTLibrary.DTO;
 using WebTMDT_Client.Service;
 using WebTMDT_Client.ResponseModel;
+using WebTMDT_Client.ViewModel;
 
 namespace WebTMDT_Client.Views.Shared.Components.ProductView
 {

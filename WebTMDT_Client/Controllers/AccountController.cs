@@ -17,21 +17,23 @@ namespace WebTMDT_Client.Controllers
             accountService = _accountService;
         }
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string redirectUrl)
         {
+            ViewBag.RedirectUrl = redirectUrl;
             return View();
         }
         [HttpGet]
-        public IActionResult Logout()
+        public IActionResult Logout(string redirectUrl)
         {
+
             HttpContext.Session.Clear();
-            return RedirectToAction("Index", "Home");
+            return Redirect(ProjectConst.Client_URL+redirectUrl);
         }
 
         [HttpPost]
-        public IActionResult Login(LoginUserDTO model)
+        public IActionResult Login(LoginUserDTO model,string redirectUrl)
         {
-            string message = model.Email+" "+model.Password;
+            Console.WriteLine(redirectUrl);
             var login_response = new LoginResponseModel();
 
             if (ModelState.IsValid)
@@ -42,7 +44,7 @@ namespace WebTMDT_Client.Controllers
                     HttpContext.Session.SetString("Login", "true");
                     HttpContext.Session.SetString("Token", login_response.token);
                     HttpContext.Session.SetString("User", JsonConvert.SerializeObject(login_response.user));
-                    return RedirectToAction("Index", "Home");
+                    return Redirect(ProjectConst.Client_URL+redirectUrl);
                 }
                 else
                 {
@@ -70,9 +72,11 @@ namespace WebTMDT_Client.Controllers
                 UserRegisterDTO user_dto = new UserRegisterDTO() 
                 { Email=dto.Email,UserName=dto.UserName,imgUrl=imgurl,Password=dto.Password,PhoneNumber=dto.PhoneNumber,Roles = new List<string> {"User"} };
                 var register_response = accountService.Register(user_dto);
+                Console.WriteLine(register_response);
                 if (register_response)
                 {
                     ViewBag.DoneRegister = true;
+                    HttpContext.Session.SetString("DoneRegister", "true");
                     return View();
                 }
                 else

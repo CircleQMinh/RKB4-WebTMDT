@@ -19,6 +19,14 @@
         public DateTime Date { get; set; }
         public string UserID { get; set; }
     }
+    public class PostReviewDTO
+    {
+        public int BookId { get; set;}
+        public string UserID { get; set; }
+        public int Star { get; set; }
+        public string Content { get; set; }
+        public string Recomended { get; set; }
+    }
     public class DeleteReviewDTO
     {
         public int BookId { get; set;}

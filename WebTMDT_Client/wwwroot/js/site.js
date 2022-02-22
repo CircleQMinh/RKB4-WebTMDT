@@ -236,3 +236,18 @@ function LoadCart() {
         console.warn('Something went wrong.', err);
     });
 }
+
+function PostReview(pid, uid, token) {
+    console.log(pid)
+    console.log(uid)
+    console.log(token)
+    var review = {
+        bookId: pid,
+        star: 0,
+        content: "string",
+        recomended: true,
+        date: new Date().toISOString(),
+        userID: uid
+    }
+    console.log(review)
+}

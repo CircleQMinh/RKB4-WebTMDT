@@ -1,6 +1,6 @@
 ﻿using WebTMDTLibrary.DTO;
 
-namespace WebTMDT_Client.ResponseModel
+namespace WebTMDT_Client.ViewModel
 {
     public class ProductViewViewModel
     {
