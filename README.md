@@ -10,7 +10,7 @@ For customers:
 -	Optional (shopping cart :heavy_check_mark:, ordering :x:)
 <br>
 For admin: 
--	Login/logout :x:
--	Manage product categories (Name, Description) :x:
--	Manage products (Name, Category, Description, Price, Images, CreatedDate, UpdatedDate) :x:
--	View customers :x:
+-	Login/logout :x: <br>
+-	Manage product categories (Name, Description) :x: <br>
+-	Manage products (Name, Category, Description, Price, Images, CreatedDate, UpdatedDate) :x: <br>
+-	View customers :x: <br>
