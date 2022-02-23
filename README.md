@@ -8,6 +8,7 @@ For customers:
 -	Register :heavy_check_mark:
 -	Login/Logout :heavy_check_mark:
 -	Optional (shopping cart :heavy_check_mark:, ordering :x:)
+<br>
 For admin: :x:
 -	Login/logout
 -	Manage product categories (Name, Description)
