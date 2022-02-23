@@ -75,7 +75,6 @@ namespace WebTMDTLibrary.DTO
             }
             return cart;
         }
-
         public static Cart RemoveCartItem(CartItem cartItem, Cart cart)
         {
 

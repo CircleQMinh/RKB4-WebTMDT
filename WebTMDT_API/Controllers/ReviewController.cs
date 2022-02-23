@@ -50,7 +50,7 @@ namespace WebTMDT_API.Controllers
                     review = mapper.Map<Review>(dto);
                     await unitOfWork.Reviews.Insert(review);
                     await unitOfWork.Save();
-                    return Ok(new { success = true, newReview = true, update = false, review = mapper.Map<ReviewDTO>(review) });
+                    return Ok(new { success = true, newReview = true, update = false, error = "" });
                 }
 
                 review.Content = dto.Content;
@@ -62,7 +62,7 @@ namespace WebTMDT_API.Controllers
                 await unitOfWork.Save();
 
 
-                return Ok(new { success = true, newReview = false, update = true, review = mapper.Map<ReviewDTO>(review) });
+                return Ok(new { success = true, newReview = false, update = true, error = "" });
             }
             catch (Exception ex)
             {
@@ -86,12 +86,9 @@ namespace WebTMDT_API.Controllers
                 {
                     return Ok(new { error = "Dữ liệu chưa hợp lệ", success = false });
                 }
-
                 var review = await unitOfWork.Reviews.Get(q => q.BookId == dto.BookId && q.UserID == dto.UserID);
                 await unitOfWork.Reviews.Delete(review.Id);
                 await unitOfWork.Save();
-
-
                 return Ok(new { success = true });
             }
             catch (Exception ex)
@@ -99,6 +96,12 @@ namespace WebTMDT_API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> GetCurrentDate()
+        //{
+        //    return Accepted(new {str = DateTime.UtcNow.ToString("o", System.Globalization.CultureInfo.InvariantCulture) });
+        //}
     }
 }
 

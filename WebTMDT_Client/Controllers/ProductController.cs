@@ -27,6 +27,38 @@ namespace WebTMDT_Client.Controllers
                 ViewBag.UserId = user.Id;
                 ViewBag.Token = HttpContext.Session.GetString("Token");
             }
+
+            var reviewPostResult = HttpContext.Session.GetString("reviewPostResult");
+            if (reviewPostResult != null)
+            {
+                switch (reviewPostResult)
+                {
+                    case "0":
+                        ViewBag.reviewPostResult = 0;
+                        break;
+                    case "1":
+                        ViewBag.reviewPostResult = 1;
+                        break;
+                    case "2":
+                        ViewBag.reviewPostResult = 2;
+                        break;
+                }
+                HttpContext.Session.Remove("reviewPostResult");
+            }
+
+            var reviewDeleteResult = HttpContext.Session.GetString("reviewDeleteResult");
+            if (reviewDeleteResult!=null)
+            {
+                if (reviewDeleteResult=="1")
+                {
+                    ViewBag.reviewDeleteResult = 1;
+                }
+                else
+                {
+                    ViewBag.reviewDeleteResult = 0;
+                }
+                HttpContext.Session.Remove("reviewDeleteResult");
+            }
             return View("ProductDetail",model);
         }
 

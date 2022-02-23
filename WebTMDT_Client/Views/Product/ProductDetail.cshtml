@@ -56,7 +56,10 @@
                 <span class="blue">
                     <i class="fas fa-book me-2" aria-hidden="true"></i>NXB :
                 </span>
-                @item.Publisher.Name
+                @item.Publisher.Name 
+                @if(ViewBag.ReviewPost!=null){
+                    <p>OKKKKKKKK</p>
+                }
             </h3>
             <h3 class="pro_author text-muted">
                 <span class="green">
@@ -185,7 +188,7 @@
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         Chỉnh sửa comment
                                     </button>
-                                    <button type="button" class="btn btn-danger">Xóa comment của tôi</button>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteReviewModal" >Xóa comment của tôi</button>
                                 }
                                 else
                                 {
@@ -209,7 +212,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Viết nhận xét</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -259,3 +262,59 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="deleteReviewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Xóa nhận xét cho sản phẩm này?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">Bạn có muốn xóa nhận xét của bạn với sản phẩm này?</p>
+                <form asp-controller="Review" asp-action="DeleteReview" method="post" id="deleteReview">
+                    <input type="hidden" name="UserID"  value="@(ViewBag.UserId)" />
+                    <input type="hidden" name="BookId"  value="@(item.Id)" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" form="deleteReview" >OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+     @if(ViewBag.reviewPostResult!=null){
+        <script>
+
+            var res = @ViewBag.reviewPostResult ;
+            if(res==0){
+                alert("Có lỗi xảy ra! Xin hãy thử lại")
+            }
+            if(res==1){
+                 alert("Đăng nhận xét thành công!")
+            }
+            if(res==2){
+                 alert("Chỉnh sửa nhận xét thành công!")
+            }
+        </script>
+     }
+
+    @if(ViewBag.reviewDeleteResult!=null){
+        <script>
+
+            var res = @ViewBag.reviewDeleteResult ;
+            if(res==1){
+                alert("Xóa nhận xét thành công!")
+            }
+            else{
+                alert("Có lỗi xảy ra! Xin hãy thử lại")
+            }
+        </script>
+     }
+}
