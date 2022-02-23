@@ -9,8 +9,8 @@ For customers:
 -	Login/Logout :heavy_check_mark:
 -	Optional (shopping cart :heavy_check_mark:, ordering :x:)
 <br>
-For admin: :x:
--	Login/logout
--	Manage product categories (Name, Description)
--	Manage products (Name, Category, Description, Price, Images, CreatedDate, UpdatedDate)
--	View customers
+For admin: 
+-	Login/logout :x:
+-	Manage product categories (Name, Description) :x:
+-	Manage products (Name, Category, Description, Price, Images, CreatedDate, UpdatedDate) :x:
+-	View customers :x:
