@@ -11,6 +11,7 @@ namespace WebTMDTLibrary.Helper
             //Genre
             CreateMap<Genre, GenreDTO>().ReverseMap();
             CreateMap<Genre, SmallerGenreDTO>().ReverseMap();
+            CreateMap<Genre, GenreInfoDTO>().ReverseMap();
             //User
             CreateMap<AppUser, UserRegisterDTO>().ReverseMap();
             CreateMap<AppUser, LoginUserDTO>().ReverseMap();
