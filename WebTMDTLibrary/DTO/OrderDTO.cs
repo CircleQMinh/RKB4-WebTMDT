@@ -1,4 +1,5 @@
-﻿using WebTMDTLibrary.Data;
+﻿using System.ComponentModel.DataAnnotations;
+using WebTMDTLibrary.Data;
 
 namespace WebTMDTLibrary.DTO
 {
@@ -22,6 +23,31 @@ namespace WebTMDTLibrary.DTO
         public string? ShipperID { get; set; }
         public virtual SimpleUserDTO Shipper { get; set; }
 
+    }
+    public class PostOrderDTO
+    {
+        [Required(ErrorMessage = "Phải nhập tên liên lạc!")]
+        public string ContactName { get; set; }
+        [Required(ErrorMessage = "Phải nhập số nhà!")]
+        public string AddressNo { get; set; }
+        [Required(ErrorMessage = "Phải nhập tên đường!")]
+        public string Street { get; set; }
+        [Required]
+        public string Ward { get; set; }
+        [Required]
+        public string District { get; set; }
+        [Required]
+        public string City { get; set; }
+        [Required(ErrorMessage = "Phải nhập số điện thoại")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "SDT không hợp lệ")]
+        public string Phone { get; set; }
+        [Required(ErrorMessage = "Phải nhập email của bạn")]
+        [EmailAddress(ErrorMessage = "Phải nhập email hợp lệ")]
+        public string Email { get; set; }
+        public string PaymentMethod { get; set; }
+        public string? Note { get; set; }
+        public int? DiscountCodeID { get; set; }
     }
     public class CreateOrderDTO
     {

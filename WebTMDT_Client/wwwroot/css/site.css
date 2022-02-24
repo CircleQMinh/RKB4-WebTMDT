@@ -529,6 +529,12 @@ background-color: #33353d
 #cart:hover ~ #cartInfo {
     display: block;
 }
+/*checkout--------------------------------------*/
+.checkout_sticky {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 75px;
+}
 
 /*-----------------------------------------breakpoint*/
 @media (max-width: 1399.98px) {

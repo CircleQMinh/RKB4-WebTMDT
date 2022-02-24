@@ -1,0 +1,151 @@
+﻿@using WebTMDTLibrary.DTO
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+    ViewData["Title"] = "Thanh toán đơn hàng";
+    Layout = "_LayoutHome";
+}
+@model Dictionary<string,string>
+
+<div class="container">
+    <div class="row ">
+        <div class="col-3 d-flex justify-content-center border-bottom border-end border-4">
+            <img src="https://res.cloudinary.com/dkmk9tdwx/image/upload/v1628192627/logo_v5ukvv.png" alt="Nav Icon" class="d-inline" style="height: 65px; width: 65px;">
+            <p class="lead mt-3 fw-bold">Circle's Shop</p>
+        </div>
+        <div class="col-9 border-bottom border-4">
+            <p class="lead mt-3"><i class="fas fa-money-check-alt me-2" aria-hidden="true"></i>Thanh toán</p>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4 ">
+    <div class="row">
+        <div class="col-sm-12 col-lg-9 p-2 border border-2 animate__animated animate__bounceInLeft">
+            <div class="container ">
+
+                <form id="form-checkout" method="post" asp-controller="order" asp-action="checkout">
+                    <p class="fw-bold lead">Thông tin liên lạc</p>
+                    <div class="mb-3"><label class="form-label">Tên liên lạc: </label><input type="text" class="form-control" name="ContactName" id="order_contactName"></div>
+                    @if (Model.Keys.Contains("ContactName"))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @Model["ContactName"]
+                        </div>
+                    }
+                    <div class="mb-3"><label class="form-label">Email: </label><input type="email" class="form-control" name="Email" id="order_email"></div>
+                    @if (Model.Keys.Contains("Email"))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @Model["Email"]
+                        </div>
+                    }
+                    <div class="mb-3"><label class="form-label">Số điện thoại: </label><input type="number" class="form-control" name="Phone" id="order_phoneNumber"></div>
+                    @if (Model.Keys.Contains("Phone"))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @Model["Phone"]
+                        </div>
+                    }
+                    <p class="fw-bold lead">Địa chỉ nhận hàng</p>
+                    <div class="mb-3"><label class="form-label">Số nhà: </label><input type="text" class="form-control" name="AddressNo" id="order_addressNo"></div>
+                    @if (Model.Keys.Contains("AddressNo"))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @Model["AddressNo"]
+                        </div>
+                    }
+                    <div class="mb-3"><label class="form-label">Đường: </label><input type="text" class="form-control" name="Street" id="order_street"></div>
+                    @if (Model.Keys.Contains("Street"))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @Model["Street"]
+                        </div>
+                    }
+                    <div class="mb-3">
+                        <label class="form-label">Phường: </label>
+                        <select class="form-select" name="Ward" id="order_ward">
+                            <option value="Phường 1" selected="">Phường 1</option>
+                            <option value="Phường 2">Phường 2</option>
+                            <option value="Phường 3">Phường 3</option>
+                            <option value="Phường 4">Phường 4</option>
+                            <option value="Phường 5">Phường 5</option>
+                            <option value="Phường 6">Phường 6</option>
+                            <option value="Phường 7">Phường 7</option>
+                            <option value="Phường 8">Phường 8</option>
+                            <option value="Phường 9">Phường 9</option>
+                            <option value="Phường 10">Phường 10</option>
+                            <option value="Phường 11">Phường 11</option>
+                            <option value="Phường 12">Phường 12</option>
+                            <option value="Phường 13">Phường 13</option>
+                            <option value="Phường 14">Phường 14</option>
+                            <option value="Phường 15">Phường 15</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quận: </label>
+                        <select class="form-select" name="District" id="order_district">
+                            <option value="Quận 1" selected="">Quận 1</option>
+                            <option value="Quận 2">Quận 2</option>
+                            <option value="Quận 3">Quận 3</option>
+                            <option value="Quận 4">Quận 4</option>
+                            <option value="Quận 5">Quận 5</option>
+                            <option value="Quận 6">Quận 6</option>
+                            <option value="Quận 7">Quận 7</option>
+                            <option value="Quận 8">Quận 8</option>
+                            <option value="Quận 9">Quận 9</option>
+                            <option value="Quận 10">Quận 10</option>
+                            <option value="Quận 11">Quận 11</option>
+                            <option value="Quận 12">Quận 12</option>
+                            <option value="Quận Thủ Đức">Quận Thủ Đức</option>
+                            <option value="Quận Gò Vấp">Quận Gò Vấp</option>
+                            <option value="Quận Bình Thạnh">Quận Bình Thạnh</option>
+                            <option value="Quận Tân Bình">Quận Tân Bình</option>
+                            <option value="Quận Tân Phú">Quận Tân Phú</option>
+                            <option value="Quận Phú Nhuận">Quận Phú Nhuận</option>
+                            <option value="Quận Bình Tân">Quận Bình Tân</option>
+                            <option value="Huyện Củ Chi">Huyện Củ Chi</option>
+                            <option value="Huyện Hóc Môn">Huyện Hóc Môn</option>
+                            <option value="Huyện Bình Chánh">Huyện Bình Chánh</option>
+                            <option value="Huyện Nhà Bè">Huyện Nhà Bè</option>
+                            <option value="Huyện Cần Giờ">Huyện Cần Giờ</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Thành phố: </label>
+                        <select class="form-select" name="City" id="order_city">
+                            <option value="TP.HCM" selected="">TP.HCM</option>
+                        </select>
+                    </div>
+                    <p class="fw-bold lead">Ghi chú </p>
+                    <div class="mb-3"><label class="form-label">Ghi chú: </label><input name="Note" id="order_note" type="text" class="form-control" placeholder="Ghi chú cho đơn hàng"></div>
+                    <p class="fw-bold lead">Phương thức thanh toán</p>
+                    <div class="mb-3">
+                        <label class="form-label">Phương thanh toán: </label>
+                        <select class="form-select" name="PaymentMethod" id="order_paymentMethod">
+                            <option value="cash" selected="">Tiền mặt</option>
+                            <option value="vnpay">VNPay</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-12 col-lg-3  p-2 border border-2 animate__animated animate__bounceInRight">
+            <div class="checkout_sticky">
+                <p class="lead text-center fw-bold">Thông tin giỏ hàng</p>
+                <div class="container d-flex justify-content-center flex-column text-center text-monospace mb-3">
+                    <p>Tổng giá trị : <span class="text-center   ">14,000đ</span></p>
+                    <p>Tổng số sản phẩm : 1</p>
+                    <div class="d-grid gap-2"><button class="btn btn-warning" type="submit" form="form-checkout"><i class="fas fa-gift me-2" aria-hidden="true"></i> Gửi đơn hàng</button></div>
+                </div>
+                <p class="lead text-center fw-bold">Thông tin mã giảm giá</p>
+                <div class="container">
+                    <p class="text-center">Không có thông tin mã giảm giá</p>
+                    <div class="d-grid gap-2"><button class="btn btn-warning" type="button"><i class="fas fa-gift me-2" aria-hidden="true"></i> Nhập mã giảm giá</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
