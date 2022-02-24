@@ -251,3 +251,23 @@ function PostReview(pid, uid, token) {
     }
     console.log(review)
 }
+
+
+function OrderSubmit(e) {
+    e.preventDefault()
+    var order_contactName = document.getElementById("order_contactName").value;
+    var order_email = document.getElementById("order_email").value;
+    var order_phoneNumber = document.getElementById("order_phoneNumber").value;
+    var order_addressNo = document.getElementById("order_addressNo").value;
+    var order_street = document.getElementById("order_street").value;
+    var order_ward = document.getElementById("order_ward").value;
+    var order_district = document.getElementById("order_district").value;
+    var order_city = document.getElementById("order_city").value;
+    var order_note = document.getElementById("order_note").value;
+    var order_paymentMethod = document.getElementById("order_paymentMethod").value;
+
+}
+
+function ValidateOrderForm(contactName,email,phoneNumber) {
+
+}

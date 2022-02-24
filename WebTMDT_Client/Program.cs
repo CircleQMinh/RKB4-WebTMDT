@@ -1,4 +1,5 @@
 using WebTMDT_Client.Service;
+using WebTMDTLibrary.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IReviewService, ReviewService>();
+builder.Services.AddAutoMapper(typeof(AutoMapperSetting));
 
 builder.Services.AddSession(options => {
     options.IdleTimeout = TimeSpan.FromMinutes(120);//You can set Time   
