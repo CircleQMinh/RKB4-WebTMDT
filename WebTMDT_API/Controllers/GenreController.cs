@@ -32,5 +32,20 @@ namespace WebTMDT.Controllers
                 return BadRequest(new { error = ex.ToString() });
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                var genre = await unitOfWork.Genres.Get(q=>q.Id == id);
+                var result = mapper.Map<GenreInfoDTO>(genre);
+                return Ok(new { result });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.ToString() });
+            }
+        }
     }
 }

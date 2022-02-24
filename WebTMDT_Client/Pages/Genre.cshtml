@@ -1,0 +1,119 @@
+﻿@page "{id:int}"
+@model WebTMDT_Client.Pages.CategoryModel
+@{
+    var books = Model.books;
+    var genre = Model.genre;
+
+    ViewData["Title"] = $"Thể loại - {genre.Name}";
+    Layout = "_LayoutHome";
+}
+<div class="card text-center">
+    <div class="card-header">
+        Thể loại
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">@genre.Name</h5>
+        <p class="card-text">@genre.Description</p>
+        <a href="/Home" class="btn btn-primary">Về trang chủ</a>
+    </div>
+</div>
+<div className="container mt-2">
+    <h2 className="text-center text-monospace lead">
+        <i className="fas fa-bars me-1"></i> <p class="text-center">Các sách thuộc thể loại này</p>
+        <i className="fas fa-bars ms-1"></i>
+    </h2>
+    <hr></hr>
+</div>
+<div class="container">
+    <div class="row flex-row flex-wrap justify-content-center">
+        @if (books.Count > 0)
+        {
+            @foreach (var item in books)
+            {
+                <div class="col col-xs-8 col-md-6 col-lg-4 col-xl-3 ">
+                    <div class="card border border-4 rounded-3 mb-2">
+                        <img src=@item.imgUrl
+                     class="card-img-top product_img"
+                     alt="Ảnh sp" />
+                        <div class="card-body">
+                            <h5 class="card-title product_name">@item.Title</h5>
+
+                            @if (item.PromotionInfo == null)
+                            {
+                                <div class="product_price_div">
+                                    <p class="text-center">
+                                        <span class="text-center text-danger text-decoration-underline">@string.Format("{0:0,0}",item.Price) đ </span>
+                                    </p>
+                                </div>
+                            }
+                            @if (item.PromotionInfo != null)
+                            {
+                                @if (item.PromotionInfo.PromotionAmount != null)
+                                {
+                                    <div class="product_price_div">
+                                        <p class="text-center">
+                                            <span class="text-center text-danger text-decoration-underline"> @string.Format("{0:0,0}",item.Price-Int32.Parse(item.PromotionInfo.PromotionAmount)) đ </span>
+                                            <span class="badge rounded-pill bg-danger ms-3"> -@string.Format("{0:0,0}",item.PromotionInfo.PromotionAmount) đ </span>
+                                        </p>
+                                        <p class="text-center m-0">
+                                            <span class="text-center text-danger text-decoration-line-through">@string.Format("{0:0,0}",item.Price) đ</span>
+                                        </p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="product_price_div">
+                                        <p class="text-center">
+                                            <span class="text-center text-danger text-decoration-underline">@string.Format("{0:0,0}",item.Price-(Int32.Parse(item.PromotionInfo.PromotionPercent)*item.Price)/100) đ </span>
+                                            <span class="badge rounded-pill bg-success ms-3"> -@item.PromotionInfo.PromotionPercent% </span>
+                                        </p>
+                                        <p class="text-center m-0">
+                                            <span class="text-center text-danger text-decoration-line-through"> @string.Format("{0:0,0}",item.Price) đ</span>
+                                        </p>
+                                    </div>
+                                }
+                            }
+                            <hr></hr>
+                            <div class="d-grid gap-2 mt-2">
+                                <button class="btn btn-success" type="button" onclick="addToCart(@Json.Serialize(item).ToString())">
+                                    <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                </button>
+                                <button class="btn btn-danger" type="button">
+                                    <i class="far fa-heart me-2"></i> Add to Favorite
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+
+                    @for (int i = 1; i <= Model.totalPage; i++)
+                    {
+                        if (i == ViewBag.pageNumber)
+                        {
+                            <li class="page-item active"><a class="page-link" onclick="LoadNewProductList(@i,8)">@i </a></li>
+                        }
+                        else
+                        {
+                            <li class="page-item"><a class="page-link" onclick="LoadNewProductList(@i,8)">@i </a></li>
+                        }
+
+                    }
+
+                </ul>
+            </nav>
+        }
+        @if (books.Count == 0)
+        {
+
+            <div class="loading_spinner mb-5">
+                <img class="img_no_product"
+                 alt="no-product"
+                 src="https://kharidbikribazar.com/photos/nproduct.png"></img>
+            </div>
+
+        }
+    </div>
+</div>           

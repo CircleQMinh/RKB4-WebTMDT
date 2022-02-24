@@ -5,10 +5,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IReviewService, ReviewService>();
+builder.Services.AddTransient<IGenreService, GenreService>();
+
 builder.Services.AddAutoMapper(typeof(AutoMapperSetting));
 
 builder.Services.AddSession(options => {
@@ -32,11 +35,16 @@ app.UseRouting();
 
 app.UseAuthorization();
 app.UseSession();
-app.MapControllerRoute(name: "product",
-                pattern: "product/{id?}",
-                defaults: new { controller = "Product", action = "Index" });
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(name: "product",
+                    pattern: "product/{id?}",
+                    defaults: new { controller = "Product", action = "Index" });
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapRazorPages();
+});
+
 
 app.Run();
