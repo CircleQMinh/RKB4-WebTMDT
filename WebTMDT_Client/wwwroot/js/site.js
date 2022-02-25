@@ -125,6 +125,7 @@ function addToCart(item) {
     //console.log(item)
     var reloadCart = false
     var cartItem = {
+        BookId : item.id,
         ImgUrl: item.imgUrl != null ? item.imgUrl : item.ImgUrl,
         Title: item.title != null ? item.title : item.Title,
         Price: item.price != null ? item.price : item.Price,
@@ -137,7 +138,7 @@ function addToCart(item) {
         cartItem.promotionPercent = item.PromotionPercent
         reloadCart=true
     }
-    //console.log(cartItem)
+    console.log(cartItem)
 
     fetch(`${clientUrl}Cart/AddToCart`, {
         method: 'POST',

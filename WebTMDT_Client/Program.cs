@@ -11,6 +11,7 @@ builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IReviewService, ReviewService>();
 builder.Services.AddTransient<IGenreService, GenreService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperSetting));
 

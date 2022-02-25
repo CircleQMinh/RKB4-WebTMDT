@@ -22,7 +22,7 @@ namespace WebTMDT_Client.Controllers
         public IActionResult PostReview(PostReviewDTO model)
         {
             var token = HttpContext.Session.GetString("Token");
-            PostReviewResponse response = reviewService.GetPostReviewResponse(model,token);
+            PostReviewResponseModel response = reviewService.GetPostReviewResponse(model,token);
             if (response.success)
             {
                 if (response.newReview)

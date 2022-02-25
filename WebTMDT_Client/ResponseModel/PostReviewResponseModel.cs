@@ -1,6 +1,6 @@
 ﻿namespace WebTMDT_Client.ResponseModel
 {
-    public class PostReviewResponse
+    public class PostReviewResponseModel
     {
         public bool success { get; set; }
         public bool newReview { get; set; }

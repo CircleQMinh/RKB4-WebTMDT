@@ -9,5 +9,10 @@
             return new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
+
+        public static string ConstructAddressString(string addno,string street,string district,string ward,string city)
+        {
+            return $"{addno} {street}, {district}, {ward}, {city}";
+        }
     }
 }

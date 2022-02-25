@@ -21,9 +21,7 @@ namespace WebTMDT_Client.Controllers
                 Cart cart = new Cart();
                 return View("Cart", cart);
             }
-
         }
-
         [HttpPost]
         public IActionResult AddToCart([FromBody] CartItem cartItem)
         {
