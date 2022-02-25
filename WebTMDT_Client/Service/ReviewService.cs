@@ -8,7 +8,7 @@ namespace WebTMDT_Client.Service
 {
     public class ReviewService : IReviewService
     {
-        public PostReviewResponse GetPostReviewResponse(PostReviewDTO dTO,string token)
+        public PostReviewResponseModel GetPostReviewResponse(PostReviewDTO dTO,string token)
         {
 
             try
@@ -39,18 +39,18 @@ namespace WebTMDT_Client.Service
                         readTask.Wait();
                         var data = readTask.Result;
                         //Console.WriteLine(data);
-                        var res = JsonConvert.DeserializeObject<PostReviewResponse>(data);
+                        var res = JsonConvert.DeserializeObject<PostReviewResponseModel>(data);
                         return res;
                     }
                     else //web api sent error response 
                     {
-                        return new PostReviewResponse() { error = "Có gì lỗi rồi!", success = false };
+                        return new PostReviewResponseModel() { error = "Có gì lỗi rồi!", success = false };
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new PostReviewResponse() { error="Có gì lỗi rồi!",success=false};
+                return new PostReviewResponseModel() { error="Có gì lỗi rồi!",success=false};
             }
         }
 

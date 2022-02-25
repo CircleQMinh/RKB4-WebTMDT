@@ -49,6 +49,10 @@ namespace WebTMDTLibrary.Helper
             //DiscountCode
             CreateMap<DiscountCode, DiscountCodeDTO>().ReverseMap();
             CreateMap<DiscountCode, CreateDiscountCodeDTO>().ReverseMap();
+
+            //Special
+            CreateMap<PostOrderDTO, CreateOrderDTO>().ReverseMap();
+            CreateMap<CartItem,CreateOrderDetailDTO>().ReverseMap();
         }
     }
 }

@@ -6,6 +6,9 @@
 
     ViewData["Title"] = "Thanh toán đơn hàng";
     Layout = "_LayoutHome";
+    var isLogin = ViewBag.Login;
+    double totalPrice = ViewBag.TotalPrice;
+    int totalItem = ViewBag.TotalItem;
 }
 @model Dictionary<string,string>
 
@@ -136,9 +139,17 @@
             <div class="checkout_sticky">
                 <p class="lead text-center fw-bold">Thông tin giỏ hàng</p>
                 <div class="container d-flex justify-content-center flex-column text-center text-monospace mb-3">
-                    <p>Tổng giá trị : <span class="text-center   ">14,000đ</span></p>
-                    <p>Tổng số sản phẩm : 1</p>
-                    <div class="d-grid gap-2"><button class="btn btn-warning" type="submit" form="form-checkout"><i class="fas fa-gift me-2" aria-hidden="true"></i> Gửi đơn hàng</button></div>
+                    <p>Tổng giá trị : <span class="text-center   "> @totalPrice.ToString("n0") </span></p>
+                    <p>Tổng số sản phẩm : @totalItem.ToString("n0") </p>
+                    @if(isLogin){
+                        <div class="d-grid gap-2"><button class="btn btn-warning" type="submit" form="form-checkout"><i class="fas fa-gift me-2" aria-hidden="true"></i> Gửi đơn hàng</button></div>
+                    }
+                    else
+                    {
+                        <p>Hãy đăng nhập để gửi đơn hàng!</p>
+                         <div class="d-grid gap-2"><button class="btn btn-warning" disabled><i class="fas fa-gift me-2" aria-hidden="true"></i> Gửi đơn hàng</button></div>
+                    }
+
                 </div>
                 <p class="lead text-center fw-bold">Thông tin mã giảm giá</p>
                 <div class="container">
