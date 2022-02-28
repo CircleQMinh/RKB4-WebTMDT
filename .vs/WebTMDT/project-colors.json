@@ -20,7 +20,12 @@
       "ProjectGuid": "da4c91c8-94f9-41c8-b462-e06b8cebf4f1",
       "DisplayName": "WebTMDT_Client",
       "ColorIndex": 2
+    },
+    "a1fbf490-7484-4781-af33-f64d4c21ff11": {
+      "ProjectGuid": "a1fbf490-7484-4781-af33-f64d4c21ff11",
+      "DisplayName": "WebTMDT.UnitTests",
+      "ColorIndex": 3
     }
   },
-  "NextColorIndex": 3
+  "NextColorIndex": 4
 }
