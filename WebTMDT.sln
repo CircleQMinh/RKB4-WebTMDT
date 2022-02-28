@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTMDT_Client", "WebTMDT_C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebTMDTLibrary", "WebTMDTLibrary\WebTMDTLibrary.csproj", "{7CE06D5F-7CF2-49A4-8ED5-1A3AC87164B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTMDT.UnitTests", "WebTMDT.UnitTests\WebTMDT.UnitTests.csproj", "{A1FBF490-7484-4781-AF33-F64D4C21FF11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7CE06D5F-7CF2-49A4-8ED5-1A3AC87164B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CE06D5F-7CF2-49A4-8ED5-1A3AC87164B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CE06D5F-7CF2-49A4-8ED5-1A3AC87164B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1FBF490-7484-4781-AF33-F64D4C21FF11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1FBF490-7484-4781-AF33-F64D4C21FF11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1FBF490-7484-4781-AF33-F64D4C21FF11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1FBF490-7484-4781-AF33-F64D4C21FF11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
