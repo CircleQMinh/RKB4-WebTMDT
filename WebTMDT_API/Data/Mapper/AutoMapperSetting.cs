@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using WebTMDTLibrary.Data;
+using WebTMDT_API.Data;
 using WebTMDTLibrary.DTO;
 
-namespace WebTMDTLibrary.Helper
+namespace WebTMDT_API.Data.Mapper
 {
     public class AutoMapperSetting : Profile
     {

@@ -1,0 +1,8 @@
+﻿body {
+}
+.genre_des {
+    background-image: url(https://content-enus.betterworldbooks.com/content/images/jumbotron/fiction-category-hero.png);
+    color: white;
+    min-height: 250px;
+    font-size:x-large;
+}

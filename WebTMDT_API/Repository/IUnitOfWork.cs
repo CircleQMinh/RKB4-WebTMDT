@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebTMDTLibrary.Data;
+using WebTMDT_API.Data;
 
-namespace WebTMDT.Repository
+namespace WebTMDT_API.Repository
 {
     public interface IUnitOfWork : IDisposable
     {

@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebTMDT.Repository;
-using WebTMDTLibrary.Data;
+using WebTMDT_API.Repository;
+using WebTMDT_API.Authorize;
+using WebTMDT_API.Data;
 using WebTMDTLibrary.DTO;
 using WebTMDTLibrary.Helper;
 

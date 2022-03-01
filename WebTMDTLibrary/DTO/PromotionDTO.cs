@@ -1,5 +1,4 @@
-﻿using WebTMDTLibrary.Data;
-
+﻿
 namespace WebTMDTLibrary.DTO
 {
     public class PromotionDTO

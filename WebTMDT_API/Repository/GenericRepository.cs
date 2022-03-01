@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using WebTMDT.Data;
+using WebTMDT_API.Data;
 using WebTMDTLibrary.Helper;
 
-namespace WebTMDT.Repository
+namespace WebTMDT_API.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
@@ -27,7 +27,7 @@ namespace WebTMDT.Repository
             }  
             return await query.AsNoTracking().FirstOrDefaultAsync(expression);
         }
-
+                                                                                               
         public async Task<IList<T>> GetAll(Expression<Func<T, bool>> expression = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, List<string> includes = null)
         {
             IQueryable<T> query = db;

@@ -11,6 +11,7 @@ namespace WebTMDT_Client.Pages
         private readonly IProductService productService;
         private readonly IGenreService genreService;
         public List<BookDTO> books { get; set; }
+        public int currentPage { get; set; }
         public int totalPage { get; set; }
         public GenreInfoDTO genre { get; set; }
         public CategoryModel(IProductService _productService, IGenreService _genreService)
@@ -35,7 +36,7 @@ namespace WebTMDT_Client.Pages
                 try
                 {
 
-                    genre = genreService.GetGenreInfo(Int32.Parse(id.ToString()));
+                    genre = genreService.GetGenre(Int32.Parse(id.ToString()));
                     if (genre==null)
                     {
                         return Redirect("/error");
@@ -49,6 +50,7 @@ namespace WebTMDT_Client.Pages
                     });
                     books = model.result;
                     totalPage = model.totalPage;
+                    currentPage = Int32.Parse(pageNumber);
                     Console.WriteLine(id);
                     Console.WriteLine(pageNumber);
                     Console.WriteLine(genre.Description);

@@ -7,7 +7,7 @@ namespace WebTMDT_Client.Service
 {
     public class GenreService : IGenreService
     {
-        public GenreInfoDTO GetGenreInfo(int id)
+        public GenreInfoDTO GetGenre(int id)
         {
             try
             {

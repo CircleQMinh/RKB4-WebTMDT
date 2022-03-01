@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using WebTMDTLibrary.Helper;
 
-namespace WebTMDT.Repository
+namespace WebTMDT_API.Repository
 {
     public interface IGenericRepository<T> where T : class
     {

@@ -1,13 +1,15 @@
-﻿namespace WebTMDTLibrary.Data
+﻿namespace WebTMDT_API.Data
 {
-    public class Author
+    public class Publisher
     {
         public int Id { get; set; }
         public string? Name { get; set; }
+
         public virtual IList<Book> Books { get; set; }
-        public Author()
+        public Publisher()
         {
             Books = new List<Book>();
         }
+
     }
 }

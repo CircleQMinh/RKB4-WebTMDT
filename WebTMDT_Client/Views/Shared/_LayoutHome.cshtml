@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/genre.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/carticon.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/error.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/productdetail.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebTMDT_Client.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
@@ -52,11 +57,12 @@
                         <li class="nav-item dropdown">
                             <a class="dropdown-toggle text-decoration-none hide_for_1399 show_for_991 black"
                                role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-bars"></i> Thể Loại
+                                <i class="fa-solid fa-bars"></i>
+                                  <p class="hide_for_1399 show_for_991 black">Thể Loại</p>
                             </a>
 
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                 @await Component.InvokeAsync("GenreList");
+                                 @await Component.InvokeAsync("GenreList")
                             </ul>
                         </li>
 
@@ -165,6 +171,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+      <script src="~/js/productview.js" asp-append-version="true"></script>
     <script src="https://kit.fontawesome.com/0bf48518ad.js" crossorigin="anonymous"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
