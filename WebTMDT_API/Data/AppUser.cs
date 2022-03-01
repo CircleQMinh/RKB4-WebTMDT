@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using WebTMDTLibrary.Data;
 
-namespace WebTMDTLibrary.Data
+
+namespace WebTMDT_API.Data
 {
     public class AppUser : IdentityUser
     {

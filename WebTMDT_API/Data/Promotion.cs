@@ -1,4 +1,4 @@
-﻿namespace WebTMDTLibrary.Data
+﻿namespace WebTMDT_API.Data
 {
     public class Promotion
     {

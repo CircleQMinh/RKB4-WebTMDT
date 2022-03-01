@@ -1,11 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WebTMDTLibrary.Data;
-using WebTMDT.Data;
 using WebTMDTLibrary.Hepler;
 
-namespace WebTMDT.Data
+namespace WebTMDT_API.Data
 {
 
     public class DatabaseContext : IdentityDbContext<AppUser>

@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebTMDTLibrary.Data;
-using WebTMDT.Data;
 
-namespace WebTMDT.Repository
+using WebTMDT_API.Data;
+
+namespace WebTMDT_API.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {

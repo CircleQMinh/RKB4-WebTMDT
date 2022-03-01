@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
-using WebTMDTLibrary.Data;
+using WebTMDT_API.Data;
 using WebTMDTLibrary.DTO;
 using WebTMDTLibrary.Helper;
-using WebTMDT.Repository;
+using WebTMDT_API.Repository;
 
 namespace WebTMDT.Controllers
 {

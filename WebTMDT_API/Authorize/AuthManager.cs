@@ -6,11 +6,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-
-using WebTMDTLibrary.Data;
 using WebTMDTLibrary.DTO;
+using WebTMDT_API.Data;
 
-namespace WebTMDTLibrary.Helper
+namespace WebTMDT_API.Authorize
 {
     public class AuthManager : IAuthManager
     {

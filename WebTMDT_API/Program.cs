@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using WebTMDT.Data;
-using WebTMDTLibrary.Data;
-using WebTMDTLibrary.Helper;
-using WebTMDT.Repository;
+using WebTMDT_API.Data;
+using WebTMDT_API.Repository;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using WebTMDT_API.Authorize;
+using WebTMDT_API.Data.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 

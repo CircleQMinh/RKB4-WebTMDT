@@ -1,0 +1,76 @@
+﻿body {
+}
+
+/*------------------carticon-----------------------*/
+
+
+.float-btn-icon {
+    margin-top: 22px;
+}
+
+.float-btn-cart {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    /* bottom: 10px; */
+    /* left: 10px; */
+    background-color: #69c41a;
+    color: #fff;
+    border-radius: 50px;
+    text-align: center;
+    z-index: 999;
+    top: 80px;
+    right: 10px;
+}
+
+.float-btn-cart-container {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 10px;
+    left: 10px;
+}
+
+    .float-btn-cart-container:hover .float-btn-cart-number {
+        display: block;
+    }
+
+    .float-btn-cart-container:hover .float-btn-cart-price {
+        display: block;
+    }
+
+.float-btn-cart-number {
+    position: fixed;
+    width: 35px;
+    height: 30px;
+    /* bottom: 60px; */
+    /* left: 10px; */
+    background-color: #d32323;
+    color: #fff;
+    border-radius: 30px;
+    text-align: center;
+    z-index: 999;
+    right: 0px;
+    top: 70px;
+}
+
+.float-btn-cart-price {
+    position: fixed;
+    width: 10%;
+    height: 30px;
+    background-color: #b3d323;
+    color: #fafeff;
+    border-radius: 50px;
+    text-align: center;
+    z-index: 998;
+    right: 65px;
+    top: 100px;
+}
+
+#cartInfo {
+    display: none;
+}
+
+#cart:hover ~ #cartInfo {
+    display: block;
+}

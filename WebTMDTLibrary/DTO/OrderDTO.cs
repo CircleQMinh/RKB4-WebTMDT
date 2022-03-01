@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebTMDTLibrary.Data;
 
 namespace WebTMDTLibrary.DTO
 {

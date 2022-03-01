@@ -1,7 +1,7 @@
 ﻿
 using WebTMDTLibrary.DTO;
 
-namespace WebTMDTLibrary.Helper
+namespace WebTMDT_API.Authorize
 {
     public interface IAuthManager
     {

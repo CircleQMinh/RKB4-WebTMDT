@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using WebTMDTLibrary.DTO;
-using WebTMDT.Repository;
+using WebTMDT_API.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebTMDT.Controllers

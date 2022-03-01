@@ -11,14 +11,15 @@
     {
         @foreach (var item in Model.result)
         {
-            <div class="col col-xs-8 col-md-6 col-lg-4 col-xl-3 ">
+            <div class="col-12 col-sm-4 col-md-6 col-lg-4 col-xl-3  ">
                 <div class="card border border-4 rounded-3 mb-2">
-                    <img src=@item.imgUrl
-                 class="card-img-top product_img"
-                 alt="Ảnh sp" />
+                    <a asp-controller="Product" asp-action="Index" asp-route-id=@item.Id>
+                        <img src=@item.imgUrl
+                     class="card-img-top product_img"
+                     alt="Ảnh sp" />
+                    </a>
                     <div class="card-body">
-                        <h5 class="card-title product_name">@item.Title</h5>
-
+                        <h5 class="card-title product_name"><a asp-controller="Product" asp-action="Index" asp-route-id=@item.Id>@item.Title</a></h5>
                         @if (item.PromotionInfo == null)
                         {
                             <div class="product_price_div">
@@ -54,14 +55,15 @@
                                 </div>
                             }
                         }
+
                         <hr></hr>
                         <div class="d-grid gap-2 mt-2">
                             <button class="btn btn-success" type="button" onclick="addToCart(@Json.Serialize(item).ToString())">
                                 <i class="fas fa-shopping-cart me-2"></i>Add to Cart
                             </button>
-                            <button class="btn btn-danger" type="button">
-                                <i class="far fa-heart me-2"></i> Add to Favorite
-                            </button>
+                            <a class="btn btn-danger" type="button" asp-controller="Product" asp-route-id=@item.Id asp-action="Index">
+                                <i class="far fa-heart me-2"></i> Xem thông tin
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -80,7 +82,6 @@
                     {
                         <li class="page-item"><a class="page-link" onclick="LoadNewProductList(@i,8)">@i </a></li>
                     }
-
                 }
 
             </ul>
