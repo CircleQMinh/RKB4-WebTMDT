@@ -1,4 +1,4 @@
-﻿namespace WebTMDTLibrary.Helper
+﻿namespace WebTMDT_API.Helper
 {
     public class PaginationFilter
     {

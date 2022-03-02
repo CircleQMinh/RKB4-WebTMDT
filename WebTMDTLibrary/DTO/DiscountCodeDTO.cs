@@ -10,7 +10,12 @@
         public DateTime EndDate { get; set; }
         public int Status { get; set; }
     }
-
+    public class SimpleDiscountStatusDTO
+    {
+        public string Code { get; set; }
+        public string? DiscountPercent { get; set; }
+        public string? DiscountAmount { get; set; }
+    }
     public class CreateDiscountCodeDTO
     {
         public string Code { get; set; }

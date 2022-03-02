@@ -5,7 +5,7 @@ import Test from './components/Test';
 function App() {
   return (
   
-    <Test></Test>
+    <Test name="Minh Vu" ></Test>
   );
 }
 

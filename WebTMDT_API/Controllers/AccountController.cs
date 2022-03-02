@@ -6,7 +6,7 @@ using WebTMDT_API.Repository;
 using WebTMDT_API.Authorize;
 using WebTMDT_API.Data;
 using WebTMDTLibrary.DTO;
-using WebTMDTLibrary.Hepler;
+using WebTMDT_API.Hepler;
 
 namespace WebTMDT_API.Controllers
 {
