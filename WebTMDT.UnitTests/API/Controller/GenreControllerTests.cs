@@ -4,8 +4,8 @@ using Moq;
 using System.Linq.Expressions;
 using System.Net;
 using WebTMDT.Controllers;
-using WebTMDT.Repository;
-using WebTMDTLibrary.Data;
+using WebTMDT_API.Data;
+using WebTMDT_API.Repository;
 using WebTMDTLibrary.DTO;
 using Xunit;
 
@@ -49,10 +49,11 @@ namespace WebTMDT.UnitTests
             // Assert
             Assert.NotNull(result);
             Assert.Equal((int)HttpStatusCode.OK, okobjresult.StatusCode);
+
+
             // Additional tests
             var response = okobjresult.Value;
-            var r = response.GetType().GetProperty("result").GetValue(response, null);
-            var resultData = r as List<GenreDTO>;
+            var resultData = response.GetType().GetProperty("result").GetValue(response, null) as List<GenreDTO>;
             Assert.NotNull(resultData);
             Assert.Equal(1, resultData.Count);
             Assert.Equal(id, resultData[0].Id);

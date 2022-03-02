@@ -6,7 +6,8 @@ using System.Linq.Expressions;
 using WebTMDT_API.Repository;
 using WebTMDT_API.Data;
 using WebTMDTLibrary.DTO;
-using WebTMDTLibrary.Helper;
+using WebTMDT_API.Helper;
+using WebTMDT_API.Hepler;
 
 namespace WebTMDT_API.Controllers
 {
@@ -177,10 +178,25 @@ namespace WebTMDT_API.Controllers
             }
             try
             {
+                //lưu OK
                 var newOrder = mapper.Map<Order>(order);
                 await unitOfWork.Orders.Insert(newOrder);
                 await unitOfWork.Save();
+                // lấy thông tin để gửi email
+                var orderInfo = await unitOfWork.Orders.Get(q => q.Id == newOrder.Id, new List<string> { "OrderDetails", "DiscountCode", "Shipper" });
 
+                var updateOrderDetailsList = new List<OrderDetail>();
+                foreach (var od in orderInfo.OrderDetails)
+                {
+                    var item = await unitOfWork.OrderDetails.Get(q => q.Id == od.Id, new List<string> { "Book" });
+                    updateOrderDetailsList.Add(item);
+                }
+                orderInfo.OrderDetails = updateOrderDetailsList;
+
+                //mapping rồi gửi
+                var result = mapper.Map<OrderDTO>(orderInfo);
+                EmailHelper emailHelper = new EmailHelper();
+                string emailResponse = emailHelper.SendEmailWithOrderInfo(order.Email, result, result.OrderDetails);
 
                 return Ok(new { order = newOrder, success = true });
             }

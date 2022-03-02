@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-namespace WebTMDTLibrary.Helper
+namespace WebTMDT_API.Helper
 {
     public class VnPayLibrary
     {

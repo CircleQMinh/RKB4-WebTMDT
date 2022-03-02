@@ -19,6 +19,7 @@ namespace WebTMDTLibrary.DTO
         public string Note { get; set; }
         public virtual IList<OrderDetailDTO> OrderDetails { get; set; }
         public int? DiscountCodeID { get; set; }
+        public SimpleDiscountStatusDTO DiscountCode { get; set; }
         public string? ShipperID { get; set; }
         public virtual SimpleUserDTO Shipper { get; set; }
 

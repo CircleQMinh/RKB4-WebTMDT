@@ -2,6 +2,7 @@
 using WebTMDTLibrary.DTO;
 using WebTMDT_API.Repository;
 using Microsoft.AspNetCore.Mvc;
+using WebTMDT_API.Data;
 
 namespace WebTMDT.Controllers
 {
@@ -46,6 +47,14 @@ namespace WebTMDT.Controllers
             {
                 return BadRequest(new { error = ex.ToString() });
             }
+        }
+
+        [HttpGet("test")]
+        public async Task<ActionResult<List<GenreDTO>>> Test()
+        {
+            var model = await unitOfWork.Genres.GetAll(q=>true,null,null);
+            var result = mapper.Map<IList<GenreDTO>>(model);
+            return Ok( new { result,success=true });
         }
     }
 }

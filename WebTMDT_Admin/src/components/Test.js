@@ -1,7 +1,7 @@
 import { React,useState } from "react";
 
-function Test() {
-  const name = "Minh"
+function Test(props) {
+  const name = props.name
   return (
     <div>
       <p>Hello {name}</p>

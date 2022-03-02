@@ -6,6 +6,7 @@ using WebTMDT_API.Data;
 using WebTMDTLibrary.DTO;
 using WebTMDTLibrary.Helper;
 using WebTMDT_API.Repository;
+using WebTMDT_API.Helper;
 
 namespace WebTMDT.Controllers
 {
@@ -70,10 +71,13 @@ namespace WebTMDT.Controllers
                     Expression<Func<Book, bool>> expression_genre = q => q.Genres.Any(genre => listGenre.ToList().Contains(genre.Name));
                     expression = expression.AndAlso(expression_genre);
                 }
+
+
                 var books = await unitOfWork.Books.GetAll(expression, q => q.OrderBy(book => book.Id),
                     new List<string> { "Authors", "Genres", "Publisher", "PromotionInfo" }, new PaginationFilter(pageNumber, pageSize));
                 var count = await unitOfWork.Books.GetCount(expression);
                 var result = mapper.Map<IList<BookDTO>>(books);
+
                 return Ok(new { result = result, totalPage = (int)Math.Ceiling((double)count / pageSize) });
             }
             catch (Exception ex)

@@ -145,45 +145,27 @@ namespace WebTMDT_Client.Controllers
         {
             var session = HttpContext.Session;
             var token = session.GetString("Token");
-            SimpleUserDTO user = JsonConvert.DeserializeObject<SimpleUserDTO>(session.GetString("User"));
-            var cart_str = session.GetString("cart");
-            Cart cart = null;
-            if (cart_str != null)
-            {
-                cart = JsonConvert.DeserializeObject<Cart>(cart_str);
-                if (cart.TotalItem == 0)
-                {
-                    return RedirectToAction("Index", "Cart");
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index", "Cart");
-            }
-            ViewBag.TotalPrice = cart.TotalPrice;
-            ViewBag.TotalItem = cart.TotalItem;
-            var user_string = session.GetString("User");
-            if (user_string == null)
-            {
-                ViewBag.Login = false;
-            }
-            else
-            {
-                ViewBag.Login = true;
-            }
+
 
             var ordering = HttpContext.Session.GetString("Ordering");
             if (ordering!=null)
             {
                 HttpContext.Session.Remove("Ordering");
-                if (!vnp_ResponseCode.Equals("00"))
+                if (vnp_ResponseCode==null)
+                {
+                    return View();
+                }
+                if(!vnp_ResponseCode.Equals("00"))
                 {
 
                     return RedirectToAction("Checkout", "Order");
                 }
                 else
                 {
-                 
+                    var cart_str = session.GetString("cart");
+                    Cart cart = JsonConvert.DeserializeObject<Cart>(cart_str);
+                    SimpleUserDTO user = JsonConvert.DeserializeObject<SimpleUserDTO>(session.GetString("User"));
+
                     var order = JsonConvert.DeserializeObject<PostOrderDTO>(HttpContext.Session.GetString("VNPAY_Order"));
                     var res = orderService.GetPostOrderResponse(order, cart, token, user.Id);
                     if (res.success)
