@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { auth_action } from "../../redux/auth_slice.js";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   //form login
@@ -31,23 +31,18 @@ function Login() {
         if (response.data.success) {
           toast.success("Đăng nhập thành công!", {
             position: "top-center",
-            autoClose: 5000,
+            autoClose: 2000,
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
           });
           dispatch(auth_action.saveAuthInfoToLocalStorage(response.data));
-          var redirect = localStorage.getItem("redirect");
-          if (redirect) {
-            localStorage.removeItem("redirect");
-            navigate(redirect);
-          }
-          window.location.reload();
+          navigate("/dashboard");
         } else {
           toast.error(response.data.msg, {
             position: "top-center",
-            autoClose: 5000,
+            autoClose: 2000,
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
@@ -85,75 +80,96 @@ function Login() {
             </div>
           </div>
           <div className="row justify-content-center">
-            <div className="col-md-6 col-lg-4">
-              <div className="login-wrap p-0">
-                <h3 className="mb-4 text-center">Nhập thông tin đăng nhập</h3>
-                <form className="signin-form">
-                  <div className="form-group mb-3">
-                    <input
-                      type="text"
-                      className="form-control mb-3"
-                      placeholder="Email"
-                      required=""
-                      {...register("email", {
-                        required: true,
-                        pattern:
-                          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                      })}
-                    ></input>
-                    {errors.email?.type === "required" && (
-                      <p className="text-center">
-                        <i className="fas fa-exclamation-triangle"></i>Email
-                        không để trống
-                      </p>
-                    )}
-                    {errors.email?.type === "pattern" && (
-                      <p className="text-center">
-                        <i className="fas fa-exclamation-triangle"></i>Email
-                        không hợp lệ!
-                      </p>
-                    )}
+            {isLoggedIn && (
+              <div className="col-md-6 col-lg-4">
+                <div className="card text-center">
+                  <div className="card-body">
+                    <h5 className="card-title">Xin chào, {user.userName}</h5>
+                    <h6 className="card-subtitle mb-2 text-muted">
+                      Administrator
+                    </h6>
+                    <p className="card-text">
+                      Bạn đã đăng nhập sử dụng email : {user.email}
+                    </p>
+                    <Link type="button" class="btn btn-primary" to={"/dashboard"}>
+                      Đến trang quản lý 
+                    </Link>
                   </div>
-                  <div className="form-group mb-3">
-                    <input
-                      id="password-field"
-                      type="password"
-                      className="form-control"
-                      placeholder="Password"
-                      required=""
-                      {...register("password", {
-                        required: true,
-                      })}
-                    ></input>
-                    {errors.password?.type === "required" && (
-                      <p className="text-center">
-                        <i className="fas fa-exclamation-triangle"></i>Password
-                        không để trống
-                      </p>
-                    )}
-                  </div>
-                  <div className="form-group mb-3">
-                  <button
-                      type="submit"
-                      name="button"
-                      className={"btn login_btn"}
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting && (
-                        <div className="spinner-border" role="status">
-                          <span className="visually-hidden">Loading...</span>
-                        </div>
-                      )}
-                      {!isSubmitting && (
-                        <Fragment>
-                          <i className="fas fa-sign-in-alt me-2"></i> Login{" "}
-                        </Fragment>
-                      )}
-                    </button>
-                  </div>
-                </form>
+                </div>
               </div>
-            </div>
+            )}
+            {!isLoggedIn && (
+              <div className="col-md-6 col-lg-4">
+                <div className="login-wrap p-0">
+                  <h3 className="mb-4 text-center">Nhập thông tin đăng nhập</h3>
+                  <form className="signin-form">
+                    <div className="form-group mb-3">
+                      <input
+                        type="text"
+                        className="form-control mb-3"
+                        placeholder="Email"
+                        required=""
+                        {...register("email", {
+                          required: true,
+                          pattern:
+                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        })}
+                      ></input>
+                      {errors.email?.type === "required" && (
+                        <p className="text-center">
+                          <i className="fas fa-exclamation-triangle"></i>Email
+                          không để trống
+                        </p>
+                      )}
+                      {errors.email?.type === "pattern" && (
+                        <p className="text-center">
+                          <i className="fas fa-exclamation-triangle"></i>Email
+                          không hợp lệ!
+                        </p>
+                      )}
+                    </div>
+                    <div className="form-group mb-3">
+                      <input
+                        id="password-field"
+                        type="password"
+                        className="form-control"
+                        placeholder="Password"
+                        required=""
+                        {...register("password", {
+                          required: true,
+                        })}
+                      ></input>
+                      {errors.password?.type === "required" && (
+                        <p className="text-center">
+                          <i className="fas fa-exclamation-triangle"></i>
+                          Password không để trống
+                        </p>
+                      )}
+                    </div>
+                    <div className="form-group mb-3 d-flex justify-content-center">
+                      <button
+                        type="submit"
+                        name="button"
+                        className={"btn btn-success"}
+                        onClick={handleSubmit(TryLogin)}
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting && (
+                          <div className="spinner-border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                        )}
+                        {!isSubmitting && (
+                          <Fragment>
+                            <i className="fas fa-sign-in-alt me-2"></i> Login{" "}
+                          </Fragment>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
