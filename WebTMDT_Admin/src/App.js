@@ -8,6 +8,7 @@ import {React,Fragment,useState} from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { BrowserRouter, Routes, Route,  Navigate } from "react-router-dom";
 import Login from './components/Login';
+import AdminDashboard from './components/Admin/AdminDashboard';
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Route path="*" element={<Navigate to={"/login"}> </Navigate>}></Route>
 
         <Route path="/login" element={<Login></Login>} ></Route>
+
+        <Route path="/dashboard" element={<AdminDashboard></AdminDashboard>} ></Route>
 {/* 
         <Route path="/admin/dashboard" element={<Dashboard></Dashboard>} ></Route>
         <Route path="/admin/order" element={<AdminOrder></AdminOrder>} ></Route>
