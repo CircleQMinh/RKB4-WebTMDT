@@ -8,14 +8,19 @@ namespace WebTMDT_Client.Service
 {
     public class ProductService : IProductService
     {
-        public ProductListViewModel GetProductListViewModel(ProductListFilterModel model)
+        private readonly IConfiguration Configuration;
+        public ProductService(IConfiguration _configuration)
+        {
+            this.Configuration = _configuration;
+        }
+        public async Task<ProductListViewModel> GetProductListViewModel(ProductListFilterModel model)
         {
             ProductListViewModel books = new ProductListViewModel();
             try
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("https://localhost:7099/api/");
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
                     string url = $"Product/search?pageNumber={model.pageNumber}&pageSize={model.pageSize}";
                     if (model.keyword != null)
                     {
@@ -32,13 +37,11 @@ namespace WebTMDT_Client.Service
                     Console.WriteLine(url);
                     //HTTP GET
                     var responseTask = client.GetAsync(url);
-                    responseTask.Wait();
-
-                    var result = responseTask.Result;
+                    var result = await responseTask;
                     if (result.IsSuccessStatusCode)
                     {
                         var readTask = result.Content.ReadAsStringAsync();
-                        readTask.Wait();
+ 
                         var data = readTask.Result;
                         books = JsonConvert.DeserializeObject<ProductListViewModel>(data);
                     }
@@ -56,7 +59,7 @@ namespace WebTMDT_Client.Service
             return books;
         }
 
-        public ProductViewViewModel GetProductViewViewModel(ProductListFilterModel model)
+        public async Task<ProductViewViewModel> GetProductViewViewModel(ProductListFilterModel model)
         {
             BooksDeserialize books = new BooksDeserialize();
             GenresDeserialize genres = new GenresDeserialize();
@@ -65,7 +68,7 @@ namespace WebTMDT_Client.Service
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(ProjectConst.API_URL);
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
                     string url = $"Product/search?pageNumber={model.pageNumber}&pageSize={model.pageSize}";
                     if (model.keyword != null)
                     {
@@ -82,13 +85,12 @@ namespace WebTMDT_Client.Service
                     Console.WriteLine(url);
                     //HTTP GET
                     var responseTask = client.GetAsync(url);
-                    responseTask.Wait();
 
-                    var result = responseTask.Result;
+                    var result = await responseTask;
                     if (result.IsSuccessStatusCode)
                     {
                         var readTask = result.Content.ReadAsStringAsync();
-                        readTask.Wait();
+  
                         var data = readTask.Result;
                         books = JsonConvert.DeserializeObject<BooksDeserialize>(data);
                     }
@@ -99,18 +101,16 @@ namespace WebTMDT_Client.Service
                 }
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(ProjectConst.API_URL);
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
                     var url = $"genre";
                     var responseTask = client.GetAsync(url);
-                    responseTask.Wait();
 
-                    var result = responseTask.Result;
+                    var result = await responseTask;
                     if (result.IsSuccessStatusCode)
                     {
                         var readTask = result.Content.ReadAsStringAsync();
-                        readTask.Wait();
                         var data = readTask.Result;
-                       // Console.WriteLine(data);
+ 
                         genres = JsonConvert.DeserializeObject<GenresDeserialize>(data);
                     }
                     else //web api sent error response 
@@ -127,25 +127,24 @@ namespace WebTMDT_Client.Service
         }
 
 
-       public ProductDetailViewModel GetProductDetailViewModel(int id)
+       public async Task<ProductDetailViewModel> GetProductDetailViewModel(int id)
        {
             ProductDetailViewModel model = new ProductDetailViewModel();
             try
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(ProjectConst.API_URL);
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
                     var url = $"product/{id}";
                     var responseTask = client.GetAsync(url);
-                    responseTask.Wait();
 
-                    var result = responseTask.Result;
+                    var result = await responseTask;
                     if (result.IsSuccessStatusCode)
                     {
                         var readTask = result.Content.ReadAsStringAsync();
-                        readTask.Wait();
+
                         var data = readTask.Result;
-                        //Console.WriteLine(data);
+
                         model = JsonConvert.DeserializeObject<ProductDetailViewModel>(data);
                     }
                     else //web api sent error response 

@@ -14,6 +14,8 @@ builder.Services.AddTransient<IReviewService, ReviewService>();
 builder.Services.AddTransient<IGenreService, GenreService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
 builder.Services.AddAutoMapper(typeof(AutoMapperSetting));
 
 builder.Services.AddSession(options => {

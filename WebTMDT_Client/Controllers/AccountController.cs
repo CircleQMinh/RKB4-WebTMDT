@@ -31,14 +31,14 @@ namespace WebTMDT_Client.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(LoginUserDTO model,string redirectUrl)
+        public async Task<IActionResult> Login(LoginUserDTO model,string redirectUrl)
         {
             Console.WriteLine(redirectUrl);
             var login_response = new LoginResponseModel();
 
             if (ModelState.IsValid)
             {
-                login_response = accountService.Login(model);
+                login_response = await accountService.Login(model);
                 if (login_response.success)
                 {
                     HttpContext.Session.SetString("Login", "true");
@@ -64,14 +64,21 @@ namespace WebTMDT_Client.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(RegisterDTO dto)
+        public async Task<IActionResult> Register(RegisterDTO dto)
         {
             var imgurl = ProjectConst.Default_IMGURL;
             if (ModelState.IsValid)
             {
                 UserRegisterDTO user_dto = new UserRegisterDTO() 
-                { Email=dto.Email,UserName=dto.UserName,imgUrl=imgurl,Password=dto.Password,PhoneNumber=dto.PhoneNumber,Roles = new List<string> {"User"} };
-                var register_response = accountService.Register(user_dto);
+                { 
+                    Email=dto.Email,
+                    UserName=dto.UserName,
+                    imgUrl=imgurl,
+                    Password=dto.Password,
+                    PhoneNumber=dto.PhoneNumber,
+                    Roles = new List<string> {"User"}
+                };
+                var register_response = await accountService.Register(user_dto);
                 Console.WriteLine(register_response);
                 if (register_response)
                 {
@@ -93,9 +100,13 @@ namespace WebTMDT_Client.Controllers
         }
 
         [HttpGet]
-        public IActionResult Confirm(string email,string token)
+        public async Task<IActionResult> Confirm(string email,string token)
         {
-            ConfirmEmailResponseModel model = accountService.ConfirmEmail(new ConfirmEmailDTO { email=email, token=token });
+            ConfirmEmailResponseModel model = await accountService.ConfirmEmail(new ConfirmEmailDTO
+            { 
+                email=email, 
+                token=token
+            });
             if (model.success)
             {
                 return View("Confirm", "Xác thực thành công!");

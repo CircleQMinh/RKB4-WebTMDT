@@ -16,9 +16,9 @@ namespace WebTMDT_Client.Controllers
             _logger = logger;
             productService = _productService;
         }
-        public IActionResult Index(int id)
+        public async Task<IActionResult> Index(int id)
         {
-            ProductDetailViewModel model = productService.GetProductDetailViewModel(id);
+            ProductDetailViewModel model = await productService.GetProductDetailViewModel(id);
             SimpleUserDTO user = null;
             var user_string = HttpContext.Session.GetString("User");
             if (user_string != null)

@@ -16,9 +16,9 @@ namespace WebTMDT_Client.Views.Shared.Components.ProductView
         {
             productService = _productService;
         }
-        public IViewComponentResult Invoke(ProductListFilterModel model)
+        public async Task<IViewComponentResult> InvokeAsync(ProductListFilterModel model)
         {
-            ProductViewViewModel p_model = productService.GetProductViewViewModel(model);
+            ProductViewViewModel p_model = await productService.GetProductViewViewModel(model);
             return View("ProductView", p_model);
         }
     }

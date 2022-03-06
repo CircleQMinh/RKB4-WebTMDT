@@ -19,10 +19,10 @@ namespace WebTMDT_Client.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostReview(PostReviewDTO model)
+        public async Task<IActionResult> PostReview(PostReviewDTO model)
         {
             var token = HttpContext.Session.GetString("Token");
-            PostReviewResponseModel response = reviewService.GetPostReviewResponse(model,token);
+            PostReviewResponseModel response = await reviewService.GetPostReviewResponse(model,token);
             if (response.success)
             {
                 if (response.newReview)
@@ -42,10 +42,10 @@ namespace WebTMDT_Client.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteReview(DeleteReviewDTO dto)
+        public async Task<IActionResult> DeleteReview(DeleteReviewDTO dto)
         {
             var token = HttpContext.Session.GetString("Token");
-            DeleteReviewResponse response =  reviewService.GetDeleteReviewResponse(dto,token);
+            DeleteReviewResponse response = await reviewService.GetDeleteReviewResponse(dto,token);
             if (response.success)
             {
                 HttpContext.Session.SetString("reviewDeleteResult", "1");

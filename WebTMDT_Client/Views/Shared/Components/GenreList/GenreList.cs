@@ -12,9 +12,9 @@ namespace WebTMDT_Client.Views.Shared.Components.GenreList
         {
             genreService = _genreService;
         }
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            List<GenreDTO> genres = genreService.GetGenres();
+            List<GenreDTO> genres = await genreService.GetGenres();
 
             return View("GenreList",genres);
         }

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebTMDTLibrary.Hepler
+namespace WebTMDT_API.Hepler
 {
     public class RoleConfig : IEntityTypeConfiguration<IdentityRole>
     {

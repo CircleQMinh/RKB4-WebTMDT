@@ -4,7 +4,7 @@ namespace WebTMDT_Client.Service
 {
     public interface IGenreService
     {
-        public GenreInfoDTO GetGenre(int id);
-        public List<GenreDTO> GetGenres();
+        public Task<GenreInfoDTO> GetGenre(int id);
+        public Task<List<GenreDTO>> GetGenres();
     }
 }
