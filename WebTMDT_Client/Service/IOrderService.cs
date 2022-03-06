@@ -5,7 +5,7 @@ namespace WebTMDT_Client.Service
 {
     public interface IOrderService
     {
-        public string GetVNPayUrl(double totalPrice,string token);
-        public PostOrderResponseModel GetPostOrderResponse(PostOrderDTO dto,Cart cart,string token,string userId);
+        public Task<string> GetVNPayUrl(double totalPrice,string token);
+        public Task<PostOrderResponseModel> GetPostOrderResponse(PostOrderDTO dto,Cart cart,string token,string userId);
     }
 }

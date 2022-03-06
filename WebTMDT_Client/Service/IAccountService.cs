@@ -5,8 +5,8 @@ namespace WebTMDT_Client.Service
 {
     public interface IAccountService
     {
-        public LoginResponseModel Login(LoginUserDTO model);
-        public bool Register(UserRegisterDTO dto);
-        public ConfirmEmailResponseModel ConfirmEmail(ConfirmEmailDTO dto);
+        public Task<LoginResponseModel> Login(LoginUserDTO model);
+        public Task<bool> Register(UserRegisterDTO dto);
+        public Task<ConfirmEmailResponseModel> ConfirmEmail(ConfirmEmailDTO dto);
     }
 }

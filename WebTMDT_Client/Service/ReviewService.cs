@@ -3,19 +3,25 @@ using System.Text;
 using WebTMDT_Client.ResponseModel;
 using WebTMDTLibrary.DTO;
 using WebTMDTLibrary.Hepler;
+using System.Net.Http.Headers;
 
 namespace WebTMDT_Client.Service
 {
     public class ReviewService : IReviewService
     {
-        public PostReviewResponseModel GetPostReviewResponse(PostReviewDTO dTO,string token)
+        private readonly IConfiguration Configuration;
+        public ReviewService(IConfiguration _configuration)
+        {
+            this.Configuration = _configuration;
+        }
+        public async  Task<PostReviewResponseModel> GetPostReviewResponse(PostReviewDTO dTO,string token)
         {
 
             try
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(ProjectConst.API_URL);
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
  
                     client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",token );
@@ -32,13 +38,12 @@ namespace WebTMDT_Client.Service
                     string json = JsonConvert.SerializeObject(postDTO);
 
                     var responseTask = client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
-                    var result = responseTask.Result;
+                    var result = await responseTask;
                     if (result.IsSuccessStatusCode)
                     {
                         var readTask = result.Content.ReadAsStringAsync();
-                        readTask.Wait();
+
                         var data = readTask.Result;
-                        //Console.WriteLine(data);
                         var res = JsonConvert.DeserializeObject<PostReviewResponseModel>(data);
                         return res;
                     }
@@ -54,16 +59,16 @@ namespace WebTMDT_Client.Service
             }
         }
 
-        public DeleteReviewResponse GetDeleteReviewResponse(DeleteReviewDTO dTO,string token)
+        public async Task<DeleteReviewResponse> GetDeleteReviewResponse(DeleteReviewDTO dTO,string token)
         {
             try
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(ProjectConst.API_URL);
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                     string url = ProjectConst.API_URL+"review";
 
 
@@ -74,14 +79,13 @@ namespace WebTMDT_Client.Service
                         Method = HttpMethod.Delete,
                         RequestUri = new Uri(url)
                     };
-                    Console.WriteLine();
-                    Console.WriteLine(request.RequestUri.ToString());
+
                     var responseTask = client.SendAsync(request);
-                    var result = responseTask.Result;
+                    var result = await responseTask;
                     if (result.IsSuccessStatusCode)
                     {
                         var readTask = result.Content.ReadAsStringAsync();
-                        readTask.Wait();
+
                         var data = readTask.Result;
                         //Console.WriteLine(data);
                         var res = JsonConvert.DeserializeObject<DeleteReviewResponse>(data);

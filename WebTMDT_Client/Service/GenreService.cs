@@ -7,24 +7,26 @@ namespace WebTMDT_Client.Service
 {
     public class GenreService : IGenreService
     {
-        public GenreInfoDTO GetGenre(int id)
+        private readonly IConfiguration Configuration;
+        public GenreService(IConfiguration _configuration)
+        {
+            this.Configuration = _configuration;
+        }
+        public async Task<GenreInfoDTO> GetGenre(int id)
         {
             try
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(ProjectConst.API_URL);
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
                     var url = $"genre/{id}";
                     var responseTask = client.GetAsync(url);
-                    responseTask.Wait();
-
-                    var result = responseTask.Result;
+                    var result = await responseTask;
                     if (result.IsSuccessStatusCode)
                     {
                         var readTask = result.Content.ReadAsStringAsync();
-                        readTask.Wait();
                         var data = readTask.Result;
-                        //Console.WriteLine(data);
+
                         var genre = JsonConvert.DeserializeObject<GenreDeserialize>(data);
                         return genre.result;
                     }
@@ -41,24 +43,20 @@ namespace WebTMDT_Client.Service
             }
         }
 
-        public List<GenreDTO> GetGenres()
+        public async Task<List<GenreDTO>> GetGenres()
         {
             try
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(ProjectConst.API_URL);
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
                     var url = $"genre";
                     var responseTask = client.GetAsync(url);
-                    responseTask.Wait();
-
-                    var result = responseTask.Result;
+                    var result = await responseTask;
                     if (result.IsSuccessStatusCode)
                     {
                         var readTask = result.Content.ReadAsStringAsync();
-                        readTask.Wait();
                         var data = readTask.Result;
-                        //Console.WriteLine(data);
                         var genre = JsonConvert.DeserializeObject<GenresDeserialize>(data);
                         return genre.result;
                     }

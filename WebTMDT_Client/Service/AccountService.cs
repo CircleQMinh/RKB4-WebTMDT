@@ -3,31 +3,35 @@ using System.Text;
 using WebTMDT_Client.ResponseModel;
 using WebTMDTLibrary.DTO;
 using WebTMDTLibrary.Hepler;
+using System.Net.Http.Headers;
 
 namespace WebTMDT_Client.Service
 {
     public class AccountService : IAccountService
     {
-        public LoginResponseModel Login(LoginUserDTO model)
+        private readonly IConfiguration Configuration;
+        public AccountService(IConfiguration _configuration)
+        {
+            this.Configuration = _configuration;
+        }
+        public async Task<LoginResponseModel> Login(LoginUserDTO model)
         {
             var login_response = new LoginResponseModel();
             try
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(ProjectConst.API_URL);
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     string url = $"account/login";
                     string json = JsonConvert.SerializeObject(model);
 
                     var responseTask = client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
-                    responseTask.Wait();
-
-                    var result = responseTask.Result;
+                    var result = await responseTask;
                     if (result.IsSuccessStatusCode)
                     {
                         var readTask = result.Content.ReadAsStringAsync();
-                        readTask.Wait();
+ 
                         var data = readTask.Result;
                         Console.Write(data);
                         login_response = JsonConvert.DeserializeObject<LoginResponseModel>(data);
@@ -47,23 +51,22 @@ namespace WebTMDT_Client.Service
             return login_response;
         }
 
-        public bool Register(UserRegisterDTO dto)
+        public async Task<bool> Register(UserRegisterDTO dto)
         {
             try
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(ProjectConst.API_URL);
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     string url = $"account/register";
                     string json = JsonConvert.SerializeObject(dto);
                     var responseTask = client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
-                    responseTask.Wait();
-                    var result = responseTask.Result;
+                    var result = await responseTask;
                     if (result.IsSuccessStatusCode)
                     {
                         var readTask = result.Content.ReadAsStringAsync();
-                        readTask.Wait();
+ 
                         var data = readTask.Result;
                         RegisterResponeModel register_res = JsonConvert.DeserializeObject<RegisterResponeModel>(data);
                         if (register_res.success)
@@ -85,19 +88,18 @@ namespace WebTMDT_Client.Service
             return false;
         }
 
-        public ConfirmEmailResponseModel ConfirmEmail(ConfirmEmailDTO dto)
+        public async Task<ConfirmEmailResponseModel> ConfirmEmail(ConfirmEmailDTO dto)
         {
             try
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(ProjectConst.API_URL);
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     string url = $"account/confirmEmail";
                     string json = JsonConvert.SerializeObject(dto);
                     var responseTask = client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
-                    responseTask.Wait();
-                    var result = responseTask.Result;
+                    var result = await responseTask;
                     if (result.IsSuccessStatusCode)
                     {
                         var readTask = result.Content.ReadAsStringAsync();

@@ -5,26 +5,30 @@ using WebTMDT_Client.ResponseModel;
 using WebTMDTLibrary.DTO;
 using WebTMDTLibrary.Helper;
 using WebTMDTLibrary.Hepler;
+using System.Net.Http.Headers;
 
 namespace WebTMDT_Client.Service
 {
     public class OrderService : IOrderService
+
     {
         private readonly IMapper mapper;
-        public OrderService(IMapper _mapper)
+        private readonly IConfiguration Configuration;
+        public OrderService(IMapper _mapper, IConfiguration _configuration)
         {
             mapper = _mapper;
+            this.Configuration = _configuration;
         }
 
-        public PostOrderResponseModel GetPostOrderResponse(PostOrderDTO dto, Cart cart,string token,string userId)
+        public async Task<PostOrderResponseModel> GetPostOrderResponse(PostOrderDTO dto, Cart cart,string token,string userId)
         {
             try
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(ProjectConst.API_URL);
-                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                     string url = "order";
                     var postDTO = mapper.Map<CreateOrderDTO>(dto);
                     var orderDetails = new List<CreateOrderDetailDTO>();
@@ -44,11 +48,10 @@ namespace WebTMDT_Client.Service
                     string json = JsonConvert.SerializeObject(postDTO);
                     string data = "";
                     var responseTask = client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
-                    var result = responseTask.Result;
+                    var result = await responseTask;
                     if (result.IsSuccessStatusCode)
                     {
                         var readTask = result.Content.ReadAsStringAsync();
-                        readTask.Wait();
                         data = readTask.Result;
                         var res = JsonConvert.DeserializeObject<PostOrderResponseModel>(data);
                         return res;
@@ -56,7 +59,7 @@ namespace WebTMDT_Client.Service
                     else //web api sent error response 
                     {
                         var readTask = result.Content.ReadAsStringAsync();
-                        readTask.Wait();
+
                         data = readTask.Result;
                         Console.WriteLine(result.StatusCode);
                         Console.WriteLine(data);
@@ -70,20 +73,20 @@ namespace WebTMDT_Client.Service
             }
         }
 
-        public string GetVNPayUrl(double totalPrice,string token)
+        public async Task<string> GetVNPayUrl(double totalPrice,string token)
         {
             try
             {
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri(ProjectConst.API_URL);
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                     client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                     string url = $"Order/getVNPayUrl?totalPrice={totalPrice}";
 
                     string data = "";
                     var responseTask = client.GetAsync(url);
-                    var result = responseTask.Result;
+                    var result = await responseTask;
                     if (result.IsSuccessStatusCode)
                     {
                         var readTask = result.Content.ReadAsStringAsync();

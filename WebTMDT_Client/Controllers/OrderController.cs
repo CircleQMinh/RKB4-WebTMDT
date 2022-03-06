@@ -12,10 +12,6 @@ namespace WebTMDT_Client.Controllers
         {
             this.orderService = _orderService;
         }
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
 
         public IActionResult Checkout()
         {
@@ -54,7 +50,7 @@ namespace WebTMDT_Client.Controllers
         }
 
         [HttpPost]
-        public IActionResult Checkout([FromForm] PostOrderDTO dto)
+        public async Task<IActionResult> Checkout([FromForm] PostOrderDTO dto)
         {
             var session = HttpContext.Session;
             var token = session.GetString("Token");
@@ -114,14 +110,14 @@ namespace WebTMDT_Client.Controllers
                 session.SetString("Ordering", "true");
                 if (dto.PaymentMethod == "vnpay")
                 {
-                    var paymentUrl = orderService.GetVNPayUrl(cart.TotalPrice,token);
+                    var paymentUrl = await orderService.GetVNPayUrl(cart.TotalPrice,token);
                     session.SetString("VNPAY", "true");
                     session.SetString("VNPAY_Order", JsonConvert.SerializeObject(dto));
                     return Redirect(paymentUrl);
                 }
                 else
                 {
-                    var res = orderService.GetPostOrderResponse(dto, cart, token, user.Id);
+                    var res = await orderService.GetPostOrderResponse(dto, cart, token, user.Id);
                     if (res.success)
                     {
                         Cart newCart = new Cart();
@@ -141,7 +137,19 @@ namespace WebTMDT_Client.Controllers
             }
         }
 
-        public IActionResult Thankyou(string vnp_ResponseCode,string vnp_SecureHash,string vnp_TxnRef,string vnp_TransactionStatus,string vnp_TransactionNo,string vnp_TmnCode,string vnp_PayDate,string vnp_OrderInfo,string vnp_CardType,string vnp_BankTranNo,string vnp_BankCode,string vnp_Amount)
+        public async Task<IActionResult> Thankyou(
+            string vnp_ResponseCode,
+            string vnp_SecureHash,
+            string vnp_TxnRef,
+            string vnp_TransactionStatus,
+            string vnp_TransactionNo,
+            string vnp_TmnCode,
+            string vnp_PayDate,
+            string vnp_OrderInfo,
+            string vnp_CardType,
+            string vnp_BankTranNo,
+            string vnp_BankCode,
+            string vnp_Amount)
         {
             var session = HttpContext.Session;
             var token = session.GetString("Token");
@@ -167,7 +175,7 @@ namespace WebTMDT_Client.Controllers
                     SimpleUserDTO user = JsonConvert.DeserializeObject<SimpleUserDTO>(session.GetString("User"));
 
                     var order = JsonConvert.DeserializeObject<PostOrderDTO>(HttpContext.Session.GetString("VNPAY_Order"));
-                    var res = orderService.GetPostOrderResponse(order, cart, token, user.Id);
+                    var res = await orderService.GetPostOrderResponse(order, cart, token, user.Id);
                     if (res.success)
                     {
                         Cart newCart = new Cart();

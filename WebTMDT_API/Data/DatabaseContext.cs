@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WebTMDTLibrary.Hepler;
+using WebTMDT_API.Hepler;
 
 namespace WebTMDT_API.Data
 {

@@ -19,7 +19,7 @@ namespace WebTMDT_Client.Pages
             this.productService = _productService;
             this.genreService = _genreService;
         }
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
             var id = Request.RouteValues["id"];
             var pageNumber = Request.Query["pageNumber"];
@@ -36,12 +36,12 @@ namespace WebTMDT_Client.Pages
                 try
                 {
 
-                    genre = genreService.GetGenre(Int32.Parse(id.ToString()));
+                    genre = await genreService.GetGenre(Int32.Parse(id.ToString()));
                     if (genre==null)
                     {
                         return Redirect("/error");
                     }
-                    var model = productService.GetProductListViewModel(
+                    var model = await productService.GetProductListViewModel(
                     new ProductListFilterModel()
                     {
                         genreFilter = genre.Name,
