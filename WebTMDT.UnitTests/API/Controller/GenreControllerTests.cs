@@ -9,7 +9,7 @@ using WebTMDT_API.Repository;
 using WebTMDTLibrary.DTO;
 using Xunit;
 
-namespace WebTMDT.UnitTests
+namespace WebTMDT.UnitTests.API.Controller
 {
     public class GenreControllerTests
     {

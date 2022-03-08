@@ -23,18 +23,27 @@ namespace WebTMDT.Controllers
             mapper = _mapper;
         }
 
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBookById(int id)
         {
             try
             {
-                var book = await unitOfWork.Books.Get(q => q.Id == id, new List<string> { "Authors", "Genres", "Publisher", "PromotionInfo" });
+                var book = await unitOfWork.Books.Get(q => q.Id == id, new List<string> { "Authors", "Genres", "Publisher","PromotionInfo" });
                 if (book == null)
                 {
                     return Ok(new { success = false, msg = "Không tìm thấy sản phẩm" });
                 }
+                if (book.PromotionInfo!=null)
+                {
+                    var promoInfo = await unitOfWork.PromotionInfos.Get(q => q.Id == book.PromotionInfoID,new List<string> { "Promotion" });
+                    if (promoInfo.Promotion.Status == (int)PromotionStatus.Hidden)
+                    {
+                        book.PromotionInfo = null;
+                        book.PromotionInfoID = null;
+                    }
+                }
                 var result = mapper.Map<BookDTO>(book);
+
                 var rev = await unitOfWork.Reviews.GetAll(q => q.BookId == id, q => q.OrderBy(r => r.Date), new List<string> { "User" });
                 var reviews = mapper.Map<IList<ReviewDTO>>(rev);
                 return Ok(new { result = result, success = true, reviews = reviews });
@@ -71,14 +80,28 @@ namespace WebTMDT.Controllers
                     Expression<Func<Book, bool>> expression_genre = q => q.Genres.Any(genre => listGenre.ToList().Contains(genre.Name));
                     expression = expression.AndAlso(expression_genre);
                 }
-
-
                 var books = await unitOfWork.Books.GetAll(expression, q => q.OrderBy(book => book.Id),
                     new List<string> { "Authors", "Genres", "Publisher", "PromotionInfo" }, new PaginationFilter(pageNumber, pageSize));
+
                 var count = await unitOfWork.Books.GetCount(expression);
                 var result = mapper.Map<IList<BookDTO>>(books);
 
-                return Ok(new { result = result, totalPage = (int)Math.Ceiling((double)count / pageSize) });
+                //Che giấu thông tin khuyến mãi nếu chương trình chưa diễn ra
+                foreach (var book in result)
+                {
+                    if (book.PromotionInfo != null)
+                    {
+                        var promoInfo = await unitOfWork.PromotionInfos.Get(q => q.Id == book.PromotionInfoID, new List<string> { "Promotion" });
+                        if (promoInfo.Promotion.Status == (int)PromotionStatus.Hidden)
+                        {
+                            book.PromotionInfo = null;
+                            book.PromotionInfoID = null;
+                        }
+                    }
+                }
+
+
+                return Ok(new { result = result, totalProduct = count });
             }
             catch (Exception ex)
             {
@@ -104,7 +127,10 @@ namespace WebTMDT.Controllers
                 || q.Publisher == book.Publisher)
                 && q.Id != id;
 
-                var relatedBook = await unitOfWork.Books.GetAll(expression, q => q.OrderBy(book => Guid.NewGuid()), new List<string>() { "Authors", "Genres", "Publisher", "PromotionInfo" }, new PaginationFilter(1, numberOfBook));
+                var relatedBook = await unitOfWork.Books.GetAll(expression, q => q.OrderBy(book => Guid.NewGuid()),
+                    new List<string>() { "Authors", "Genres", "Publisher","PromotionInfo" },
+                    new PaginationFilter(1, numberOfBook));
+
                 if (relatedBook.Count < numberOfBook)
                 {
                     Expression<Func<Book, bool>> expression_revert =
@@ -114,12 +140,24 @@ namespace WebTMDT.Controllers
                     || q.Publisher == book.Publisher)
                     && q.Id != id;
                     var randomBooks = await unitOfWork.Books.GetAll(expression_revert, q => q.OrderBy(book => Guid.NewGuid()),
-                        new List<string>() { "PromotionInfo" },
+                        new List<string>() { "PromotionInfo"},
                         new PaginationFilter(1, numberOfBook - relatedBook.Count));
                     relatedBook = relatedBook.Concat(randomBooks).ToList();
                 }
                 var result = mapper.Map<IList<BookDTO>>(relatedBook);
-
+                //Che giấu thông tin khuyến mãi nếu chương trình chưa diễn ra
+                foreach (var rbook in result)
+                {
+                    if (rbook.PromotionInfo != null)
+                    {
+                        var promoInfo = await unitOfWork.PromotionInfos.Get(q => q.Id == rbook.PromotionInfoID, new List<string> { "Promotion" });
+                        if (promoInfo.Promotion.Status == (int)PromotionStatus.Hidden)
+                        {
+                            rbook.PromotionInfo = null;
+                            rbook.PromotionInfoID = null;
+                        }
+                    }
+                }
 
                 return Ok(new { result });
             }
@@ -134,11 +172,26 @@ namespace WebTMDT.Controllers
         {
             try
             {
-
-                var randomBooks = await unitOfWork.Books.GetAll(null, q => q.OrderBy(book => Guid.NewGuid()), new List<string>() { "Authors", "Genres", "Publisher", "PromotionInfo" }, new PaginationFilter(1, numberOfBook));
+                var randomBooks = await unitOfWork.Books.GetAll(
+                    null,
+                    q => q.OrderBy(book => Guid.NewGuid()),
+                    new List<string>() { "Authors", "Genres", "Publisher","PromotionInfo"},
+                    new PaginationFilter(1, numberOfBook));
                 var result = mapper.Map<IList<BookDTO>>(randomBooks);
-
-                return Ok(new { result });
+                //Che giấu thông tin khuyến mãi nếu chương trình chưa diễn ra
+                foreach (var book in result)
+                {
+                    if (book.PromotionInfo != null)
+                    {
+                        var promoInfo = await unitOfWork.PromotionInfos.Get(q => q.Id == book.PromotionInfoID, new List<string> { "Promotion" });
+                        if (promoInfo.Promotion.Status == (int)PromotionStatus.Hidden)
+                        {
+                            book.PromotionInfo = null;
+                            book.PromotionInfoID = null;
+                        }
+                    }
+                }
+                return Ok(new { result ,success=true});
             }
             catch (Exception ex)
             {
@@ -175,14 +228,22 @@ namespace WebTMDT.Controllers
                 result.Sort((a, b) => b.Sales - a.Sales); //Desc
                 result = result.Take(numberOfBook).ToList();
 
-                foreach (var item in result)
+                //Che giấu thông tin khuyến mãi nếu chương trình chưa diễn ra
+                foreach (var rs in result)
                 {
-                    var temp = await unitOfWork.Books.Get(q => q.Id == item.Book.Id, new List<string> { "Authors", "Genres", "Publisher", "PromotionInfo" });
-                    item.Book = mapper.Map<BookDTO>(temp);
+                    if (rs.Book.PromotionInfo != null)
+                    {
+                        var promoInfo = await unitOfWork.PromotionInfos.Get(q => q.Id == rs.Book.PromotionInfoID, new List<string> { "Promotion" });
+                        if (promoInfo.Promotion.Status == (int)PromotionStatus.Hidden)
+                        {
+                            rs.Book.PromotionInfo = null;
+                            rs.Book.PromotionInfoID = null;
+                        }
+                    }
                 }
 
 
-                return Ok(new { result }); ;
+                return Ok(new { result ,success=true}); ;
             }
             catch (Exception ex)
             {
@@ -191,12 +252,27 @@ namespace WebTMDT.Controllers
         }
 
         [HttpGet("getLatestBook")]
-        public async Task<IActionResult> GetLatestBook(int number)
+        public async Task<IActionResult> GetLatestBook(int numberOfBook)
         {
             try
             {
-                var books = await unitOfWork.Books.GetAll(q => true, q => q.OrderByDescending(p => p.Id), new List<string> { "Authors", "Genres", "Publisher", "PromotionInfo" }, new PaginationFilter(1, number));
-
+                var books = await unitOfWork.Books.GetAll(q => true, 
+                    q => q.OrderByDescending(p => p.Id),
+                    new List<string> { "Authors", "Genres", "Publisher" }, 
+                    new PaginationFilter(1, numberOfBook));
+                var result = mapper.Map<IList<BookDTO>>(books);
+                foreach (var rbook in result)
+                {
+                    if (rbook.PromotionInfo != null)
+                    {
+                        var promoInfo = await unitOfWork.PromotionInfos.Get(q => q.Id == rbook.PromotionInfoID, new List<string> { "Promotion" });
+                        if (promoInfo.Promotion.Status == (int)PromotionStatus.Hidden)
+                        {
+                            rbook.PromotionInfo = null;
+                            rbook.PromotionInfoID = null;
+                        }
+                    }
+                }
                 return Ok(new { success = true, result = books });
             }
             catch (Exception ex)

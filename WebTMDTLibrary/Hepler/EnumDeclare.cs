@@ -19,6 +19,12 @@
         FourStar = 4,
         FiveStar = 5
     }
+    public enum PromotionStatus
+    {
+        OnGoing=1,
+        Hidden=0
+    }
+
     public enum DiscountCodeCost
     {
         Amount10K = 100,

@@ -25,7 +25,7 @@ namespace WebTMDT_Client.Service
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
  
                     client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",token );
-                    string url = "review";
+                    string url = $"{Configuration["Setting:API_ENDPOINT:Review:Base"]}";
 
                     CreateReviewDTO postDTO = new CreateReviewDTO();
                     postDTO.BookId = dTO.BookId;
@@ -69,7 +69,7 @@ namespace WebTMDT_Client.Service
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                    string url = ProjectConst.API_URL+"review";
+                    string url = $"{ Configuration["Setting:API_URL"]}"+$"{Configuration["Setting:API_URL"]}";
 
 
                     string json = JsonConvert.SerializeObject(dTO);

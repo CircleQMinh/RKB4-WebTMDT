@@ -23,6 +23,7 @@ namespace WebTMDT_Client.Controllers
             var user_string = HttpContext.Session.GetString("User");
             if (user_string != null)
             {
+                //Console.WriteLine(user_string);
                 user = JsonConvert.DeserializeObject<SimpleUserDTO>(user_string);
                 ViewBag.UserId = user.Id;
                 ViewBag.Token = HttpContext.Session.GetString("Token");

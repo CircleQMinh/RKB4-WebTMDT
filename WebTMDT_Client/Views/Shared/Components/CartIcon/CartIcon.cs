@@ -10,19 +10,20 @@ namespace WebTMDT_Client.Views.Shared.Components.CartIcon
         public IViewComponentResult Invoke()
         {
             var session = HttpContext.Session;
+            var total = 0;
 
             var cart_str = session.GetString("cart");
             if (cart_str == null)
             {
              
-                ViewBag.TotalItem = 0;
+               total= 0;
             }
             else
             {
                 WebTMDTLibrary.DTO.Cart cart = JsonConvert.DeserializeObject<WebTMDTLibrary.DTO.Cart>(cart_str);
-                ViewBag.TotalItem = cart.TotalItem;
+                total= cart.TotalItem;
             }
-            return View("CartIcon");
+            return View("CartIcon",total);
         }
     }
 }

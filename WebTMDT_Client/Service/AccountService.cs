@@ -23,7 +23,7 @@ namespace WebTMDT_Client.Service
                 {
                     client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    string url = $"account/login";
+                    string url = $"{Configuration["Setting:API_ENDPOINT:Account:Login"]}";
                     string json = JsonConvert.SerializeObject(model);
 
                     var responseTask = client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
@@ -59,7 +59,7 @@ namespace WebTMDT_Client.Service
                 {
                     client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    string url = $"account/register";
+                    string url = $"{Configuration["Setting:API_ENDPOINT:Account:Register"]}";
                     string json = JsonConvert.SerializeObject(dto);
                     var responseTask = client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
                     var result = await responseTask;
@@ -96,7 +96,7 @@ namespace WebTMDT_Client.Service
                 {
                     client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    string url = $"account/confirmEmail";
+                    string url = $"{Configuration["Setting:API_ENDPOINT:Account:ConfirmEmail"]}";
                     string json = JsonConvert.SerializeObject(dto);
                     var responseTask = client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
                     var result = await responseTask;

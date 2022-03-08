@@ -21,7 +21,7 @@ namespace WebTMDT_Client.Service
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
-                    string url = $"Product/search?pageNumber={model.pageNumber}&pageSize={model.pageSize}";
+                    string url = $"{Configuration["Setting:API_ENDPOINT:Product:GetProduct"]}?pageNumber={model.pageNumber}&pageSize={model.pageSize}";
                     if (model.keyword != null)
                     {
                         url += $"&keyword={model.keyword}";
@@ -69,7 +69,7 @@ namespace WebTMDT_Client.Service
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
-                    string url = $"Product/search?pageNumber={model.pageNumber}&pageSize={model.pageSize}";
+                    string url = $"{Configuration["Setting:API_ENDPOINT:Product:GetProduct"]}?pageNumber={model.pageNumber}&pageSize={model.pageSize}";
                     if (model.keyword != null)
                     {
                         url += $"&keyword={model.keyword}";
@@ -135,7 +135,7 @@ namespace WebTMDT_Client.Service
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
-                    var url = $"product/{id}";
+                    var url = $"{Configuration["Setting:API_ENDPOINT:Product:GetProductDetail"]}{id}";
                     var responseTask = client.GetAsync(url);
 
                     var result = await responseTask;
@@ -159,6 +159,141 @@ namespace WebTMDT_Client.Service
             }
             return model;
        }
+
+        public async Task<ProductDisplayViewModel> GetLatestProduct()
+        {
+            ProductDisplayViewModel model = new ProductDisplayViewModel();
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
+                    var url = $"{Configuration["Setting:API_ENDPOINT:Product:GetProductLatest"]}?numberOfBook={ProjectConst.NumberOfProductDisplay}";
+                    var responseTask = client.GetAsync(url);
+
+                    var result = await responseTask;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var readTask = result.Content.ReadAsStringAsync();
+
+                        var data = readTask.Result;
+
+                        model = JsonConvert.DeserializeObject<ProductDisplayViewModel>(data);
+                    }
+                    else //web api sent error response 
+                    {
+                        Console.WriteLine(result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return model;
+        }
+        public async Task<ProductDisplayViewModel> GetSuggestProduct()
+        {
+            ProductDisplayViewModel model = new ProductDisplayViewModel();
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
+                    var url = $"{Configuration["Setting:API_ENDPOINT:Product:GetProductSuggest"]}?numberOfBook={ProjectConst.NumberOfProductDisplay}";
+                    var responseTask = client.GetAsync(url);
+
+                    var result = await responseTask;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var readTask = result.Content.ReadAsStringAsync();
+
+                        var data = readTask.Result;
+
+                        model = JsonConvert.DeserializeObject<ProductDisplayViewModel>(data);
+                    }
+                    else //web api sent error response 
+                    {
+                        Console.WriteLine(result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return model;
+        }
+
+        public async Task<ProductDisplayViewModel> GetPoppularProduct()
+        {
+            ProductDisplayViewModel model = new ProductDisplayViewModel();
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
+                    var url = $"{Configuration["Setting:API_ENDPOINT:Product:GetProductPopular"]}?numberOfBook={ProjectConst.NumberOfProductDisplay}";
+                    var responseTask = client.GetAsync(url);
+
+                    var result = await responseTask;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var readTask = result.Content.ReadAsStringAsync();
+
+                        var data = readTask.Result;
+
+                        model = JsonConvert.DeserializeObject<ProductDisplayViewModel>(data);
+                    }
+                    else //web api sent error response 
+                    {
+                        Console.WriteLine(result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return model;
+        }
+
+        public async Task<ProductDisplayViewModel> GetRelatedProduct(int id)
+        {
+            ProductDisplayViewModel model = new ProductDisplayViewModel();
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
+                    var url = $"{Configuration["Setting:API_ENDPOINT:Product:Base"]}" +
+                                $"/{id}" +
+                    $"{Configuration["Setting:API_ENDPOINT:Product:GetProductRelated"]}?numberOfBook={ProjectConst.NumberOfProductDisplay}";
+
+                    Console.WriteLine(url);
+                    var responseTask = client.GetAsync(url);
+
+                    var result = await responseTask;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var readTask = result.Content.ReadAsStringAsync();
+
+                        var data = readTask.Result;
+
+                        model = JsonConvert.DeserializeObject<ProductDisplayViewModel>(data);
+                    }
+                    else //web api sent error response 
+                    {
+                        Console.WriteLine(result.StatusCode);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return model;
+        }
     }
 
 }

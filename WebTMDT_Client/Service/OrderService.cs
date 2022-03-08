@@ -29,7 +29,7 @@ namespace WebTMDT_Client.Service
                     client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                    string url = "order";
+                    string url = $"{Configuration["Setting:API_ENDPOINT:Order:PostOrder"]}";
                     var postDTO = mapper.Map<CreateOrderDTO>(dto);
                     var orderDetails = new List<CreateOrderDetailDTO>();
                     foreach (var item in cart.Items)
@@ -82,7 +82,7 @@ namespace WebTMDT_Client.Service
                     client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                     client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                    string url = $"Order/getVNPayUrl?totalPrice={totalPrice}";
+                    string url = $"{Configuration["Setting:API_ENDPOINT:Order:GetVNPayUrl"]}?totalPrice={totalPrice}";
 
                     string data = "";
                     var responseTask = client.GetAsync(url);

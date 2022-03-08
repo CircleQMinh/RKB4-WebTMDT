@@ -50,6 +50,7 @@
             <i class="far fa-star"></i> Gợi ý cho bạn
         </h3>
     </div>
+     @await Component.InvokeAsync("ProductSuggest")
 </div>
 @await Component.InvokeAsync("ProductView", new ProductListFilterModel(){pageNumber=1,pageSize=8})
 <div class="mt-5">
@@ -61,13 +62,21 @@
     </p>
     <hr></hr>
 </div>
+@*<div class="container">
+    <div class="d-flex justify-content-center">
+        <h3 class="text-monospace text-tron">
+            <i class="far fa-star"></i> Bán chạy nhất
+        </h3>
+    </div>
+     @await Component.InvokeAsync("ProductPopular")
+</div>*@
 <div class="container">
     <div class="d-flex justify-content-center">
         <h3 class="text-monospace text-tron">
             <i class="far fa-star"></i> Mới nhất
         </h3>
     </div>
-     <a asp-controller="Product" asp-route-id="2"></a>
+     @await Component.InvokeAsync("ProductLatest")
 </div>
 <div class="mt-5">
     <hr></hr>
