@@ -5,21 +5,22 @@
 @using WebTMDTLibrary.DTO
 @using Newtonsoft.Json
 @inject IHttpContextAccessor HttpContextAccessor
+@model int
 @{
-    var session = HttpContextAccessor.HttpContext.Session;
-    string jsoncart = session.GetString("cart");
-    Cart cart = new Cart();
-    if (jsoncart != null)
-    {
-        cart = JsonConvert.DeserializeObject<Cart>(jsoncart);
-    }
+    //var session = HttpContextAccessor.HttpContext.Session;
+    //string jsoncart = session.GetString("cart");
+    //Cart cart = new Cart();
+    //if (jsoncart != null)
+    //{
+    //    cart = JsonConvert.DeserializeObject<Cart>(jsoncart);
+    //}
 }
 <div id="cartIcon">
     <a class="float-btn-cart" id="cart" asp-controller="Cart" asp-action="Index">
         <i class="fas fa-shopping-cart float-btn-icon"></i>
     </a>
     <a class="float-btn-cart-number animate__animated animate__slideInRight animate__faster text-decoration-none">
-        <p class="text-monospace">@cart.TotalItem</p>
+        <p class="text-monospace">@Model</p>
     </a>
 
 </div>

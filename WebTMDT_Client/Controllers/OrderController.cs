@@ -20,6 +20,7 @@ namespace WebTMDT_Client.Controllers
 
             if (cart_str != null)
             {
+                Console.WriteLine(cart_str);
                 Cart cart = JsonConvert.DeserializeObject<Cart>(cart_str);
                 if (cart.TotalItem == 0)
                 {
@@ -71,7 +72,6 @@ namespace WebTMDT_Client.Controllers
             {
                 return RedirectToAction("Index", "Cart");
             }
-
             if (!ModelState.IsValid)
             {
                 Dictionary<string, string> dic = new Dictionary<string, string>();

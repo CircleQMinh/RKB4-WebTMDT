@@ -1,0 +1,71 @@
+﻿@using WebTMDT_Client.ViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model ProductDisplayViewModel
+
+<div class="row">
+    @foreach (var item in Model.result)
+    {
+        <div class="col-12 col-sm-4 col-md-6 col-lg-4 col-xl-3  ">
+            <div class="card border border-4 rounded-3 mb-2">
+                <a asp-controller="Product" asp-action="Index" asp-route-id=@item.Id>
+                    <img src=@item.imgUrl
+                     class="card-img-top product_img"
+                     alt="Ảnh sp" />
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title product_name"><a asp-controller="Product" asp-action="Index" asp-route-id=@item.Id>@item.Title</a></h5>
+                    @if (item.PromotionInfo == null)
+                    {
+                        <div class="product_price_div">
+                            <p class="text-center">
+                                <span class="text-center text-danger text-decoration-underline">@string.Format("{0:0,0}",item.Price) đ </span>
+                            </p>
+                        </div>
+                    }
+                    @if (item.PromotionInfo != null)
+                    {
+                        @if (item.PromotionInfo.PromotionAmount != null)
+                        {
+                            <div class="product_price_div">
+                                <p class="text-center">
+                                    <span class="text-center text-danger text-decoration-underline"> @string.Format("{0:0,0}",item.Price-Int32.Parse(item.PromotionInfo.PromotionAmount)) đ </span>
+                                    <span class="badge rounded-pill bg-danger ms-3"> -@string.Format("{0:0,0}",item.PromotionInfo.PromotionAmount) đ </span>
+                                </p>
+                                <p class="text-center m-0">
+                                    <span class="text-center text-danger text-decoration-line-through">@string.Format("{0:0,0}",item.Price) đ</span>
+                                </p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="product_price_div">
+                                <p class="text-center">
+                                    <span class="text-center text-danger text-decoration-underline">@string.Format("{0:0,0}",item.Price-(Int32.Parse(item.PromotionInfo.PromotionPercent)*item.Price)/100) đ </span>
+                                    <span class="badge rounded-pill bg-success ms-3"> -@item.PromotionInfo.PromotionPercent% </span>
+                                </p>
+                                <p class="text-center m-0">
+                                    <span class="text-center text-danger text-decoration-line-through"> @string.Format("{0:0,0}",item.Price) đ</span>
+                                </p>
+                            </div>
+                        }
+                    }
+
+                    <hr></hr>
+                    <div class="d-grid gap-2 mt-2">
+                        <button class="btn btn-success" type="button" onclick="addToCart(@Json.Serialize(item).ToString())">
+                            <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                        </button>
+                        <a class="btn btn-danger" type="button" asp-controller="Product" asp-route-id=@item.Id asp-action="Index">
+                            <i class="far fa-heart me-2"></i> Xem thông tin
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

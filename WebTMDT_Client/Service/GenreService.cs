@@ -19,7 +19,7 @@ namespace WebTMDT_Client.Service
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
-                    var url = $"genre/{id}";
+                    var url = $"{Configuration["Setting:API_ENDPOINT:Genre:GetGenre"]}{id}";
                     var responseTask = client.GetAsync(url);
                     var result = await responseTask;
                     if (result.IsSuccessStatusCode)
@@ -50,7 +50,7 @@ namespace WebTMDT_Client.Service
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
-                    var url = $"genre";
+                    var url = $"{Configuration["Setting:API_ENDPOINT:Genre:GetGenres"]}";
                     var responseTask = client.GetAsync(url);
                     var result = await responseTask;
                     if (result.IsSuccessStatusCode)

@@ -33,7 +33,12 @@
         }
     }
 
-    var user_have_comment = reviews.Any(q => q.User.Id == ViewBag.UserId);
+    var user_have_comment = false;
+    if (ViewBag.UserId!=null)
+    {
+        user_have_comment = reviews.Any(q => q.User.Id == ViewBag.UserId);
+    }
+    
 }
 @model ProductDetailViewModel
 <div class="container mt-2">
@@ -57,9 +62,6 @@
                     <i class="fas fa-book me-2" aria-hidden="true"></i>NXB :
                 </span>
                 @item.Publisher.Name 
-                @if(ViewBag.ReviewPost!=null){
-                    <p>OKKKKKKKK</p>
-                }
             </h3>
             <h3 class="pro_author text-muted">
                 <span class="green">
@@ -208,6 +210,17 @@
         </div>
     </div>
 </div>
+
+@*<div class="container mt-3">
+    <div class="d-flex justify-content-center">
+        <h3 class="text-monospace text-tron">
+            <i class="far fa-star"></i> Sản phẩm liên quan
+        </h3>
+    </div>
+     @await Component.InvokeAsync("ProductRelated",item.Id)
+</div>*@
+
+@*modal viet review*@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -263,7 +276,7 @@
     </div>
 </div>
 
-
+@*modal xoa review*@
 <div class="modal fade" id="deleteReviewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

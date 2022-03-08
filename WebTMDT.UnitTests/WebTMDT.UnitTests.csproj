@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Client\ViewComponent\" />
     <Folder Include="Client\View\" />
     <Folder Include="Client\Service\" />
   </ItemGroup>

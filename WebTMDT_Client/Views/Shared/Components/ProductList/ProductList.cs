@@ -19,10 +19,13 @@ namespace WebTMDT.Views.Shared.Components.ProductList
         public async Task<IViewComponentResult> InvokeAsync(ProductListFilterModel model)
         {
             ProductListViewModel books = await productService.GetProductListViewModel(model);
+
+            if (model==null||model.pageNumber==0||model.pageSize==0)
+            {
+                return null;
+            }
             ViewBag.pageNumber = model.pageNumber;
             ViewBag.pageSize = model.pageSize;
-           
-
             return View("ProductList", books);
         }
 
