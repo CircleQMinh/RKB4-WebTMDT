@@ -35,7 +35,7 @@ class AdminService {
   //product --- book
   async GetBooksForAdmin(genre, orderBy, sort, pageNumber, pageSize) {
     const response = await axios.get(
-      `${apiUrl}/book?genre=${genre}&orderby=${orderBy}&sort=${sort}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      `${apiUrl}/product?genre=${genre}&orderby=${orderBy}&sort=${sort}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
       config
     );
     return response;
@@ -43,17 +43,17 @@ class AdminService {
 
   //admin thêm product
   async AddProduct(product) {
-    const response = await axios.post(`${apiUrl}/book`, product, config);
+    const response = await axios.post(`${apiUrl}/product`, product, config);
     return response;
   }
   //addmin edit product
   async EditProduct(id, product) {
-    const response = await axios.put(`${apiUrl}/book/${id}`, product, config);
+    const response = await axios.put(`${apiUrl}/product/${id}`, product, config);
     return response;
   }
   //admin delete product
   async DeleteProduct(id) {
-    const response = await axios.delete(`${apiUrl}/book/${id}`, config);
+    const response = await axios.delete(`${apiUrl}/product/${id}`, config);
     return response;
   }
 
@@ -139,41 +139,12 @@ class AdminService {
     );
     return response;
   }
-
-  //Employee
-  async GetEmpForAdmin(role,orderBy, sort, pageNumber, pageSize) {
-    const response = await axios.get(
-      `${apiUrl}/Employee?role=${role}&orderby=${orderBy}&sort=${sort}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
-      config
-    );
+  //Search
+  async GetSearchResult(type,by,key,pageNumber,pageSize){
+    const response = await axios.get(`${apiUrl}/statistic/search?type=${type}&searchBy=${by}&keyword=${key}&pageNumber=${pageNumber}&pageSize=${pageSize}`, config);
     return response;
   }
 
-  //Discount Code
-  async GetDiscountCodeForAdmin(status,type,pageNumber, pageSize) {
-    const response = await axios.get(
-      `${apiUrl}/Discount?status=${status}&type=${type}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
-      config
-    );
-    return response;
-  }
-
-  async PostDiscountCode(dcode){
-    const response = await axios.post(`${apiUrl}/Discount`, dcode, config);
-    return response;
-  }
-  async PutDiscountCode(dcode,id){
-    const response = await axios.put(`${apiUrl}/Discount/${id}`, dcode, config);
-    return response;
-  }
-  async DeleteDiscountCode(id){
-    const response = await axios.delete(`${apiUrl}/Discount/${id}`, config);
-    return response;
-  }
-  async PostDiscountCode(dcode){
-    const response = await axios.post(`${apiUrl}/Discount/generateDiscountCode`, dcode, config);
-    return response;
-  }
 }
 
 export default new AdminService();

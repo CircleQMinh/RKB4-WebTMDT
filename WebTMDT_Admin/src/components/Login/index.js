@@ -38,7 +38,7 @@ function Login() {
             draggable: true,
           });
           dispatch(auth_action.saveAuthInfoToLocalStorage(response.data));
-          navigate("/dashboard");
+          navigate("/admin/dashboard");
         } else {
           toast.error(response.data.msg, {
             position: "top-center",
@@ -91,7 +91,7 @@ function Login() {
                     <p className="card-text">
                       Bạn đã đăng nhập sử dụng email : {user.email}
                     </p>
-                    <Link type="button" class="btn btn-primary" to={"/dashboard"}>
+                    <Link type="button" className="btn btn-primary" to={"/admin/dashboard"}>
                       Đến trang quản lý 
                     </Link>
                   </div>

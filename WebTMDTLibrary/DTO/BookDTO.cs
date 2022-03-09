@@ -22,6 +22,12 @@ namespace WebTMDTLibrary.DTO
         public PromotionInfoDTO PromotionInfo { get; set; }
     }
 
+    public class AdminBookDTO : BookDTO
+    {
+        public DateTime CreateDate { get; set; }
+        public DateTime UpdateDate { get; set; }
+    }
+
     public class SimpleBookInfoDTO
     {
         public int Id { get; set; }

@@ -6,13 +6,67 @@
   height: 40px;
   border-radius: 40px;
 }
+.bg-admin{
+  background-color: #27293D!important;
+}
+.admin_img_table{
+  width: 80px;
+  height: 80px;
+}
+.admin_img_modal{
+  width: 100px;
+  height: 100px;
+  margin-top: 10px;
+}
 
+.text-white{
+  color: white!important;
+}
+.drop_down_li #profile_drop {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
 .search {
   width: 100%;
   position: relative;
   display: flex;
 }
-
+.paginationsa\:container {
+  display: flex;
+  align-items: center;
+}
+.arrow\:text {
+  display: block;
+  font-size: 13px;
+  color: #fff;
+}
+.paginationsa\:number {
+  --size: 32px;
+  --margin: 6px;
+  margin: 0 var(--margin);
+  border-radius: 6px;
+  color: #fff;
+  background: rgb(18 76 122);
+  max-width: auto;
+  min-width: var(--size);
+  height: var(--size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0 6px;
+}
+@media (hover: hover) {
+  .paginationsa\:number:hover {
+    background: var(--primary-color);
+  }
+}
+.paginationsa_active {
+  background: var(--primary-color);
+}
 .searchTerm {
   width: 100%;
   border: 3px solid #00b4cc;
@@ -81,7 +135,10 @@
 }
 @media (max-width: 300px) {
 }
-
+.modal-content{
+  background-color: rgb(30, 30, 40);
+  color: white;
+}
 .progress {
   display: flex;
   height: 0.5rem;
