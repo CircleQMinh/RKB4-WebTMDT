@@ -364,3 +364,15 @@ D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\runtimes\win\lib\netsta
 D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\WebTMDT_API.dll
 D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\WebTMDT_API.pdb
+D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\EntityFramework.SqlServer.dll
+D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\EntityFramework.dll
+D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\System.CodeDom.dll
+D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\System.Data.SqlClient.dll
+D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
+D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
+D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
+D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\MockQueryable.Core.dll
+D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\MockQueryable.EntityFrameworkCore.dll
+D:\My Project\WebTMDT\WebTMDT.UnitTests\bin\Debug\net6.0\MockQueryable.Moq.dll

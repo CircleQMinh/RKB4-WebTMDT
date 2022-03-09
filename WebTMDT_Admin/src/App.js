@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { BrowserRouter, Routes, Route,  Navigate } from "react-router-dom";
 import Login from './components/Login';
 import AdminDashboard from './components/Admin/AdminDashboard';
+import AdminProduct from './components/Admin/AdminProduct/Index';
 
 function App() {
   return (
@@ -21,15 +22,10 @@ function App() {
 
         <Route path="/login" element={<Login></Login>} ></Route>
 
-        <Route path="/dashboard" element={<AdminDashboard></AdminDashboard>} ></Route>
-{/* 
-        <Route path="/admin/dashboard" element={<Dashboard></Dashboard>} ></Route>
-        <Route path="/admin/order" element={<AdminOrder></AdminOrder>} ></Route>
+        <Route path="/admin/dashboard" element={<AdminDashboard></AdminDashboard>} ></Route>
+
         <Route path="/admin/product" element={<AdminProduct></AdminProduct>} ></Route>
-        <Route path="/admin/promotion" element={<AdminPromotion></AdminPromotion>} ></Route>
-        <Route path="/admin/user" element={<AdminUser></AdminUser>} ></Route>
-        <Route path="/admin/employee" element={<AdminEmp></AdminEmp>} ></Route>
-        <Route path="/admin/discount" element={<AdminDiscount></AdminDiscount>} ></Route> */}
+
 
       </Routes>
       <ToastContainer></ToastContainer>

@@ -7,6 +7,7 @@ using WebTMDTLibrary.DTO;
 using WebTMDTLibrary.Helper;
 using WebTMDT_API.Repository;
 using WebTMDT_API.Helper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebTMDT.Controllers
 {
@@ -281,8 +282,53 @@ namespace WebTMDT.Controllers
             }
         }
 
+        //--------------------------------------------------------------------------------------------------------------
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> GetBooksForAdmin(string genre, string orderby, string sort, int pageNumber, int pageSize)
+        {
 
+            try
+            {
+                Expression<Func<Book, bool>> expression = genre == "all" ? q => true : q => q.Genres.Any(g => g.Id == int.Parse(genre));
+                Func<IQueryable<Book>, IOrderedQueryable<Book>> orderBy = null;
+                switch (orderby)
+                {
+                    case "Id":
+                        orderBy = (sort == "Asc") ? q => q.OrderBy(p => p.Id) : q => q.OrderByDescending(p => p.Id);
+                        break;
+                    case "Title":
+                        orderBy = (sort == "Asc") ? q => q.OrderBy(p => p.Title) : q => q.OrderByDescending(p => p.Title);
+                        break;
+                    case "Price":
+                        orderBy = (sort == "Asc") ? q => q.OrderBy(p => p.Price) : q => q.OrderByDescending(p => p.Price);
+                        break;
+                    default:
+                        orderBy = (sort == "Asc") ? q => q.OrderBy(p => p.Id) : q => q.OrderByDescending(p => p.Id);
+                        break;
+                }
+
+                var books = await unitOfWork.Books.GetAll(expression, orderBy, new List<string> { "Authors", "Genres", "Publisher" }, new PaginationFilter(pageNumber, pageSize));
+                foreach (var book in books)
+                {
+                    var promoInfo = await unitOfWork.PromotionInfos.Get(
+                        q => q.Book.Id == book.Id &&
+                        q.Promotion.Status == (int)PromotionStatus.OnGoing
+                        );
+                    book.PromotionInfo = promoInfo;
+                }
+                var count = await unitOfWork.Books.GetCount(expression);
+                var result = mapper.Map<IList<BookDTO>>(books);
+
+                return Accepted(new { result = result, totalProduct = count });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> PostBook(CreateBookDTO bookDTO)
         {
             if (!ModelState.IsValid)
@@ -298,6 +344,8 @@ namespace WebTMDT.Controllers
                 newBook.Price = bookDTO.Price;
                 newBook.NumberOfPage = bookDTO.NumberOfPage;
                 newBook.PublishYear = bookDTO.PublishYear;
+                newBook.CreateDate = DateTime.Now;
+                newBook.UpdateDate = DateTime.Now;
                 newBook.Authors = new List<Author>();
                 newBook.Genres = new List<Genre>();
 
@@ -331,7 +379,7 @@ namespace WebTMDT.Controllers
                     var genre = await unitOfWork.Genres.Get(q => q.Name == item);
                     if (genre == null)
                     {
-                        genre = new Genre() { Name = item };
+                        genre = new Genre() { Name = item ,Description=""};
                     }
                     newBook.Genres.Add(genre);
                 }
@@ -346,6 +394,7 @@ namespace WebTMDT.Controllers
             }
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> PutBook([FromBody] CreateBookDTO bookDTO, int id)
         {
             if (!ModelState.IsValid)
@@ -365,6 +414,7 @@ namespace WebTMDT.Controllers
                 book.Price = bookDTO.Price;
                 book.NumberOfPage = bookDTO.NumberOfPage;
                 book.PublishYear = bookDTO.PublishYear;
+                book.UpdateDate = DateTime.Now;
                 //loại các author ko còn trong danh sách
                 List<Author> authorListToDelete = new List<Author>();
                 foreach (var author in book.Authors)
@@ -476,7 +526,7 @@ namespace WebTMDT.Controllers
                     }
                     if (!match)
                     {
-                        genreListToAdd.Add(new Genre() { Name = item });
+                        genreListToAdd.Add(new Genre() { Name = item,Description="" });
                     }
                 }
                 foreach (var genre in genreListToAdd)
@@ -496,6 +546,7 @@ namespace WebTMDT.Controllers
 
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteBook(int id)
         {
             try

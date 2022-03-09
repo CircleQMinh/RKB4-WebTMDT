@@ -27,6 +27,7 @@ namespace WebTMDT_API.Data.Mapper
             //Book
             CreateMap<Book, BookDTO>().ReverseMap();
             CreateMap<Book, SimpleBookInfoDTO>().ReverseMap();
+            CreateMap<Book,AdminBookDTO>().ReverseMap();
             //PromotionInfo
             CreateMap<PromotionInfo, PromotionInfoDTO>().ReverseMap();
             CreateMap<PromotionInfo, SimplePromotionInfoDTO>().ReverseMap();
