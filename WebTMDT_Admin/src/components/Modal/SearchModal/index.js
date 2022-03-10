@@ -2,6 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Pagination from "../../../shared-components/Pagination";
 import ProductTableItem from "../../Admin/TableItem/Product";
+import UserTableItem from "../../Admin/TableItem/User";
 
 
 function SearchModal(props) {
@@ -70,7 +71,7 @@ function SearchModal(props) {
             </table>
           </div>
         )}
-        {/* {!props.isSearching && type == "User" && data.length > 0 && (
+        {!props.isSearching && type == "User" && data.length > 0 && (
           <div className="table-responsive ">
             <table className="table">
               <thead className="text-primary">
@@ -97,7 +98,7 @@ function SearchModal(props) {
               </tbody>
             </table>
           </div>
-        )} */}
+        )}
 
         {/* {!props.isSearching && type == "Order" && data.length > 0 && (
           <div className="table-responsive ">

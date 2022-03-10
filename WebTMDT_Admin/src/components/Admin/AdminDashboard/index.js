@@ -9,6 +9,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import AdminHeader from "../AdminHeader";
 import AdminFooter from "../AdminFooter";
 import { toast } from "react-toastify";
+import Loading from "../../../shared-components/Loading";
 
 function AdminDashboard() {
   const dispatch = useDispatch();
@@ -16,29 +17,28 @@ function AdminDashboard() {
   const [reRender, setReRender] = useState(true);
   const [authorizing, setAuthorizing] = useState(true);
 
-
   useEffect(() => {
     AuthService.GetAuthorizeAdmin()
-    .then((res) => {
-      //console.log(res.data);
-      setAuthorizing(false);
-    })
-    .catch((e) => {
-      toast.success("Xác thực không thành công! Xin hãy đăng nhập trước", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-      navigate("/login")
-    })
-    .finally(() => {});
-  }, [])
-  
-
-
+      .then((res) => {
+        //console.log(res.data);
+        setAuthorizing(false);
+      })
+      .catch((e) => {
+        toast.success("Xác thực không thành công! Xin hãy đăng nhập trước", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        setTimeout(() => {
+          dispatch(auth_action.logOut());
+          navigate("/login");
+        }, 2500);
+      })
+      .finally(() => {});
+  }, [reRender]);
 
   function ReRender() {
     setReRender(!reRender);
@@ -193,10 +193,11 @@ function AdminDashboard() {
           <AdminFooter></AdminFooter>
         </Fragment>
       )}
+      {authorizing && (
+        <Loading></Loading>
+      )}
     </Fragment>
   );
 }
 
-
-
-export default AdminDashboard
+export default AdminDashboard;

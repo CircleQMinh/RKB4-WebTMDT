@@ -12,6 +12,8 @@ namespace WebTMDT_API.Data.Mapper
             CreateMap<Genre, GenreDTO>().ReverseMap();
             CreateMap<Genre, SmallerGenreDTO>().ReverseMap();
             CreateMap<Genre, GenreInfoDTO>().ReverseMap();
+            CreateMap<Genre, GenreInfoAdminDTO>().ReverseMap();
+            CreateMap<Genre, CreateGenreDTO>().ReverseMap();
             //User
             CreateMap<AppUser, UserRegisterDTO>().ReverseMap();
             CreateMap<AppUser, LoginUserDTO>().ReverseMap();

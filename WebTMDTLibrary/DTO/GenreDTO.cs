@@ -17,6 +17,15 @@
         public string? Name { get; set; }
         public string Description { get; set; }
     }
+    public class GenreInfoAdminDTO : GenreInfoDTO
+    {
+        public virtual IList<BookDTO> Books { get; set; }
+    }
+    public class CreateGenreDTO
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+    }
     public class GenresDeserialize
     {
         public List<GenreDTO> result { get; set; }

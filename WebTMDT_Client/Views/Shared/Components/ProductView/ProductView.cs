@@ -19,6 +19,10 @@ namespace WebTMDT_Client.Views.Shared.Components.ProductView
         public async Task<IViewComponentResult> InvokeAsync(ProductListFilterModel model)
         {
             ProductViewViewModel p_model = await productService.GetProductViewViewModel(model);
+            Console.WriteLine(p_model.pageNumber);
+            Console.WriteLine(p_model.pageNumber);
+            Console.WriteLine(p_model.Books.totalPage);
+            //Console.WriteLine(p_model.Genres.result.Count);
             return View("ProductView", p_model);
         }
     }
