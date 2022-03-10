@@ -3,6 +3,8 @@ using WebTMDTLibrary.DTO;
 using WebTMDT_API.Repository;
 using Microsoft.AspNetCore.Mvc;
 using WebTMDT_API.Data;
+using Microsoft.AspNetCore.Authorization;
+using WebTMDT_API.Helper;
 
 namespace WebTMDT.Controllers
 {
@@ -24,7 +26,7 @@ namespace WebTMDT.Controllers
         {
             try
             {
-                var genre = await unitOfWork.Genres.GetAll(q => q.Id != 0, q => q.OrderBy(genre => genre.Id), null);
+                var genre = await unitOfWork.Genres.GetAll(null, q => q.OrderBy(genre => genre.Id), null);
                 var result = mapper.Map<IList<GenreDTO>>(genre);
                 return Ok(new {  result });
             }
@@ -49,12 +51,113 @@ namespace WebTMDT.Controllers
             }
         }
 
-        [HttpGet("test")]
-        public async Task<ActionResult<List<GenreDTO>>> Test()
+        [HttpGet("details")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> GetGenreInfoForAdmin(string orderby, string sort, int pageNumber, int pageSize)
         {
-            var model = await unitOfWork.Genres.GetAll(q=>true,null,null);
-            var result = mapper.Map<IList<GenreDTO>>(model);
-            return Ok( new { result,success=true });
+            Func<IQueryable<Genre>, IOrderedQueryable<Genre>> orderBy = null;
+            switch (orderby)
+            {
+                case "Name":
+                    orderBy = (sort == "Asc") ? q => q.OrderBy(o => o.Name) : q => q.OrderByDescending(o => o.Name);
+                    break;
+                case "Id":
+                    orderBy = (sort == "Asc") ? q => q.OrderBy(o => o.Id) : q => q.OrderByDescending(o => o.Id);
+                    break;
+            }
+            try
+            {
+                var genres = await unitOfWork.Genres.GetAll(null, orderBy, new List<string> { "Books" }, new PaginationFilter(pageNumber, pageSize));
+                var result = mapper.Map<IList<GenreInfoAdminDTO>>(genres);
+                var count = await unitOfWork.Genres.GetCount(null);
+
+                return Ok(new { success = true, result = result, total = count });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> PostGenre([FromBody] CreateGenreDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Ok(new { error = "Dữ liệu chưa hợp lệ", success = false });
+            }
+            var exist = await unitOfWork.Genres.Get(q => q.Name == dto.Name.Trim());
+            if (exist!=null)
+            {
+                return Ok(new { error = "Đã tồn tại thể loại này rồi", success = false });
+            }
+            try
+            {
+                var genre = mapper.Map<Genre>(dto);
+                await unitOfWork.Genres.Insert(genre);
+                await unitOfWork.Save();
+
+
+                return Ok(new {  success = true,genre = genre });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> PutGenre([FromBody] CreateGenreDTO dto,int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Ok(new { error = "Dữ liệu chưa hợp lệ", success = false });
+            }
+            var genre = await unitOfWork.Genres.Get(q => q.Id == id);
+            if (genre == null)
+            {
+                return Ok(new { error = "Không tìm thấy thể loại", success = false });
+            }
+            var exist = await unitOfWork.Genres.Get(q=>q.Id!=id&&q.Name==dto.Name.Trim());
+            if (exist != null)
+            {
+                return Ok(new { error = "Đã tồn tại thể loại này rồi", success = false });
+            }
+            try
+            {
+                mapper.Map(dto, genre);
+                unitOfWork.Genres.Update(genre);
+                await unitOfWork.Save();
+
+
+                return Ok(new { success = true, genre = genre });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> DeleteGenre(int id)
+        {
+            try
+            {
+                var genre = await unitOfWork.Genres.Get(q => q.Id == id);
+                if (genre == null)
+                {
+                    return Ok(new { error = "Không tìm thấy thể loại", success = false });
+                }
+                await unitOfWork.Genres.Delete(id);
+                await unitOfWork.Save();
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.ToString() });
+            }
         }
     }
 }

@@ -104,7 +104,7 @@ namespace WebTMDT_Client.Service
                     client.BaseAddress = new Uri(Configuration["Setting:API_URL"]);
                     var url = $"genre";
                     var responseTask = client.GetAsync(url);
-
+                    Console.WriteLine(client.BaseAddress.ToString()+url);
                     var result = await responseTask;
                     if (result.IsSuccessStatusCode)
                     {

@@ -1,128 +1,62 @@
 import { React, Fragment, useState, useEffect } from "react";
-
 import AdminService from "../../../api/AdminService";
 import ProductService from "../../../api/ProductService";
 import { auth_action } from "../../../redux/auth_slice.js";
-
 import { toast } from "react-toastify";
 import AuthService from "../../../api/AuthService";
-
 import Pagination from "../../../shared-components/Pagination";
 import ProductTableItem from "../TableItem/Product";
 import AdminHeader from "../AdminHeader";
 import AdminFooter from "../AdminFooter";
 import AddProductModal from "../../Modal/AddProduct";
-
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import SearchModal from "../../Modal/SearchModal";
-import auth_slice from "../../../redux/auth_slice";
+import GenreTableItem from "../TableItem/Genre";
+import AddUserModal from "../../Modal/AddUser";
+import AddGenreModal from "../../Modal/AddGenre";
 import Loading from "../../../shared-components/Loading";
-
-function AdminProduct() {
+function AdminGenre() {
   const [authorizing, setAuthorizing] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [reRender, setReRender] = useState(true);
-  
-  var navigate = useNavigate()
+
+  var navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth_slice.isLoggedIn);
   const user = useSelector((state) => state.auth_slice.user);
 
   useEffect(() => {
     AuthService.GetAuthorizeAdmin()
-    .then((res) => {
-      //console.log(res.data);
-      setAuthorizing(false);
-    })
-    .catch((e) => {
-      toast.success("Xác thực không thành công! Xin hãy đăng nhập trước", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-      setTimeout(()=>{
-        dispatch(auth_action.logOut());
-        navigate("/login")
-      },2500)
-    })
-    .finally(() => {});
-  },[reRender])
-
-
+      .then((res) => {
+        //console.log(res.data);
+        setAuthorizing(false);
+      })
+      .catch((e) => {
+        toast.success("Xác thực không thành công! Xin hãy đăng nhập trước", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        setTimeout(() => {
+          dispatch(auth_action.logOut());
+          navigate("/login");
+        }, 2500);
+      })
+      .finally(() => {});
+  }, [reRender]);
 
   const [listGenre, setListGenre] = useState([]);
-  const [listAuthor, setListAuthor] = useState([]);
-  const [listProduct, setListProduct] = useState([]);
-  const [listPublisher, setListPublisher] = useState([]);
-
-  const [genre_filter, setGenre_filter] = useState("all");
   const [orderby, setOrderby] = useState("Id");
   const [sort, setSort] = useState("Asc");
   const [pageNumber, setpageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [totalPage, setTotalPage] = useState(1);
 
-  const [showAddModal, setShowAddModal] = useState(false);
-  const handleShowAddModal = () => {
-    setShowAddModal(true);
-  };
-
-  //run first
-  useEffect(() => {
-    setIsLoading(true);
-    ProductService.getGenre()
-      .then((response) => {
-        setListGenre(response.data.result);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {});
-    AdminService.GetBooksForAdmin(
-      genre_filter,
-      orderby,
-      sort,
-      pageNumber,
-      pageSize
-    )
-      .then((response) => {
-        //console.log(response.data.result);
-        setListProduct(response.data.result);
-        setTotalPage(Math.ceil(Number(response.data.totalProduct / pageSize)));
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-    ProductService.getAuthor()
-      .then((response) => {
-        setListAuthor(response.data.result);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {});
-    ProductService.getPublisher()
-      .then((response) => {
-        setListPublisher(response.data.result);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {});
-  }, [genre_filter, orderby, sort, pageNumber, pageSize, reRender]);
-
-  function onGenreFilterChange(event) {
-    setpageNumber(1);
-    setGenre_filter(event.target.value);
-  }
   function onOrderByFilterChange(event) {
     setpageNumber(1);
     setOrderby(event.target.value);
@@ -135,6 +69,7 @@ function AdminProduct() {
     setpageNumber(1);
     setPageSize(event.target.value);
   }
+
   function onPageNumberChange(event) {
     setpageNumber(event.target.value);
   }
@@ -155,7 +90,23 @@ function AdminProduct() {
     setReRender(!reRender);
   }
 
-  const [searchType, setSearchType] = useState("Product");
+  //run first
+  useEffect(() => {
+    setIsLoading(true);
+    AdminService.GetGenreForAdmin(orderby, sort, pageNumber, pageSize)
+      .then((response) => {
+        setListGenre(response.data.result);
+        setTotalPage(Math.ceil(Number(response.data.total / pageSize)));
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [orderby, sort, pageNumber, pageSize, reRender]);
+
+  const [searchType, setSearchType] = useState("Genre");
   const [searchBy, setSearchBy] = useState("Name");
   const [keyword, setKeyword] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -172,6 +123,11 @@ function AdminProduct() {
     setKeyword(event.target.value);
   }
 
+  const [showAddModal, setShowAddModal] = useState(false);
+  const handleShowAddModal = () => {
+    setShowAddModal(true);
+  };
+
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [isSearching, setIsSearching] = useState(true);
 
@@ -183,6 +139,7 @@ function AdminProduct() {
 
     GetSearchResult(1, 4);
   };
+
   function GetSearchResult(pageNumber, pageSize) {
     setCurrentResultPage(pageNumber);
     setIsSearching(true);
@@ -221,8 +178,8 @@ function AdminProduct() {
               <div className="card p-3">
                 <p className="lead text-center mb-0 fw-bold fs-3 text-monospace">
                   {" "}
-                  <i className="fas fa-file-invoice-dollar me-2"></i>Quản lý sản
-                  phẩm
+                  <i className="fas fa-file-invoice-dollar me-2"></i>Quản lý thể
+                  loại sách
                 </p>
               </div>
               <div className="row">
@@ -271,23 +228,6 @@ function AdminProduct() {
                 <hr className="text-white"></hr>
                 <div className="d-flex flex-wrap justify-content-around ">
                   <div className="mb-3 row">
-                    <label className="text-white">Thể loại: </label>
-                    <select
-                      className="form-select"
-                      defaultValue={"all"}
-                      onChange={onGenreFilterChange}
-                    >
-                      <option value="all">Toàn bộ</option>
-                      {listGenre.map((genre) => {
-                        return (
-                          <option key={genre.id} value={genre.id}>
-                            {genre.name}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </div>
-                  <div className="mb-3 row">
                     <label className="text-white">Sắp xếp theo: </label>
                     <select
                       className="form-select"
@@ -295,8 +235,7 @@ function AdminProduct() {
                       onChange={onOrderByFilterChange}
                     >
                       <option value="Id">Id</option>
-                      <option value="Title">Tên</option>
-                      <option value="Price">Giá</option>
+                      <option value="Name">Tên</option>
                     </select>
                   </div>
                   <div className="mb-3 row">
@@ -331,7 +270,9 @@ function AdminProduct() {
                     <div className="card-header">
                       <div className="d-flex justify-content-between flex-wrap">
                         <div className="col-sm-12 ">
-                          <h5 className="card-title">Bảng quản lý sản phẩm</h5>
+                          <h5 className="card-title">
+                            Bảng quản lý thể loại sách
+                          </h5>
                         </div>
                         <div className="col-sm-12 ">
                           <div className="btn-group mb-2">
@@ -362,32 +303,27 @@ function AdminProduct() {
                           <thead className="text-primary">
                             <tr>
                               <th className="text-center">#</th>
-                              <th>Sản phẩm</th>
-                              <th>Giá</th>
-                              <th>Nhà xuất bản</th>
-                              <th>Tác giả</th>
-                              <th>Thể loại</th>
+                              <th>Tên</th>
+                              <th>Mô tả</th>
+                              <th>Số sách</th>
                               <th className="text-right">Actions</th>
                             </tr>
                           </thead>
-                          {!isLoading && listProduct.length > 0 && (
+                          {!isLoading && listGenre.length > 0 && (
                             <tbody>
-                              {listProduct.map((item, i) => {
+                              {listGenre.map((item, i) => {
                                 return (
-                                  <ProductTableItem
+                                  <GenreTableItem
                                     item={item}
                                     key={i}
                                     reRender={ReRender}
-                                    listAuthor={listAuthor}
-                                    listGenre={listGenre}
-                                    listPublisher={listPublisher}
-                                  ></ProductTableItem>
+                                  ></GenreTableItem>
                                 );
                               })}
                             </tbody>
                           )}
                         </table>
-                        {!isLoading && listProduct.length == 0 && (
+                        {!isLoading && listGenre.length == 0 && (
                           <div className="d-flex justify-content-center">
                             <img
                               className="img-fluid"
@@ -451,35 +387,14 @@ function AdminProduct() {
           <AdminFooter></AdminFooter>
         </Fragment>
       )}
-      {authorizing && (
-       <Loading></Loading>
-      )}
-      <AddProductModal
+      {authorizing && <Loading></Loading>}
+      <AddGenreModal
         showAddModal={showAddModal}
         setShowAddModal={setShowAddModal}
-        listAuthor={listAuthor}
-        listGenre={listGenre}
-        listPublisher={listPublisher}
         reRender={ReRender}
-      ></AddProductModal>
-
-
-      <SearchModal
-        showSearchModal={showSearchModal}
-        handleCloseSearchModal={handleCloseSearchModal}
-        isSearching={isSearching}
-        searchResult = {searchResult}
-        searchType = {searchType}
-        GetSearchResult = {GetSearchResult}
-        currentResultPage = {currentResultPage}
-        totalResultPage = {totalResultPage}
-        listGenre={listGenre}
-        listAuthor={listAuthor}
-        listPublisher={listPublisher}
-        reRender = {ReRender}
-      ></SearchModal>
+      ></AddGenreModal>
     </Fragment>
   );
 }
 
-export default AdminProduct;
+export default AdminGenre;

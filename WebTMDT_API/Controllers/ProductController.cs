@@ -101,8 +101,7 @@ namespace WebTMDT.Controllers
                     }
                 }
 
-
-                return Ok(new { result = result, totalProduct = count });
+                return Ok(new { result = result, totalPage = (int)Math.Ceiling((double)count / pageSize) });
             }
             catch (Exception ex)
             {
@@ -328,7 +327,7 @@ namespace WebTMDT.Controllers
             }
         }
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator")] 
         public async Task<IActionResult> PostBook(CreateBookDTO bookDTO)
         {
             if (!ModelState.IsValid)

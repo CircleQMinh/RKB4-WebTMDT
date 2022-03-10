@@ -1,226 +1,226 @@
-import React, { Fragment ,useState} from "react";
+import React, { Fragment, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import AdminService from "../../../api/AdminService";
-import {upLoadImageToCloudinary} from "../../../helper/Cloudinary"
+import { upLoadImageToCloudinary } from "../../../helper/Cloudinary";
 function AddProductModal(props) {
-    var listAuthor=props.listAuthor
-    var listGenre=props.listGenre
-    var listPublisher=props.listPublisher
- 
-    var showAddModal=props.showAddModal
-    var setShowAddModal=props.setShowAddModal
+  var listAuthor = props.listAuthor;
+  var listGenre = props.listGenre;
+  var listPublisher = props.listPublisher;
 
+  var showAddModal = props.showAddModal;
+  var setShowAddModal = props.setShowAddModal;
 
-    const [selectedImgUrl, setselectedImgUrl] = useState(null);
-    const [selectedGenres, setSelectedGenres] = useState([]);
-    const [selectedAuthors, setSelectedAuthors] = useState([]);
-    const [selectedPublisher, setSelectedPublisher] = useState();
-  
-    const [uploadImg, setUploadImg] = useState(false);
-  
-    const defaultImgUrl =
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png";
-    function onImageChange(event) {
-      //setselectedImgUrl(event.target.value)
-      if (!event.target.files[0] || event.target.files[0].length == 0) {
-        alert("Bạn phải chọn 1 hình ảnh");
-        return;
-      }
-  
-      var mimeType = event.target.files[0].type;
-  
-      if (mimeType.match(/image\/*/) == null) {
-        alert("File phải là hình ảnh");
-        return;
-      }
-  
-      var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      reader.onload = (_event) => {
-        // console.log(reader.result)
-        setselectedImgUrl(reader.result);
-        setUploadImg(true);
-      };
-    }
-    const [isAdding, setIsAdding] = useState(false);
-    let {
-      register: registerAddModal,
-      handleSubmit: handleSubmitAddModal,
-      watch,
-      reset: resetAddModal,
-      formState: { errors: addModalError },
-    } = useForm();
-  
-    const handleCloseAddModal = () => {
-      setShowAddModal(false);
-      setselectedImgUrl(null);
-      resetAddModal();
-      setSelectedGenres([]);
-      setSelectedAuthors([]);
-      setSelectedPublisher(null);
-    };
-    //modal add genre
-    const [showAdd_AddGenreModal, setShowAdd_AddGenreModal] = useState(false);
-  
-    const handleCloseAdd_AddGenreModal = () => {
-      setShowAdd_AddGenreModal(false);
-    };
-    const handleShowAdd_AddGenreModal = () => {
-      setShowAdd_AddGenreModal(true);
-    };
-  
-    function onAddGenreToProduct(event) {
-      var genre = document.getElementById("pick_genre").value;
-      var state = [...selectedGenres];
-      if (!state.includes(genre)) {
-        state.push(genre);
-      }
-  
-      setSelectedGenres(state);
-      setShowAdd_AddGenreModal(false);
-    }
-    function onRemoveGenreFromProduct(event) {
-      var genre = event.target.outerText;
-      var state = [...selectedGenres];
-      setSelectedGenres(state.filter((q) => q != genre.trim()));
-    }
-    //modal add author
-    const [showAdd_AddAuthorModal, setShowAdd_AddAuthorModal] = useState(false);
-  
-    const handleCloseAdd_AddAuthorModal = () => {
-      setShowAdd_AddAuthorModal(false);
-    };
-    const handleShowAdd_AddAuthorModal = () => {
-      setShowAdd_AddAuthorModal(true);
-    };
-  
-    function onAddAuthorToProduct(event) {
-      var au = document.getElementById("pick_author").value;
-      var state = [...selectedAuthors];
-      if (!state.includes(au)) {
-        state.push(au);
-      }
-  
-      setSelectedAuthors(state);
-      setShowAdd_AddAuthorModal(false);
-    }
-    function onRemoveAuthorFromProduct(event) {
-      var au = event.target.outerText;
-      var state = [...selectedAuthors];
-      setSelectedAuthors(state.filter((q) => q != au.trim()));
-    }
-    function onPublisherChange(event) {
-      var publisher = event.target.value;
-      setSelectedPublisher(publisher);
-      // console.log(publisher)
-    }
-  
-    function onAddButtonClick(data) {
-      // console.log(data);
-      if (selectedGenres.length == 0) {
-        toast.info("Thêm thể loại cho sản phẩm!", {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-        return;
-      }
-      if (selectedAuthors.length == 0) {
-        toast.info("Thêm tác giả cho sản phẩm!", {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-        return;
-      }
-      if (selectedPublisher == null) {
-        toast.info("Thêm nhà xuất bản cho sản phẩm!", {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-        return;
-      }
-      setIsAdding(true);
-      if (uploadImg) {
-        upLoadImageToCloudinary(selectedImgUrl)
-          .then((res) => {
-            setselectedImgUrl(res.data.url);
-            AddProduct(data, res.data.url);
-          })
-          .catch((e) => {
-            console.log(e);
-            setIsAdding(false);
-            setShowAddModal(false);
-          });
-      } else {
-        AddProduct(data);
-      }
-    }
-    function AddProduct(data, url) {
-        var book = {
-          title: data.title,
-          description: data.description,
-          imgUrl: url ? url : selectedImgUrl,
-          price: data.price,
-          publishYear: data.publishYear,
-          numberOfPage: data.numberOfPage,
-          genres: selectedGenres,
-          authors: selectedAuthors,
-          publisherName: selectedPublisher,
-        };
+  const [selectedImgUrl, setselectedImgUrl] = useState(null);
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedAuthors, setSelectedAuthors] = useState([]);
+  const [selectedPublisher, setSelectedPublisher] = useState();
+
+  const [uploadImg, setUploadImg] = useState(false);
+
+  const defaultImgUrl =
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png";
     
-        AdminService.AddProduct(book)
-          .then((response) => {
-            console.log(response.data);
-            if (response.data.success) {
-              toast.success("Thêm thành công!", {
-                position: "top-center",
-                autoClose: 1000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-              });
-            } else {
-              toast.error("Có lỗi xảy ra! Xin hãy thử lại", {
-                position: "top-center",
-                autoClose: 1000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-              });
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-          .finally(() => {
-            setIsAdding(false);
-            setShowAddModal(false);
-            resetAddModal();
-            setSelectedGenres([]);
-            setSelectedAuthors([]);
-            setSelectedPublisher(null);
-            setselectedImgUrl(defaultImgUrl);
-            ReRender();
-          });
-      }
-    function ReRender(){
-        props.reRender()
+  function onImageChange(event) {
+    //setselectedImgUrl(event.target.value)
+    if (!event.target.files[0] || event.target.files[0].length == 0) {
+      alert("Bạn phải chọn 1 hình ảnh");
+      return;
     }
+
+    var mimeType = event.target.files[0].type;
+
+    if (mimeType.match(/image\/*/) == null) {
+      alert("File phải là hình ảnh");
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = (_event) => {
+      // console.log(reader.result)
+      setselectedImgUrl(reader.result);
+      setUploadImg(true);
+    };
+  }
+  const [isAdding, setIsAdding] = useState(false);
+  let {
+    register: registerAddModal,
+    handleSubmit: handleSubmitAddModal,
+    watch,
+    reset: resetAddModal,
+    formState: { errors: addModalError },
+  } = useForm();
+
+  const handleCloseAddModal = () => {
+    setShowAddModal(false);
+    setselectedImgUrl(null);
+    resetAddModal();
+    setSelectedGenres([]);
+    setSelectedAuthors([]);
+    setSelectedPublisher(null);
+  };
+  //modal add genre
+  const [showAdd_AddGenreModal, setShowAdd_AddGenreModal] = useState(false);
+
+  const handleCloseAdd_AddGenreModal = () => {
+    setShowAdd_AddGenreModal(false);
+  };
+  const handleShowAdd_AddGenreModal = () => {
+    setShowAdd_AddGenreModal(true);
+  };
+
+  function onAddGenreToProduct(event) {
+    var genre = document.getElementById("pick_genre").value;
+    var state = [...selectedGenres];
+    if (!state.includes(genre)) {
+      state.push(genre);
+    }
+
+    setSelectedGenres(state);
+    setShowAdd_AddGenreModal(false);
+  }
+  function onRemoveGenreFromProduct(event) {
+    var genre = event.target.outerText;
+    var state = [...selectedGenres];
+    setSelectedGenres(state.filter((q) => q != genre.trim()));
+  }
+  //modal add author
+  const [showAdd_AddAuthorModal, setShowAdd_AddAuthorModal] = useState(false);
+
+  const handleCloseAdd_AddAuthorModal = () => {
+    setShowAdd_AddAuthorModal(false);
+  };
+  const handleShowAdd_AddAuthorModal = () => {
+    setShowAdd_AddAuthorModal(true);
+  };
+
+  function onAddAuthorToProduct(event) {
+    var au = document.getElementById("pick_author").value;
+    var state = [...selectedAuthors];
+    if (!state.includes(au)) {
+      state.push(au);
+    }
+
+    setSelectedAuthors(state);
+    setShowAdd_AddAuthorModal(false);
+  }
+  function onRemoveAuthorFromProduct(event) {
+    var au = event.target.outerText;
+    var state = [...selectedAuthors];
+    setSelectedAuthors(state.filter((q) => q != au.trim()));
+  }
+  function onPublisherChange(event) {
+    var publisher = event.target.value;
+    setSelectedPublisher(publisher);
+    // console.log(publisher)
+  }
+
+  function onAddButtonClick(data) {
+    // console.log(data);
+    if (selectedGenres.length == 0) {
+      toast.info("Thêm thể loại cho sản phẩm!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
+    if (selectedAuthors.length == 0) {
+      toast.info("Thêm tác giả cho sản phẩm!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
+    if (selectedPublisher == null) {
+      toast.info("Thêm nhà xuất bản cho sản phẩm!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
+    setIsAdding(true);
+    if (uploadImg) {
+      upLoadImageToCloudinary(selectedImgUrl==null?defaultImgUrl:selectedImgUrl)
+        .then((res) => {
+          setselectedImgUrl(res.data.url);
+          AddProduct(data, res.data.url);
+        })
+        .catch((e) => {
+          console.log(e);
+          setIsAdding(false);
+          setShowAddModal(false);
+        });
+    } else {
+      AddProduct(data);
+    }
+  }
+  function AddProduct(data, url) {
+    var book = {
+      title: data.title,
+      description: data.description,
+      imgUrl: url ? url : selectedImgUrl,
+      price: data.price,
+      publishYear: data.publishYear,
+      numberOfPage: data.numberOfPage,
+      genres: selectedGenres,
+      authors: selectedAuthors,
+      publisherName: selectedPublisher,
+    };
+
+    AdminService.AddProduct(book)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.success) {
+          toast.success("Thêm thành công!", {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        } else {
+          toast.error("Có lỗi xảy ra! Xin hãy thử lại", {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsAdding(false);
+        setShowAddModal(false);
+        resetAddModal();
+        setSelectedGenres([]);
+        setSelectedAuthors([]);
+        setSelectedPublisher(null);
+        setselectedImgUrl(defaultImgUrl);
+        ReRender();
+      });
+  }
+  function ReRender() {
+    props.reRender();
+  }
   return (
     <Fragment>
       {" "}

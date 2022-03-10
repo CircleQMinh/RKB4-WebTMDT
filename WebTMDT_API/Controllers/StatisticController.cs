@@ -174,9 +174,7 @@ namespace WebTMDT_API.Controllers
             try
             {
                 Expression<Func<Book, bool>> expression_book = null;
-                Expression<Func<AppUser, bool>> expression_user = null;
                 Expression<Func<Order, bool>> expression_order = null;
-                Expression<Func<Employee, bool>> expression_emp = null;
                 dynamic listFromQuery;
                 dynamic result;
                 int count = 0;
@@ -270,24 +268,7 @@ namespace WebTMDT_API.Controllers
                         result = mapper.Map<IList<OrderDTO>>(listFromQuery);
                         return Accepted(new { success = true, result = result, total = count });
                     //--------------------------------------------------------------------------------------------------
-                    case ("User", "Id"):
-                        expression_user = q => q.Id == keyword;
-                        listFromQuery = await unitOfWork.Users.GetAll(
-                            expression_user,
-                            null, null, new PaginationFilter(pageNumber, pageSize));
-                        count = await unitOfWork.Users.GetCount(expression_user);
-                        result = mapper.Map<IList<SimpleUserForAdminDTO>>(listFromQuery);
-                        return Accepted(new { success = true, result = result, total = count });
-
-                    case ("User", "Name"):
-                        expression_user = q => q.UserName.Contains(keyword);
-                        listFromQuery = await unitOfWork.Users.GetAll(
-                            expression_user,
-                            null, null, new PaginationFilter(pageNumber, pageSize));
-                        count = await unitOfWork.Users.GetCount(expression_user);
-                        result = mapper.Map<IList<SimpleUserForAdminDTO>>(listFromQuery);
-                        return Accepted(new { success = true, result = result, total = count });
-                    //--------------------------------------------------------------------------------------------------
+                
                     default:
                         return Accepted(new { success = false, error = "Dữ liệu không hợp lệ" });
                 }
@@ -295,6 +276,46 @@ namespace WebTMDT_API.Controllers
             catch (Exception ex)
             {
                 //return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("search/user")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> GetSearchResult_User(string searchBy, string keyword, int pageNumber = 1, int pageSize = 10)
+        {
+            try
+            {
+                Func<IQueryable<AppUser>, IOrderedQueryable<AppUser>> orderBy = null;
+                Expression<Func<AppUser, bool>> expression_user = null;
+                switch (searchBy)
+                {
+                    case "Id":
+                        expression_user = q => q.Id == keyword;
+                        break;
+                    case "Name":
+                        expression_user = q => q.UserName.Contains(keyword);
+                        break;
+                    case "Email":
+                        expression_user = q => q.Email.Contains(keyword);
+                        break;
+                }
+
+                var users = await unitOfWork.Users.GetAll(expression_user, orderBy, null, new PaginationFilter(pageNumber, pageSize));
+                var count = await unitOfWork.Users.GetCount(expression_user);
+                var result = mapper.Map<IList<SimpleUserForAdminDTO>>(users);
+                var user_result = users.Zip(result, (u, r) => new { User = u, Result = r });
+                foreach (var ur in user_result)
+                {
+                    var roles = await userManager.GetRolesAsync(ur.User);
+                    ur.Result.Roles = roles;
+                }
+
+
+                return Accepted(new { success = true, result = result, total = count });
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
