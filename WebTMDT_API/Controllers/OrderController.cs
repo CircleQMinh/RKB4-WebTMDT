@@ -17,9 +17,11 @@ namespace WebTMDT_API.Controllers
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
+        private readonly IConfiguration configuration;
 
-        public OrderController(IUnitOfWork _unitOfWork, IMapper _mapper)
+        public OrderController(IUnitOfWork _unitOfWork, IMapper _mapper,IConfiguration _configuration)
         {
+            configuration = _configuration;
             unitOfWork = _unitOfWork;
             mapper = _mapper;
         }
@@ -86,7 +88,7 @@ namespace WebTMDT_API.Controllers
 
 
         [HttpGet("{id}")]
-       // [Authorize]
+        [Authorize]
         public async Task<IActionResult> GetOrderById(int id)
         {
             try
@@ -107,7 +109,7 @@ namespace WebTMDT_API.Controllers
         }
 
         [HttpGet("{id}/orderdetails")]
-       // [Authorize]
+        [Authorize]
         public async Task<IActionResult> GetAllOrderDetailByOrderId(int id)
         {
             try
@@ -128,7 +130,7 @@ namespace WebTMDT_API.Controllers
         }
 
         [HttpGet("history/{id}")]
-       // [Authorize]
+        [Authorize]
         public async Task<IActionResult> GetUserOrderHistory(string id, string status, string orderby, string sort, int pageNumber, int pageSize)
         {
             try
@@ -169,7 +171,7 @@ namespace WebTMDT_API.Controllers
         }
 
         [HttpPost]
-       // [Authorize]
+        [Authorize]
         public async Task<IActionResult> PostOrder([FromBody] CreateOrderDTO order)
         {
             if (!ModelState.IsValid)
@@ -195,7 +197,7 @@ namespace WebTMDT_API.Controllers
 
                 //mapping rồi gửi
                 var result = mapper.Map<OrderDTO>(orderInfo);
-                EmailHelper emailHelper = new EmailHelper();
+                EmailHelper emailHelper = new EmailHelper(configuration);
                 string emailResponse = emailHelper.SendEmailWithOrderInfo(order.Email, result, result.OrderDetails);
 
                 return Ok(new { order = newOrder, success = true });
@@ -206,7 +208,7 @@ namespace WebTMDT_API.Controllers
             }
         }
         [HttpPut("{id}")]
-        //[Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> PutOrder([FromBody] EditOrderDTO dto, int id)
         {
             if (!ModelState.IsValid)
@@ -234,7 +236,7 @@ namespace WebTMDT_API.Controllers
             }
         }
         [HttpDelete("{id}")]
-      //  [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
             try
@@ -255,7 +257,7 @@ namespace WebTMDT_API.Controllers
         }
 
         [HttpGet]
-       // [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> GetOrders(string status, string orderby, string sort, int pageNumber, int pageSize)
         {
 

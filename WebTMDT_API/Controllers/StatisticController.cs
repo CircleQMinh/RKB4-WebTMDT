@@ -31,141 +31,6 @@ namespace WebTMDT_API.Controllers
         }
         [HttpGet("DashboardInfo")]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> GetDashboardInfo()
-        {
-            try
-            {
-                var userCount = await unitOfWork.Users.GetCount(null);
-                var productCount = await unitOfWork.Books.GetCount(null);
-                var orderCount = await unitOfWork.Orders.GetCount(q => q.Status == (int)OrderStatus.Done);
-                var uncheckOrderCount = await unitOfWork.Orders.GetCount(q => q.Status == (int)OrderStatus.NotChecked);
-
-
-                return Accepted(new { success = true, userCount, productCount, orderCount, uncheckOrderCount });
-            }
-            catch (Exception ex)
-            {
-                //return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-                return BadRequest(ex.Message);
-            }
-
-        }
-        [HttpGet("SaleStatistic")]
-        [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> GetSaleStatistic(string from, string to)
-        {
-            DateTime dfrom = DateTime.ParseExact(from, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            DateTime dto = DateTime.ParseExact(to, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            dto = dto.AddDays(1);
-
-            var test = dto.ToLongDateString();
-            try
-            {
-                var orders = await unitOfWork.Orders.GetAll(q => q.Status == (int)OrderStatus.Done && q.ShippedDate > dfrom && q.ShippedDate < dto, null, null);
-                var dic = new Dictionary<string, double>();
-                foreach (var order in orders)
-                {
-                    if (!dic.ContainsKey(order.ShippedDate.ToShortDateString()))
-                    {
-                        dic.Add(order.ShippedDate.ToShortDateString(), order.TotalPrice);
-                    }
-                    else
-                    {
-                        dic[order.ShippedDate.ToShortDateString()] += order.TotalPrice;
-                    }
-                }
-
-                var sort = dic.OrderBy(item => DateTime.ParseExact(item.Key, "dd/MM/yyyy", CultureInfo.InvariantCulture));
-                var sortedDict = sort.ToDictionary(pair => pair.Key, pair => pair.Value);
-                return Accepted(new { result = sortedDict, success = true });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpGet("OrderStatistic")]
-        [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> GetOrderStatistic(string from, string to)
-        {
-            DateTime dfrom = DateTime.ParseExact(from, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            DateTime dto = DateTime.ParseExact(to, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            dto = dto.AddDays(1);
-
-
-            if (dfrom > dto)
-            {
-                return Ok(new { error = "Dữ liệu nhập không hợp lệ", success = true });
-            }
-
-            try
-            {
-                var orders = await unitOfWork.Orders.GetAll(q => q.Status == (int)OrderStatus.Done && q.ShippedDate > dfrom && q.ShippedDate <= dto, null, null);
-                var dic = new Dictionary<string, int>();
-                foreach (var order in orders)
-                {
-                    if (!dic.ContainsKey(order.ShippedDate.ToShortDateString()))
-                    {
-                        dic.Add(order.ShippedDate.ToShortDateString(), 1);
-                    }
-                    else
-                    {
-                        dic[order.ShippedDate.ToShortDateString()] += 1;
-                    }
-                }
-                var sort = dic.OrderBy(item => DateTime.ParseExact(item.Key, "dd/MM/yyyy", CultureInfo.InvariantCulture));
-                var sortedDict = sort.ToDictionary(pair => pair.Key, pair => pair.Value);
-                return Accepted(new { result = sortedDict, success = true });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpGet("TopProduct")]
-        [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> GetTopProduct(int numberOfBook)
-        {
-            try
-            {
-                var orderDetails = await unitOfWork.OrderDetails.GetAll(q => q.Order.Status == (int)OrderStatus.Done, null, new List<string> { "Book" });
-                Dictionary<int, int> dic = new Dictionary<int, int>();
-                foreach (var od in orderDetails)
-                {
-                    if (!dic.ContainsKey(od.BookId))
-                    {
-                        dic.Add(od.BookId, od.Quantity);
-                    }
-                    else
-                    {
-                        dic[od.BookId] += od.Quantity;
-                    }
-                }
-                List<PopularBookDTO> result = new List<PopularBookDTO>();
-                foreach (var item in dic)
-                {
-                    var od = orderDetails.Where(q => q.BookId == item.Key).FirstOrDefault();
-                    var rs = new PopularBookDTO() { Book = mapper.Map<BookDTO>(od.Book), Sales = item.Value };
-                    result.Add(rs);
-                }
-
-                result.Sort((a, b) => b.Sales - a.Sales); //Desc
-                result = result.Take(numberOfBook).ToList();
-
-                foreach (var item in result)
-                {
-                    var temp = await unitOfWork.Books.Get(q => q.Id == item.Book.Id, new List<string> { "Authors", "Genres", "Publisher", "PromotionInfo", "WishlistUsers" });
-                    item.Book = mapper.Map<BookDTO>(temp);
-                }
-
-
-                return Ok(new { result }); ;
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { error = ex.ToString() });
-            }
-        }
 
         [HttpGet("search")]
         [Authorize(Roles = "Administrator")]
@@ -175,6 +40,7 @@ namespace WebTMDT_API.Controllers
             {
                 Expression<Func<Book, bool>> expression_book = null;
                 Expression<Func<Order, bool>> expression_order = null;
+                Expression<Func<Genre, bool>> expression_genre = null;
                 dynamic listFromQuery;
                 dynamic result;
                 int count = 0;
@@ -223,8 +89,6 @@ namespace WebTMDT_API.Controllers
                         count = await unitOfWork.Orders.GetCount(expression_order);
                         result = mapper.Map<IList<OrderDTO>>(listFromQuery);
                         return Accepted(new { success = true, result = result, total = count });
-
-
                     case ("Order", "Id"):
                         expression_order = q => q.Id == Int32.Parse(keyword);
                         listFromQuery = await unitOfWork.Orders.GetAll(
@@ -256,19 +120,27 @@ namespace WebTMDT_API.Controllers
                         count = await unitOfWork.Orders.GetCount(expression_order);
                         result = mapper.Map<IList<OrderDTO>>(listFromQuery);
                         return Accepted(new { success = true, result = result, total = count });
-                    case ("Order", "ShippedDate"):
-                        expression_order = q => q.ShippedDate.ToShortDateString() ==
-                        DateTime.ParseExact(keyword, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToShortDateString();
-                        listFromQuery = await unitOfWork.Orders.GetAll(
-                          expression_order,
-                          null,
-                          new List<string> { "OrderDetails", "Shipper", "DiscountCode" },
-                          new PaginationFilter(pageNumber, pageSize));
-                        count = await unitOfWork.Orders.GetCount(expression_order);
-                        result = mapper.Map<IList<OrderDTO>>(listFromQuery);
-                        return Accepted(new { success = true, result = result, total = count });
                     //--------------------------------------------------------------------------------------------------
-                
+                    case ("Genre", "Name"):
+                        expression_genre = q => q.Name.Contains(keyword);
+                        listFromQuery = await unitOfWork.Genres.GetAll(
+                        expression_genre,
+                        null,
+                        new List<string> { "Books" },
+                        new PaginationFilter(pageNumber, pageSize));
+                        count = await unitOfWork.Genres.GetCount(expression_genre);
+                        result = mapper.Map<IList<GenreInfoAdminDTO>>(listFromQuery);
+                        return Accepted(new { success = true, result = result, total = count });
+                    case ("Genre", "Id"):
+                        expression_genre = q => q.Id==Int32.Parse(keyword);
+                        listFromQuery = await unitOfWork.Genres.GetAll(
+                        expression_genre,
+                        null,
+                        new List<string> { "Books" },
+                        new PaginationFilter(pageNumber, pageSize));
+                        count = await unitOfWork.Genres.GetCount(expression_genre);
+                        result = mapper.Map<IList<GenreInfoAdminDTO>>(listFromQuery);
+                        return Accepted(new { success = true, result = result, total = count });
                     default:
                         return Accepted(new { success = false, error = "Dữ liệu không hợp lệ" });
                 }

@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Client\View\" />
-    <Folder Include="Client\Service\" />
   </ItemGroup>
 
 </Project>

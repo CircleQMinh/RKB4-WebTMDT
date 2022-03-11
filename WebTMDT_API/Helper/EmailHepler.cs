@@ -11,12 +11,18 @@ namespace WebTMDT_API.Hepler
 {
     public class EmailHelper
     {
+        private readonly IConfiguration Configuration;
+        public EmailHelper(IConfiguration configuration)
+        {
+            this.Configuration = configuration;
+        }
+
         public string site = "https://localhost:7094/";
         public string siteOnline = "https://localhost:7094/";
         public string SendEmailConfirm(string userEmail, string token, string username)
         {
             MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("timelive.circleqm@gmail.com");
+            mailMessage.From = new MailAddress(Configuration["Email:Email"]);
             mailMessage.To.Add(new MailAddress(userEmail));
 
             mailMessage.Subject = "Xác thực email cho tài khoản của bạn";
@@ -41,7 +47,7 @@ namespace WebTMDT_API.Hepler
 
             var client = new SmtpClient("smtp.gmail.com", Convert.ToInt32(587))
             {
-                Credentials = new NetworkCredential("timelive.circleqm@gmail.com", "5YemExFc!6QpT+aT"),
+                Credentials = new NetworkCredential(Configuration["Email:Email"], Configuration["Email:Password"]),
                 EnableSsl = true,
                 UseDefaultCredentials = false, // ?? :D ??
                 DeliveryMethod = SmtpDeliveryMethod.Network
@@ -62,7 +68,7 @@ namespace WebTMDT_API.Hepler
         public string SendEmailResetPassword(string userEmail, string token, string username)
         {
             MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("timelive.circleqm@gmail.com");
+            mailMessage.From = new MailAddress(Configuration["Email:Email"]);
             mailMessage.To.Add(new MailAddress(userEmail));
 
             mailMessage.Subject = "Khôi phục mật khẩu cho tài khoản của bạn";
@@ -87,7 +93,7 @@ namespace WebTMDT_API.Hepler
 
             var client = new SmtpClient("smtp.gmail.com", Convert.ToInt32(587))
             {
-                Credentials = new NetworkCredential("timelive.circleqm@gmail.com", "5YemExFc!6QpT+aT"),
+                Credentials = new NetworkCredential(Configuration["Email:Email"], Configuration["Email:Password"]),
                 EnableSsl = true,
                 UseDefaultCredentials = false, // ?? :D ??
                 DeliveryMethod = SmtpDeliveryMethod.Network
@@ -108,7 +114,7 @@ namespace WebTMDT_API.Hepler
         public string SendEmailWithOrderInfo(string userEmail, OrderDTO order, IList<OrderDetailDTO> od)
         {
             MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("timelive.circleqm@gmail.com");
+            mailMessage.From = new MailAddress(Configuration["Email:Email"]);
             mailMessage.To.Add(new MailAddress(userEmail));
 
             mailMessage.Subject = "Đơn hàng của bạn đã được ghi nhận - Mã đơn hàng : " + order.Id;
@@ -179,7 +185,7 @@ namespace WebTMDT_API.Hepler
             mailMessage.Body = msg;
             var client = new SmtpClient("smtp.gmail.com", Convert.ToInt32(587))
             {
-                Credentials = new NetworkCredential("timelive.circleqm@gmail.com", "5YemExFc!6QpT+aT"),
+                Credentials = new NetworkCredential(Configuration["Email:Email"], Configuration["Email:Password"]),
                 EnableSsl = true,
                 UseDefaultCredentials = false, // ?? :D ??
                 DeliveryMethod = SmtpDeliveryMethod.Network

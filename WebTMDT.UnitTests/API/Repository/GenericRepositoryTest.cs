@@ -21,15 +21,11 @@ namespace WebTMDT.UnitTests.API.Repository
         }
 
         [Fact]
-        public async void GenericRepositoryGet_ValidInput_ReturnList()
+        public async void GenericRepositoryGet_ValidInput_ReturnObject()
         {
 
             //arrange
-
-
             Expression<Func<Book, bool>> expression = q => q.Id == 1;
-
-
             var data = new List<Book>
             {
                 new Book { Title = "BBB",Id=1 },
@@ -39,12 +35,8 @@ namespace WebTMDT.UnitTests.API.Repository
 
             var mockSet = data.AsQueryable().BuildMockDbSet();
             //sử dụng MockQueryable.Moq và MockQueryable.EntityFrameworkCore
-
-
             var mockContext = new Mock<DatabaseContext>();
             mockContext.Setup(c => c.Set<Book>()).Returns(mockSet.Object);
-
-
             var genericRepository = new GenericRepository<Book>(mockContext.Object);
             //act
 
@@ -58,7 +50,36 @@ namespace WebTMDT.UnitTests.API.Repository
 
             Console.WriteLine(result);
 
+        }
+        [Fact]
+        public async void GenericRepositoryGetAll_ValidInput_ReturnObject()
+        {
+            //arrange
+            Expression<Func<Book, bool>> expression = q=>true;
+            Func<IQueryable<Book>, IOrderedQueryable<Book>> orderBy = q=>q.OrderBy(b=>b.Title);
+            var data = new List<Book>
+            {
+                new Book { Title = "BBB",Id=1 },
+                new Book { Title = "ZZZ",Id=2 },
+                new Book { Title = "AAA",Id=3 },
+            };
 
+            var mockSet = data.AsQueryable().BuildMockDbSet();
+            //sử dụng MockQueryable.Moq và MockQueryable.EntityFrameworkCore
+            var mockContext = new Mock<DatabaseContext>();
+            mockContext.Setup(c => c.Set<Book>()).Returns(mockSet.Object);
+            var genericRepository = new GenericRepository<Book>(mockContext.Object);
+            //act
+
+            var result = await genericRepository.GetAll(expression, orderBy, null);
+
+            //assert
+
+            Assert.NotNull(result);
+            Assert.Equal("AAA",result[0].Title);
+            Assert.Equal("BBB", result[1].Title);
+            Assert.Equal("ZZZ", result[2].Title);
+            Console.WriteLine(result);
         }
     }
 }
