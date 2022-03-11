@@ -55,6 +55,7 @@ namespace WebTMDT_Client.Service
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return null;
             }
             return books;
         }

@@ -83,6 +83,8 @@ builder.Services.AddScoped<IAuthManager, AuthManager>();
 //configure automapper 
 builder.Services.AddAutoMapper(typeof(AutoMapperSetting));
 
+//IConfiguration
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
 builder.Services.AddControllers().AddNewtonsoftJson(
     op => op.SerializerSettings.ReferenceLoopHandling

@@ -1,9 +1,10 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Pagination from "../../../shared-components/Pagination";
+import GenreTableItem from "../../Admin/TableItem/Genre";
+import OrderTableItem from "../../Admin/TableItem/Order";
 import ProductTableItem from "../../Admin/TableItem/Product";
 import UserTableItem from "../../Admin/TableItem/User";
-
 
 function SearchModal(props) {
   var data = props.searchResult;
@@ -99,8 +100,34 @@ function SearchModal(props) {
             </table>
           </div>
         )}
+        {!props.isSearching && type == "Genre" && data.length > 0 && (
+          <div className="table-responsive ">
+            <table className="table">
+              <thead className="text-primary">
+                <tr>
+                  <th className="text-center">#</th>
+                  <th>Tên</th>
+                  <th>Mô tả</th>
+                  <th>Số sách</th>
+                  <th className="text-right">Actions</th>
+                </tr>
+              </thead>
 
-        {/* {!props.isSearching && type == "Order" && data.length > 0 && (
+              <tbody>
+                {data.map((item, i) => {
+                  return (
+                    <GenreTableItem
+                      item={item}
+                      key={i}
+                      reRender={null}
+                    ></GenreTableItem>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {!props.isSearching && type == "Order" && data.length > 0 && (
           <div className="table-responsive ">
             <table className="table">
               <thead className="text-primary">
@@ -128,8 +155,8 @@ function SearchModal(props) {
               </tbody>
             </table>
           </div>
-        )} */}
-    
+        )}
+
         {!props.isSearching && data.length == 0 && (
           <p className="text-center text-white">
             Không tìm thấy thông tin tìm kiếm!

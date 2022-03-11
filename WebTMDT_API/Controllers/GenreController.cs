@@ -64,6 +64,9 @@ namespace WebTMDT.Controllers
                 case "Id":
                     orderBy = (sort == "Asc") ? q => q.OrderBy(o => o.Id) : q => q.OrderByDescending(o => o.Id);
                     break;
+                case "NumberOfBook":
+                    orderBy = (sort == "Asc") ? q => q.OrderBy(o => o.Books.Count) : q => q.OrderByDescending(o => o.Books.Count);
+                    break;
             }
             try
             {

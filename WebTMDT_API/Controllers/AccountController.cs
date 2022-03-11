@@ -20,8 +20,16 @@ namespace WebTMDT_API.Controllers
         private readonly IMapper mapper;
         private readonly IAuthManager authManager;
         private readonly SignInManager<AppUser> signInManager;
-        public AccountControler(UserManager<AppUser> _userManager, IUnitOfWork _unitOfWork, IMapper _mapper, IAuthManager _authManager, SignInManager<AppUser> _signManager)
+        private readonly IConfiguration configuration;
+        public AccountControler(
+            UserManager<AppUser> _userManager, 
+            IUnitOfWork _unitOfWork,
+            IMapper _mapper, 
+            IAuthManager _authManager, 
+            SignInManager<AppUser> _signManager,
+            IConfiguration _configuration)
         {
+            configuration = _configuration;
             userManager = _userManager;
             signInManager = _signManager;
             unitOfWork = _unitOfWork;
@@ -53,7 +61,7 @@ namespace WebTMDT_API.Controllers
                     }
                     await userManager.AddToRolesAsync(user, dto.Roles);
                     var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
-                    EmailHelper emailHelper = new EmailHelper();
+                    EmailHelper emailHelper = new EmailHelper(configuration);
                     string emailResponse = emailHelper.SendEmailConfirm(user.Email, token, dto.UserName);
                     return Ok(new { success = true });
 
@@ -146,7 +154,7 @@ namespace WebTMDT_API.Controllers
             }
 
             var token = await userManager.GeneratePasswordResetTokenAsync(user);
-            EmailHelper emailHelper = new EmailHelper();
+            EmailHelper emailHelper = new EmailHelper(configuration);
             string emailResponse = emailHelper.SendEmailResetPassword(user.Email, token, user.UserName);
 
             //var emailResponse = "true";
