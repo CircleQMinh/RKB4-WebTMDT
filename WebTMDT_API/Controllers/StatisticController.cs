@@ -31,7 +31,25 @@ namespace WebTMDT_API.Controllers
         }
         [HttpGet("DashboardInfo")]
         [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> GetDashboardInfo()
+        {
+            try
+            {
+                var userCount = await unitOfWork.Users.GetCount(null);
+                var productCount = await unitOfWork.Books.GetCount(null);
+                var orderCount = await unitOfWork.Orders.GetCount(q => q.Status == (int)OrderStatus.Done);
+                var uncheckOrderCount = await unitOfWork.Orders.GetCount(q => q.Status == (int)OrderStatus.NotChecked);
 
+
+                return Accepted(new { success = true, userCount, productCount, orderCount, uncheckOrderCount });
+            }
+            catch (Exception ex)
+            {
+                //return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return BadRequest(ex.Message);
+            }
+
+        }
         [HttpGet("search")]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> FindAll(string type, string searchBy, string keyword, int pageNumber = 1, int pageSize = 10)

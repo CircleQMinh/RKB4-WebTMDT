@@ -6,10 +6,14 @@ namespace WebTMDTLibrary.DTO
     {
         public int Id { get; set; }
         public int PromotionId { get; set; }
-        //public SimpleBookInfoDTO Book { get; set; }
+
         public PromotionDTO Promotion { get; set; }
         public string? PromotionPercent { get; set; }
         public string? PromotionAmount { get; set; }
+    }
+    public class PromotionInfoDetailDTO : PromotionInfoDTO
+    {
+        public SimpleBookInfoDTO Book { get; set; }
     }
     public class SimplePromotionInfoDTO
     {

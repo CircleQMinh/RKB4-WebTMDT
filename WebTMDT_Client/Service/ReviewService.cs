@@ -49,7 +49,7 @@ namespace WebTMDT_Client.Service
                     }
                     else //web api sent error response 
                     {
-                        return new PostReviewResponseModel() { error = "Có gì lỗi rồi!", success = false };
+                        return new PostReviewResponseModel() { error = "Chưa nhập đủ thông tin!", success = false };
                     }
                 }
             }

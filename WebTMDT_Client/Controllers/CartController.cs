@@ -29,10 +29,10 @@ namespace WebTMDT_Client.Controllers
             {
                 var session = HttpContext.Session;
                 var cart_str = session.GetString("cart");
-
+                Cart cart = new Cart();
                 if (cart_str != null)
                 {
-                    Cart cart = JsonConvert.DeserializeObject<Cart>(cart_str);
+                    cart = JsonConvert.DeserializeObject<Cart>(cart_str);
                     cart = CartHelper.AddCartItem(cartItem, cart);
                     cart = CartHelper.CalculateCartTotal(cart.Items);
                     session.SetString("cart", JsonConvert.SerializeObject(cart));
@@ -40,14 +40,14 @@ namespace WebTMDT_Client.Controllers
                 }
                 else
                 {
-                    Cart cart = new Cart();
+                 
                     cart = CartHelper.AddCartItem(cartItem, cart);
                     cart = CartHelper.CalculateCartTotal(cart.Items);
                     session.SetString("cart", JsonConvert.SerializeObject(cart));
                     Console.WriteLine("ko thấy cart cũ");
                 }
 
-                return Accepted(new { success = true });
+                return Accepted(new { success = true,cart });
             }
             return Accepted(new { success = false });
         }

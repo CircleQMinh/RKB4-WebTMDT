@@ -33,6 +33,7 @@ namespace WebTMDT_API.Data.Mapper
             //PromotionInfo
             CreateMap<PromotionInfo, PromotionInfoDTO>().ReverseMap();
             CreateMap<PromotionInfo, SimplePromotionInfoDTO>().ReverseMap();
+            CreateMap<PromotionInfo, PromotionInfoDetailDTO>().ReverseMap();
             //Promotion
             CreateMap<Promotion,PromotionDTO>().ReverseMap();
             CreateMap<Promotion, FullPromotionDTO>().ReverseMap();

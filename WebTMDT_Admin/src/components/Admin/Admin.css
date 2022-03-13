@@ -6,21 +6,28 @@
   height: 40px;
   border-radius: 40px;
 }
-.bg-admin{
-  background-color: #27293D!important;
+.bg-admin {
+  background-color: #27293d !important;
 }
-.admin_img_table{
+.admin_img_table {
   width: 80px;
   height: 80px;
 }
-.admin_img_modal{
+.admin_img_modal {
   width: 100px;
   height: 100px;
   margin-top: 10px;
 }
-
-.text-white{
-  color: white!important;
+.tbody_add_promo {
+  max-height: 74vh;
+  overflow: auto;
+}
+.img_promo_admin{
+  max-width: 323px;
+  max-height: 156px;
+}
+.text-white {
+  color: white !important;
 }
 .drop_down_li #profile_drop {
   display: flex;
@@ -135,7 +142,7 @@
 }
 @media (max-width: 300px) {
 }
-.modal-content{
+.modal-content {
   background-color: rgb(30, 30, 40);
   color: white;
 }
