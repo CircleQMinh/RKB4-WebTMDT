@@ -151,7 +151,7 @@ namespace WebTMDT_API.Controllers
                 {
                     return Ok(new { success = false, msg = "Không tìm thấy thông tin.", result = new string[0] });
                 }
-                var result = mapper.Map<IList<PromotionInfoDTO>>(promoInfos);
+                var result = mapper.Map<IList<PromotionInfoDetailDTO>>(promoInfos);
                 return Ok(new { success = true, result });
             }
             catch (Exception ex)

@@ -178,6 +178,13 @@ class AdminService {
     );
     return response;
   }
+
+  //Dashboard
+
+  async GetDashboardInfo(){
+    const response = await axios.get(`${apiUrl}/Statistic/DashboardInfo`, GetConfig());
+    return response;
+  }
 }
 
 export default new AdminService();

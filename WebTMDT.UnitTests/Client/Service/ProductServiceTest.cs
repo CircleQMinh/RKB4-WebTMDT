@@ -18,6 +18,7 @@ namespace WebTMDT.UnitTests.Client.Service
         public async void ProductServiceGetProductListViewModel_ValidInput_ReturnModel()
         {
             //arrange
+            //phải có api chạy 
             var inMemorySettings = new Dictionary<string, string>
             {
                 {"Setting:API_URL", "https://localhost:7099/api/"},

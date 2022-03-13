@@ -120,20 +120,22 @@ function resetFilter() {
 
 function addToCart(item) {
     //console.log(item)
-    var reloadCart = false
+
     var cartItem = {
         BookId: item.id,
         ImgUrl: item.imgUrl != null ? item.imgUrl : item.ImgUrl,
         Title: item.title != null ? item.title : item.Title,
         Price: item.price != null ? item.price : item.Price,
         Quantity: 1,
+        //thêm từ sản phẩm display
         PromotionPercent: item.promotionInfo == null ? null : item.promotionInfo.promotionPercent,
         PromotionAmount: item.promotionInfo == null ? null : item.promotionInfo.promotionAmount
     }
+    //thêm từ Cart
     if (item.PromotionAmount != null || item.PromotionPercent != null) {
         cartItem.PromotionAmount = item.PromotionAmount
         cartItem.promotionPercent = item.PromotionPercent
-        reloadCart = true
+
     }
     console.log(cartItem)
 

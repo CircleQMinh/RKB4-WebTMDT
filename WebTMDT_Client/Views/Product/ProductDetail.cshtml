@@ -234,19 +234,19 @@
                     <input type="hidden" name="BookId"  value="@(item.Id)" />
                     <div class="mb-3">
                         <div class="form-floating">
-                            <select class="form-select" aria-label="Default select example " name="Star">
+                            <select class="form-select" aria-label="Default select example " required name="Star">
                                 <option value="1">1☆</option>
                                 <option value="2">2☆</option>
                                 <option value="3">3☆</option>
                                 <option value="4">4☆</option>
-                                <option value="5">5☆</option>
+                                <option selected value="5">5☆</option>
                             </select>
                             <label for="floatingSelect">Đánh giá cho sản phẩm</label>
                         </div>
                     </div>
                     <div class="mb-3">
                         <div class="form-floating">
-                            <textarea class="form-control" name="Content" placeholder="Leave a comment here" id="floatingInput"></textarea>
+                            <textarea class="form-control" name="Content" placeholder="Leave a comment here" required id="floatingInput"></textarea>
                             <label for="floatingInput">Nhận xét của bạn</label>
                         </div>
                     </div>
@@ -270,7 +270,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" form="postReview" >OK</button>
+                <button type="submit" class="btn btn-primary"  form="postReview" >OK</button>
             </div>
         </div>
     </div>

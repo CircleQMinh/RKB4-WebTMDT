@@ -25,8 +25,4 @@
     <ProjectReference Include="..\WebTMDT_Client\WebTMDT_Client.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Client\View\" />
-  </ItemGroup>
-
 </Project>

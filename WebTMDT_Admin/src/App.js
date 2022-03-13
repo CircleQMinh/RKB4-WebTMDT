@@ -13,6 +13,7 @@ import AdminProduct from './components/Admin/AdminProduct';
 import AdminUser from './components/Admin/AdminUser';
 import AdminGenre from './components/Admin/AdminGenre';
 import AdminOrder from './components/Admin/AdminOrder';
+import AdminPromotion from './components/Admin/AdminPromotion';
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
         <Route path="/admin/user" element={<AdminUser></AdminUser>} ></Route>
         <Route path="/admin/genre" element={<AdminGenre></AdminGenre>} ></Route>
         <Route path="/admin/order" element={<AdminOrder></AdminOrder>} ></Route>
-        <Route path="/admin/promo" element={<AdminOrder></AdminOrder>} ></Route>
+        <Route path="/admin/promotion" element={<AdminPromotion></AdminPromotion>} ></Route>
       </Routes>
       <ToastContainer></ToastContainer>
     </BrowserRouter>
