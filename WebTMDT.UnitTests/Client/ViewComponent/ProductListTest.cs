@@ -45,7 +45,7 @@ namespace WebTMDT.UnitTests.Client.ViewComponent
         }
 
         [Fact]
-        public async Task InvokeAsync_InvalidCall_ReturnViewAsync()
+        public async Task InvokeAsync_InvalidCall_ReturnNullAsync()
         {
             //arrange
             var model = new ProductListFilterModel() { };

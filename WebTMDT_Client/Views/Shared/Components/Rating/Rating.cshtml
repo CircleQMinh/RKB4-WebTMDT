@@ -14,7 +14,7 @@
             Chưa có đánh giá nào cho sản phẩm.
         </div>
     }
-    <p class="text-monospace">Tổng số đánh giá : @Model.TotalReview (@Math.Round(avg, 2)) </p>
+    <p class="text-monospace">Tổng số đánh giá : @Model.TotalReview (@Math.Round(avg, 2) <i class="fa-solid fa-star"></i>) </p>
     <div class="progress my-2">
         <p class="text-monospace"> 5</p><i class="fa-solid fa-star mx-2"></i>
         <div class="progress-bar bg-success me-1" role="progressbar" style="width: @((double)Model.FiveStar/(double)Model.TotalReview*100)%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>

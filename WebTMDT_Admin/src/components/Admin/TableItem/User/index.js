@@ -5,6 +5,7 @@ import Modal from "react-bootstrap/Modal";
 
 import { useForm } from "react-hook-form";
 import AdminService from "../../../../api/AdminService";
+import OrderHistoryModal from "../../../Modal/OrderHistory";
 function UserTableItem(props) {
   var item = props.item;
   //console.log(item);
@@ -16,7 +17,7 @@ function UserTableItem(props) {
     reset: resetEditModal,
     formState: { errors: editModalError },
   } = useForm();
-
+  const [reRender, setReRender] = useState(true);
   const [selectedImgUrl, setselectedImgUrl] = useState(null);
   const defaultImgUrl =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png";
@@ -54,6 +55,36 @@ function UserTableItem(props) {
   const handleShowDeleteModal = () => {
     setShowDeleteModal(true);
   };
+
+  const [showOrderHistoryModal, setShowOrderHistoryModal] = useState(false);
+  const [isGettingOrderHistory, setIsGettingOrderHistory] = useState(false);
+  const [listOrderHistory, setListOrderHistory] = useState([]);
+  const [currentOrderHistoryPage, setCurrentOrderHistoryPage] = useState(1);
+  const [totalOrderHistoryPage, setTotalOrderHistoryPage] = useState(1);
+  const handleCloseOrderHistoryModal = () => {
+    setShowOrderHistoryModal(false);
+  };
+  const handleShowOrderHistoryModal = () => {
+    setShowOrderHistoryModal(true);
+
+    GetOrderHistory( 1, 4);
+  };
+
+  function GetOrderHistory(pageNumber, pageSize) {
+    setCurrentOrderHistoryPage(pageNumber);
+    setIsGettingOrderHistory(true);
+    AdminService.GetUserOrderForAdmin(item.id, "date", "Desc", pageNumber, pageSize)
+      .then((res) => {
+        setTotalOrderHistoryPage(Math.ceil(Number(res.data.totalOrder / pageSize)));
+        setListOrderHistory(res.data.result);
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+      .finally(() => {
+        setIsGettingOrderHistory(false);
+      });
+  }
 
   function onSave_EditModal(data) {
     console.log(data);
@@ -130,7 +161,9 @@ function UserTableItem(props) {
         props.reRender();
       });
   }
-
+  function ReRender() {
+    setReRender(!reRender);
+  }
   return (
     <Fragment>
       <tr>
@@ -155,7 +188,11 @@ function UserTableItem(props) {
         <td className="text-white">{item.coins}</td>
         <td className="text-white">
           <div className="btn-group">
-            <button type="button" className="btn btn-warning">
+            <button
+              type="button"
+              className="btn btn-warning"
+              onClick={handleShowOrderHistoryModal}
+            >
               <i className="fas fa-info-circle"></i>
             </button>
             <button
@@ -301,6 +338,18 @@ function UserTableItem(props) {
           </button>
         </Modal.Footer>
       </Modal>
+
+      <OrderHistoryModal
+        showOrderHistoryModal={showOrderHistoryModal}
+        setShowOrderHistoryModal={setShowOrderHistoryModal}
+        isGettingOrderHistory={isGettingOrderHistory}
+        reRender={ReRender}
+        handleCloseOrderHistoryModal={handleCloseOrderHistoryModal}
+        listOrderHistory={listOrderHistory}
+        GetOrderHistory={GetOrderHistory}
+        currentOrderHistoryPage={currentOrderHistoryPage}
+        totalOrderHistoryPage={totalOrderHistoryPage}
+      ></OrderHistoryModal>
     </Fragment>
   );
 }

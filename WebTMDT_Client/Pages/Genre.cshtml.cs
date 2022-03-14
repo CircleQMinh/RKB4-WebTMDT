@@ -51,9 +51,6 @@ namespace WebTMDT_Client.Pages
                     books = model.result;
                     totalPage = model.totalPage;
                     currentPage = Int32.Parse(pageNumber);
-                    Console.WriteLine(id);
-                    Console.WriteLine(pageNumber);
-                    Console.WriteLine(genre.Description);
                 }
                 catch (Exception ex)
                 {

@@ -392,6 +392,14 @@ function OrderTableItem(props) {
             </div>
           )}
         </Modal.Body>
+        <Modal.Footer>
+          <button
+            className="btn btn-danger"
+            onClick={handleCloseInfoModal}
+          >
+            Close
+          </button>
+        </Modal.Footer>
       </Modal>
 
       {/* edit order modal */}
