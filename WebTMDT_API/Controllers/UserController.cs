@@ -29,7 +29,7 @@ namespace WebTMDT_API.Controllers
         }
 
         [HttpGet]
-       // [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> GetUser(string orderby, string sort, int pageNumber, int pageSize)
         {
             try
@@ -101,7 +101,7 @@ namespace WebTMDT_API.Controllers
 
                 var orders = await unitOfWork.Orders.GetAll(expression,
                     orderBy,
-                    new List<string> { "OrderDetails", "DiscountCode", "Shipper" },
+                    new List<string> { "OrderDetails"},
                     new PaginationFilter(pageNumber, pageSize));
                 var count = await unitOfWork.Orders.GetCount(expression);
                 var result = mapper.Map<IList<OrderDTO>>(orders);

@@ -128,6 +128,13 @@ class AdminService {
     );
     return response;
   }
+  async GetUserOrderForAdmin(id, orderBy, sort, pageNumber, pageSize) {
+    const response = await axios.get(
+      `${apiUrl}/user/${id}/history?status=all&orderby=${orderBy}&sort=${sort}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      GetConfig()
+    );
+    return response;
+  }
   async DeleteUserForAdmin(id) {
     const response = await axios.delete(
       `${apiUrl}/user/${id}`,
