@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { upLoadImageToCloudinary } from "../../../../helper/Cloudinary";
 function OrderTableItem(props) {
   var item = props.item;
-  var orderDate = new Date(item.orderDate + "Z");
+  var orderDate = new Date(item.orderDate );
   //   console.log(orderDate.toLocaleString())
   //   console.log(item);
 
@@ -255,7 +255,7 @@ function OrderTableItem(props) {
   });
   return (
     <Fragment>
-      <tr>
+      <tr className="animate__animated animate__fadeIn">
         <td className="text-center text-white">
           {item.id}
         </td>

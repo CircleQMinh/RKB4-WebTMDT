@@ -235,55 +235,7 @@ namespace WebTMDT_API.Controllers
                 return BadRequest(new { error = ex.ToString() });
             }
         }
-        [HttpGet("getAuthorize/Shipper")]
-        [Authorize(Roles = "Shipper")]
-        public async Task<IActionResult> GetAuthorizeShipper()
-        {
-            var name = User.Identity.Name;
-            var user = await userManager.FindByNameAsync(name);
-            if (user == null)
-            {
-                return BadRequest(new { error = "Token không hợp lệ" });
-            }
-            try
-            {
-                var roles = await userManager.GetRolesAsync(user);
-                if (!roles.Contains("Shipper"))
-                {
-                    return BadRequest(new { error = "Người dùng không có quyền" });
-                }
-                return Accepted(new { authorize = true });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { error = ex.ToString() });
-            }
-        }
-        [HttpGet("getAuthorize/User/{id}")]
-        [Authorize]
-        public async Task<IActionResult> GetAuthorizeUser(string id)
-        {
-            var requestedName = User.Identity.Name;
-            var requestedUser = await userManager.FindByNameAsync(requestedName);
-            var authorizeForUser = await userManager.FindByIdAsync(id);
-            if (requestedUser == null || authorizeForUser == null)
-            {
-                return BadRequest(new { error = "Token không hợp lệ" });
-            }
 
-            if (requestedUser.Id != authorizeForUser.Id)
-            {
-                return BadRequest(new { error = "Người dùng không có quyền" });
-            }
-            try
-            {
-                return Accepted(new { authorize = true });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { error = ex.ToString() });
-            }
-        }
     }
 
 }

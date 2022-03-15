@@ -455,7 +455,7 @@ function onImageChange(event) {
 
   return (
     <Fragment>
-      <tr>
+      <tr className="animate__animated animate__fadeIn">
         <td className="text-center text-white">{item.id}</td>
         <td className="text-white">
           <div className="d-flex flex-column-reverse align-items-center">
