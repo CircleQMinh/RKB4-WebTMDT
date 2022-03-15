@@ -82,7 +82,7 @@ namespace WebTMDT.Controllers
                     expression = expression.AndAlso(expression_genre);
                 }
                 var books = await unitOfWork.Books.GetAll(expression, q => q.OrderBy(book => book.Id),
-                    new List<string> { "Authors", "Genres", "Publisher", "PromotionInfo" }, new PaginationFilter(pageNumber, pageSize));
+                    new List<string> { "PromotionInfo" }, new PaginationFilter(pageNumber, pageSize));
 
                 var count = await unitOfWork.Books.GetCount(expression);
                 var result = mapper.Map<IList<BookDTO>>(books);
@@ -114,7 +114,7 @@ namespace WebTMDT.Controllers
         {
             try
             {
-                var book = await unitOfWork.Books.Get(q => q.Id == id, new List<string> { "Authors", "Genres", "Publisher" });
+                var book = await unitOfWork.Books.Get(q => q.Id == id, new List<string> {  });
                 if (book == null)
                 {
                     return Ok(new { success = false, msg = "Không tìm thấy sản phẩm" });
@@ -128,7 +128,7 @@ namespace WebTMDT.Controllers
                 && q.Id != id;
 
                 var relatedBook = await unitOfWork.Books.GetAll(expression, q => q.OrderBy(book => Guid.NewGuid()),
-                    new List<string>() { "Authors", "Genres", "Publisher","PromotionInfo" },
+                    new List<string>() { "PromotionInfo" },
                     new PaginationFilter(1, numberOfBook));
 
                 if (relatedBook.Count < numberOfBook)
@@ -175,7 +175,7 @@ namespace WebTMDT.Controllers
                 var randomBooks = await unitOfWork.Books.GetAll(
                     null,
                     q => q.OrderBy(book => Guid.NewGuid()),
-                    new List<string>() { "Authors", "Genres", "Publisher","PromotionInfo"},
+                    new List<string>() { "PromotionInfo"},
                     new PaginationFilter(1, numberOfBook));
                 var result = mapper.Map<IList<BookDTO>>(randomBooks);
                 //Che giấu thông tin khuyến mãi nếu chương trình chưa diễn ra
@@ -258,7 +258,7 @@ namespace WebTMDT.Controllers
             {
                 var books = await unitOfWork.Books.GetAll(q => true, 
                     q => q.OrderByDescending(p => p.Id),
-                    new List<string> { "Authors", "Genres", "Publisher" }, 
+                    new List<string> { "PromotionInfo" }, 
                     new PaginationFilter(1, numberOfBook));
                 var result = mapper.Map<IList<BookDTO>>(books);
                 foreach (var rbook in result)
@@ -317,7 +317,7 @@ namespace WebTMDT.Controllers
                     book.PromotionInfo = promoInfo;
                 }
                 var count = await unitOfWork.Books.GetCount(expression);
-                var result = mapper.Map<IList<BookDTO>>(books);
+                var result = mapper.Map<IList<AdminBookDTO>>(books);
 
                 return Accepted(new { result = result, totalProduct = count });
             }

@@ -102,7 +102,7 @@ function GenreTableItem(props) {
 
   return (
     <Fragment>
-      <tr>
+      <tr className="animate__animated animate__fadeIn">
         <td className="text-center text-white">{item.id}</td>
         <td className="text-white">{item.name}</td>
         <td className="text-white">{item.description}</td>

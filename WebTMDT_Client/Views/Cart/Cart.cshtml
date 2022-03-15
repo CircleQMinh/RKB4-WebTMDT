@@ -32,7 +32,6 @@
                     <tr>
                         <td>@(stt++)</td>
                         <td>@cartitem.Title</td>
-                        <td>@(cartitem.Price.ToString("n0"))</td>
                         @if (cartitem.PromotionAmount == null && cartitem.PromotionPercent == null)
                         {
                             thanhtien = cartitem.Price * cartitem.Quantity;

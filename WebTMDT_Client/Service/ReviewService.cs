@@ -69,7 +69,7 @@ namespace WebTMDT_Client.Service
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                    string url = $"{ Configuration["Setting:API_URL"]}"+$"{Configuration["Setting:API_URL"]}";
+                    string url = $"{ Configuration["Setting:API_URL"]}"+$"{Configuration["Setting:API_ENDPOINT:Review:Base"]}";
 
 
                     string json = JsonConvert.SerializeObject(dTO);

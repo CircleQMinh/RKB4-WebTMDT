@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { upLoadImageToCloudinary } from "../../../../helper/Cloudinary";
 function ProductTableItem(props) {
   var item = props.item;
-
+  //console.log(item);
   const listGenre = props.listGenre;
   const listAuthor = props.listAuthor;
   const listPublisher = props.listPublisher;
@@ -178,7 +178,7 @@ function ProductTableItem(props) {
       upLoadImageToCloudinary(selectedImgUrl)
         .then((res) => {
           setselectedImgUrl(res.data.url);
-          EditProduct(data,res.data.url);
+          EditProduct(data, res.data.url);
         })
         .catch((e) => {
           console.log(e);
@@ -188,14 +188,13 @@ function ProductTableItem(props) {
     } else {
       EditProduct(data);
     }
-
   }
 
-  function EditProduct(data,url){
+  function EditProduct(data, url) {
     var book = {
       title: data.title,
       description: data.description,
-      imgUrl:  url ? url : selectedImgUrl,
+      imgUrl: url ? url : selectedImgUrl,
       price: data.price,
       publishYear: data.publishYear,
       numberOfPage: data.numberOfPage,
@@ -205,7 +204,7 @@ function ProductTableItem(props) {
     };
     //console.log(book);
 
-    AdminService.EditProduct(item.id,book)
+    AdminService.EditProduct(item.id, book)
       .then((response) => {
         console.log(response.data);
         if (response.data.success) {
@@ -234,7 +233,7 @@ function ProductTableItem(props) {
       .finally(() => {
         setIsEditing(false);
         setShowEditModal(false);
-        props.reRender()
+        props.reRender();
       });
   }
 
@@ -245,10 +244,10 @@ function ProductTableItem(props) {
     setShowDeleteProductModal(true);
   };
 
-  function onDelete_DeleteProductModal(){
-    setIsDeleting(true)
-    AdminService.DeleteProduct(item.id).then(
-      (response)=>{
+  function onDelete_DeleteProductModal() {
+    setIsDeleting(true);
+    AdminService.DeleteProduct(item.id)
+      .then((response) => {
         if (response.data.success) {
           toast.success("Xóa thành công!", {
             position: "top-center",
@@ -268,45 +267,45 @@ function ProductTableItem(props) {
             draggable: true,
           });
         }
-      }
-    )
-    .catch((error)=>{
-      console.log(error)
-      toast.error("Có lỗi xảy ra! Xin hãy thử lại", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Có lỗi xảy ra! Xin hãy thử lại", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      })
+      .finally(() => {
+        setIsDeleting(false);
+        setShowDeleteProductModal(false);
+        props.reRender();
       });
-    })
-    .finally(()=>{
-      setIsDeleting(false);
-      setShowDeleteProductModal(false);
-      props.reRender();
-    })
   }
   // console.log(item)
   return (
     <Fragment>
-      <tr>
+      <tr className="animate__animated animate__fadeIn">
         <td className="text-center text-white">{item.id}</td>
         <td className="text-white">
-          <div className="photo d-flex justify-content-start align-items-center">
+          <div className="d-flex flex-column justify-content-start align-items-center">
             <img
-              className="admin_img_table me-2"
+              className="admin_img_table mb-3"
               src={item.imgUrl}
               alt="photoimg"
             ></img>
             <p>{item.title}</p>
           </div>
         </td>
-        <td className="text-white">
+        <td className="text-white ">
+          <div className="d-flex flex-column justify-content-between align-items-center">
           {item.promotionInfo == null && (
             <NumberFormat
               value={item.price}
-              className="text-center text-danger text-decoration-underline  "
+              className="text-center text-danger text-decoration-underline my-2 "
               displayType={"text"}
               thousandSeparator={true}
               suffix={"đ"}
@@ -318,7 +317,7 @@ function ProductTableItem(props) {
               <Fragment>
                 <NumberFormat
                   value={item.price}
-                  className="text-center text-danger text-decoration-line-through me-2"
+                  className="text-center text-danger text-decoration-line-through "
                   displayType={"text"}
                   thousandSeparator={true}
                   suffix={"đ"}
@@ -326,13 +325,13 @@ function ProductTableItem(props) {
                 />
                 <NumberFormat
                   value={item.price - item.promotionInfo.promotionAmount}
-                  className="text-center text-danger text-decoration-underline  "
+                  className="text-center text-danger text-decoration-underline  my-4 "
                   displayType={"text"}
                   thousandSeparator={true}
                   suffix={"đ"}
                   renderText={(value, props) => <span {...props}>{value}</span>}
                 />
-                <span className="badge rounded-pill bg-danger ms-3">
+                <span className="badge rounded-pill bg-danger ">
                   {`- ${item.promotionInfo.promotionAmount} đ`}
                 </span>
               </Fragment>
@@ -342,7 +341,7 @@ function ProductTableItem(props) {
               <Fragment>
                 <NumberFormat
                   value={item.price}
-                  className="text-center text-danger text-decoration-line-through me-2"
+                  className="text-center text-danger text-decoration-line-through "
                   displayType={"text"}
                   thousandSeparator={true}
                   suffix={"đ"}
@@ -353,29 +352,38 @@ function ProductTableItem(props) {
                     item.price -
                     (item.price * item.promotionInfo.promotionPercent) / 100
                   }
-                  className="text-center text-danger text-decoration-underline "
+                  className="text-center text-danger text-decoration-underline my-4 "
                   displayType={"text"}
                   thousandSeparator={true}
                   suffix={"đ"}
                   renderText={(value, props) => <span {...props}>{value}</span>}
                 />
-                <span className="badge rounded-pill bg-success ms-3">
+                <span className="badge rounded-pill bg-success ">
                   -{item.promotionInfo.promotionPercent}%
                 </span>
               </Fragment>
             )}
-        </td>
-        <td className="text-white"><i className="fa-solid fa-print me-2"></i>{item.publisher.name}</td>
+          </div>
 
+        </td>
         <td className="text-white">
+          <p className="text-center">
+            <i className="fa-solid fa-print me-2"></i> {item.publisher.name}{" "}
+          </p>{" "}
           {item.authors.map((author) => {
             return (
               <p className="text-center" key={author.id}>
                 {" "}
-                <i className="fa-solid fa-user-pen me-2"></i>{author.name}
+                <i className="fa-solid fa-user-pen me-2"></i>
+                {author.name}
               </p>
             );
           })}
+        </td>
+
+        <td className="text-white">
+          <p className="text-center"><i className="fa-solid fa-calendar-plus me-2"></i> {formatDate(new Date(item.createDate),"dd-MM-yyyy HH:mm:ss")} </p>
+          <p className="text-center"><i className="fa-solid fa-calendar-check me-2"></i> {formatDate(new Date(item.updateDate),"dd-MM-yyyy HH:mm:ss")} </p>
         </td>
         <td className="text-white">
           {item.genres.map((genre) => {
@@ -396,7 +404,11 @@ function ProductTableItem(props) {
             >
               <i className="far fa-edit"></i>
             </button>
-            <button type="button" className="btn btn-danger" onClick={handleShowDeleteProductModal}>
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={handleShowDeleteProductModal}
+            >
               <i className="far fa-trash-alt"></i>
             </button>
           </div>
@@ -714,7 +726,7 @@ function ProductTableItem(props) {
           </button>
         </Modal.Footer>
       </Modal>
-    {/* Delete  modal - Edit author */}
+      {/* Delete  modal - Edit author */}
       <Modal
         show={showDeleteProductModal}
         onHide={handleCloseDeleteProductModal}

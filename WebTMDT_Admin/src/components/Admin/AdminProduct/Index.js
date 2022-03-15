@@ -364,8 +364,8 @@ function AdminProduct() {
                               <th className="text-center">#</th>
                               <th>Sản phẩm</th>
                               <th>Giá</th>
-                              <th>Nhà xuất bản</th>
-                              <th>Tác giả</th>
+                              <th>Nhà xuất bản/Tác giả</th>
+                              <th>Thêm/Cập nhật</th>
                               <th>Thể loại</th>
                               <th className="text-right">Actions</th>
                             </tr>

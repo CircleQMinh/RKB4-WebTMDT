@@ -63,8 +63,6 @@ namespace WebTMDT.UnitTests.Client.Controller
             Assert.Equal("Cart", result.ControllerName);
 
 
-            var cart = "{\"TotalItem\":2,\"TotalPrice\":106000.0,\"Items\":[{\"BookId\":10,\"ImgUrl\":\"https://cdn0.fahasa.com/media/catalog/product/cache/1/small_image/600x600/9df78eab33525d08d6e5fb8d27136e95/8/9/8935095623860_1.jpg\",\"Title\":\"Thuật Hùng Biện\",\"Price\":48000.0,\"Quantity\":1,\"PromotionPercent\":null,\"PromotionAmount\":null},{\"BookId\":4,\"ImgUrl\":\"https://cdn0.fahasa.com/media/catalog/product/cache/1/small_image/600x600/9df78eab33525d08d6e5fb8d27136e95/i/m/image_188285.jpg\",\"Title\":\"Chuyện Con Mèo Dạy Hải Âu Bay\",\"Price\":65000.0,\"Quantity\":1,\"PromotionPercent\":null,\"PromotionAmount\":\"7000\"}]}";
-
         }
 
 

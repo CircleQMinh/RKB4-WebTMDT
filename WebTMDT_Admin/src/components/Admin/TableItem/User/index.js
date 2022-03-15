@@ -166,7 +166,7 @@ function UserTableItem(props) {
   }
   return (
     <Fragment>
-      <tr>
+      <tr className="animate__animated animate__fadeIn">
         <td className="text-center text-white">
           <div className="photo d-flex justify-content-start align-items-center">
             <img

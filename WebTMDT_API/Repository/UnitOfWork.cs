@@ -11,6 +11,7 @@ namespace WebTMDT_API.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DatabaseContext context;
+
         private IGenericRepository<Book> books;
         private IGenericRepository<Genre> genres;
         private IGenericRepository<Author> authors;
